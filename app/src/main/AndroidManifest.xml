@@ -19,13 +19,22 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".SignIn"
-            android:label="@string/title_activity_sign_in"
+            android:name=".Welcome"
+            android:label="@string/welcome"
             android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.nikhiljoshi.naakh.MainActivity" />
+        </activity>
+        <activity
+            android:name=".SignIn"
+            android:label="@string/title_activity_sign_in"
+            android:parentActivityName=".Welcome"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.nikhiljoshi.naakh.Welcome" />
         </activity>
     </application>
 
