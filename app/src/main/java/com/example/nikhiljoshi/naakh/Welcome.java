@@ -1,7 +1,9 @@
 package com.example.nikhiljoshi.naakh;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -32,4 +34,8 @@ public class Welcome extends AppCompatActivity {
 //        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
+    public void openActivity(View view) {
+        Intent intent = new Intent(this, SignIn.class);
+        startActivity(intent);
+    }
 }

@@ -6,6 +6,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.EditText;
 
 public class SignIn extends AppCompatActivity {
 
@@ -16,15 +17,18 @@ public class SignIn extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
+    public void signInValidation(View view) {
+        final EditText usernameView = (EditText) findViewById(R.id.username);
+        final EditText passwordView = (EditText) findViewById(R.id.password);
+        final String username = usernameView.getText().toString();
+        final String password = passwordView.getText().toString();
+        //user volley to send to naakh server and see if i can get a client id
+        // Once I get a client id save it in shared preferences
+
+        // Then open translations class
+
+    }
 }

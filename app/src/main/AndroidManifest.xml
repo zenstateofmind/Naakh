@@ -30,6 +30,7 @@
         <activity
             android:name=".SignIn"
             android:label="@string/title_activity_sign_in"
+            android:windowSoftInputMode="adjustResize"
             android:parentActivityName=".Welcome"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
