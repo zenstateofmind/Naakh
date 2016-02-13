@@ -1,5 +1,6 @@
 package com.example.nikhiljoshi.naakh;
 
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ public class MainActivityFragment extends Fragment {
 
     public MainActivityFragment() {
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
