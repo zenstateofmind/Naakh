@@ -1,7 +1,10 @@
 package com.example.nikhiljoshi.naakh;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -20,12 +23,15 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.JsonRequest;
 import com.android.volley.toolbox.StringRequest;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class SignIn extends AppCompatActivity {
+
+    private static final String LOG_TAG = "naakh.SignIn";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +54,7 @@ public class SignIn extends AppCompatActivity {
         StringRequest request = new StringRequest(Request.Method.POST, loginUrl, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-//                loginSuccess(response);
+                loginSuccess(response);
             }
         }, new Response.ErrorListener() {
             @Override
@@ -66,9 +72,24 @@ public class SignIn extends AppCompatActivity {
                 return params;
             }
         };
-        // Once I get a client id save it in shared preferences
+
         volley.getRequestQueue().add(request);
-        // Then open translations class
+
+    }
+
+    private void loginSuccess(String response) {
+        try {
+            JSONObject jsonResponse = new JSONObject(response);
+
+            final String access_token = jsonResponse.getString("access_token");
+            SharedPreferences preference = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+            SharedPreferences.Editor editor = preference.edit();
+            editor.putString(getString(R.string.token), access_token);
+            editor.commit();
+
+        } catch (JSONException e) {
+            Log.e(LOG_TAG, e.getMessage());
+        }
 
     }
 
