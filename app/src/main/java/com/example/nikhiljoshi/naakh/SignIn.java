@@ -1,6 +1,7 @@
 package com.example.nikhiljoshi.naakh;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
@@ -87,10 +88,12 @@ public class SignIn extends AppCompatActivity {
             editor.putString(getString(R.string.token), access_token);
             editor.commit();
 
+            Intent intent = new Intent(this, Translate.class);
+            startActivity(intent);
+
         } catch (JSONException e) {
             Log.e(LOG_TAG, e.getMessage());
         }
-
     }
 
     private String getStringFromEditText(int id) {
