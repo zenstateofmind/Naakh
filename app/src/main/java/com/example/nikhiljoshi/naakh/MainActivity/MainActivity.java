@@ -1,10 +1,13 @@
-package com.example.nikhiljoshi.naakh;
+package com.example.nikhiljoshi.naakh.mainactivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.example.nikhiljoshi.naakh.R;
+import com.example.nikhiljoshi.naakh.welcome.Welcome;
 
 public class MainActivity extends AppCompatActivity {
 

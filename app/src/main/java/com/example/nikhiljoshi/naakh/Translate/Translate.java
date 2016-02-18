@@ -1,4 +1,4 @@
-package com.example.nikhiljoshi.naakh;
+package com.example.nikhiljoshi.naakh.translate;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +9,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+
+import com.example.nikhiljoshi.naakh.R;
+import com.example.nikhiljoshi.naakh.app.settings.SettingsActivity;
 
 public class Translate extends AppCompatActivity {
 

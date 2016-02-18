@@ -1,4 +1,4 @@
-package com.example.nikhiljoshi.naakh;
+package com.example.nikhiljoshi.naakh.app.settings;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -6,6 +6,9 @@ import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
+
+import com.example.nikhiljoshi.naakh.R;
+import com.example.nikhiljoshi.naakh.welcome.Welcome;
 
 /**
  * Created by nikhiljoshi on 2/16/16.
