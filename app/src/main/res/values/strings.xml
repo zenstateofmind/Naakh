@@ -11,4 +11,6 @@
     <string name="title_activity_translate">Translate</string>
     <string name="logoutTitle">Logout</string>
     <string name="logoutKey">logoutKey</string>
+    <string name="done">Done</string>
+    <string name="translate_here">Translate Here</string>
 </resources>

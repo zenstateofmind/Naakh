@@ -42,7 +42,8 @@
         <activity
             android:name=".translate.Translate"
             android:label="@string/title_activity_translate"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustResize"></activity>
 
         <activity android:name=".app.settings.SettingsActivity"
             android:label="Settings"></activity>

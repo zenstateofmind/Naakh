@@ -17,6 +17,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.nikhiljoshi.naakh.R;
+import com.example.nikhiljoshi.naakh.network.calls.NaakhApiBaseUrls;
+import com.example.nikhiljoshi.naakh.network.calls.NaakhApiQueryKeys;
 import com.example.nikhiljoshi.naakh.translate.Translate;
 import com.example.nikhiljoshi.naakh.network.calls.VolleyInstance;
 
@@ -44,11 +46,10 @@ public class SignIn extends AppCompatActivity {
         final String username = getStringFromEditText(R.id.username);
         final String password = getStringFromEditText(R.id.password);
         final VolleyInstance volley = VolleyInstance.getInstance(this.getApplicationContext());
-        final String loginUrl = "https://naakh.herokuapp.com/api/v1/oauth2/access_token";
         final String oauth_client_secret = "1f022ef12e35f86c2f02f1b9988b899a9cd7de02";
         final String oauth_client_id = "b73fa9950d135f4cdf21";
 
-        StringRequest request = new StringRequest(Request.Method.POST, loginUrl, new Response.Listener<String>() {
+        StringRequest request = new StringRequest(Request.Method.POST, NaakhApiBaseUrls.LOGIN_BASE_URL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 loginSuccess(response);
@@ -62,10 +63,10 @@ public class SignIn extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("phone_number", "123456789");
-                params.put("password", "password");
-                params.put("oauth_client_id", oauth_client_id);
-                params.put("oauth_client_secret", oauth_client_secret);
+                params.put(NaakhApiQueryKeys.PHONE_NUMBER, "123456789");
+                params.put(NaakhApiQueryKeys.PASSWORD, "password");
+                params.put(NaakhApiQueryKeys.OAUTH_CLIENT_ID, oauth_client_id);
+                params.put(NaakhApiQueryKeys.OAUTH_CLIENT_SECRET, oauth_client_secret);
                 return params;
             }
         };
