@@ -43,10 +43,28 @@
             android:name=".translate.Translate"
             android:label="@string/title_activity_translate"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="adjustResize"></activity>
-
-        <activity android:name=".app.settings.SettingsActivity"
-            android:label="Settings"></activity>
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".app.settings.SettingsActivity"
+            android:label="Settings" />
+        <activity
+            android:name=".translate.AlertDialog"
+            android:label="@string/title_activity_alert_dialog"
+            android:parentActivityName=".translate.Translate"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.nikhiljoshi.naakh.translate.Translate" />
+        </activity>
+        <activity
+            android:name=".translate.TranslationCompleteDialog"
+            android:label="@string/title_activity_translation_complete_dialog"
+            android:parentActivityName=".translate.Translate"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.nikhiljoshi.naakh.translate.Translate" />
+        </activity>
     </application>
 
 </manifest>

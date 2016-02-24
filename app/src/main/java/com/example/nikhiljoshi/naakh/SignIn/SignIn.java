@@ -63,8 +63,8 @@ public class SignIn extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put(NaakhApiQueryKeys.PHONE_NUMBER, "123456789");
-                params.put(NaakhApiQueryKeys.PASSWORD, "password");
+                params.put(NaakhApiQueryKeys.PHONE_NUMBER, username);
+                params.put(NaakhApiQueryKeys.PASSWORD, password);
                 params.put(NaakhApiQueryKeys.OAUTH_CLIENT_ID, oauth_client_id);
                 params.put(NaakhApiQueryKeys.OAUTH_CLIENT_SECRET, oauth_client_secret);
                 return params;

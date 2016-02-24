@@ -16,4 +16,8 @@ public class NaakhApiBaseUrls {
     public static final String INCOMPLETE_TRANSLATION_BASE_URL = "https://naakh.herokuapp.com/api/v1/incomplete/translations";
     public static final String LOGIN_BASE_URL = "https://naakh.herokuapp.com/api/v1/oauth2/access_token";
 
+    public static String getPostTranslatedTextUrl(String uuid) {
+        return "https://naakh.herokuapp.com/api/v1/translatedtext/" + uuid;
+    }
+
 }

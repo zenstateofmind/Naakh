@@ -12,24 +12,18 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.nikhiljoshi.naakh.R;
 import com.example.nikhiljoshi.naakh.language.Language;
-import com.example.nikhiljoshi.naakh.network.calls.NaakhApiBaseUrls;
 import com.example.nikhiljoshi.naakh.network.calls.NaakhApiQueryKeys;
 import com.example.nikhiljoshi.naakh.network.calls.VolleyInstance;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -93,10 +87,14 @@ public class TranslateFragment extends Fragment {
             JSONObject jsonResonse = new JSONObject(response);
             final JSONArray objectsArray = jsonResonse.getJSONArray(NaakhApiQueryKeys.OBJECTS);
             final JSONObject incompleteTranslationObject = objectsArray.getJSONObject(0);
+            final String uuid = incompleteTranslationObject.getString("uuid");
+
             final JSONObject translationRequestObject = incompleteTranslationObject.getJSONObject(NaakhApiQueryKeys.TRANSLATION_REQUEST);
             final String to_translate_text = translationRequestObject.getString(NaakhApiQueryKeys.TRANSLATION_TEXT);
-            toTranslateView.setText(to_translate_text);
 
+            ((Translate)getActivity()).setTranslatedTextUuid(uuid);
+            Log.i(LOG_TAG, "Uiud of translate text: " + uuid);
+            ((TextView) rootView.findViewById(R.id.to_translate)).setText(to_translate_text);
         } catch (JSONException e) {
             Log.e(LOG_TAG, "Unable to response into json: " + e.getMessage());
         }

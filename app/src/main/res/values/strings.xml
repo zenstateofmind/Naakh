@@ -13,4 +13,8 @@
     <string name="logoutKey">logoutKey</string>
     <string name="done">Done</string>
     <string name="translate_here">Translate Here</string>
+    <string name="title_activity_main2">Main2Activity</string>
+    <string name="title_activity_alert_dialog">" "</string>
+    <string name="title_activity_translation_complete_dialog">Translation</string>
+    <string name="please_translate">Please translate :)</string>
 </resources>
