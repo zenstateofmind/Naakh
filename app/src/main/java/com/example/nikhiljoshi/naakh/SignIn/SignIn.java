@@ -20,9 +20,7 @@ import com.example.nikhiljoshi.naakh.Profile.Profile;
 import com.example.nikhiljoshi.naakh.R;
 import com.example.nikhiljoshi.naakh.network.calls.NaakhApiBaseUrls;
 import com.example.nikhiljoshi.naakh.network.calls.NaakhApiQueryKeys;
-import com.example.nikhiljoshi.naakh.translate.Translate;
 import com.example.nikhiljoshi.naakh.network.calls.VolleyInstance;
-import com.example.nikhiljoshi.naakh.user.UserProfile;
 
 import org.json.JSONException;
 import org.json.JSONObject;

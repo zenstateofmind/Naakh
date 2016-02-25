@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,13 +28,17 @@ import java.util.Map;
 public class Translate extends AppCompatActivity {
 
     private String uuid;
+    private static final String TRANSLATE_LOG = Translate.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.i(TRANSLATE_LOG, "State: creating");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_translate);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     @Override
@@ -41,6 +46,25 @@ public class Translate extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_translate, menu);
         return true;
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.i(TRANSLATE_LOG, "State: resuming");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.i(TRANSLATE_LOG, "State: pausing");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.i(TRANSLATE_LOG, "State: stopping");
+    }
+
 
     @Override
     public void onBackPressed() {

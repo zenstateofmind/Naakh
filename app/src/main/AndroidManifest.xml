@@ -34,7 +34,11 @@
             android:name=".translate.Translate"
             android:label="@string/title_activity_translate"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="adjustResize">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Profile.Profile" />
+        </activity>
         <activity
             android:name=".app.settings.SettingsActivity"
             android:label="Settings" />
