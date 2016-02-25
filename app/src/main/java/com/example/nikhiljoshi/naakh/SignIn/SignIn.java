@@ -16,11 +16,13 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.example.nikhiljoshi.naakh.Profile.Profile;
 import com.example.nikhiljoshi.naakh.R;
 import com.example.nikhiljoshi.naakh.network.calls.NaakhApiBaseUrls;
 import com.example.nikhiljoshi.naakh.network.calls.NaakhApiQueryKeys;
 import com.example.nikhiljoshi.naakh.translate.Translate;
 import com.example.nikhiljoshi.naakh.network.calls.VolleyInstance;
+import com.example.nikhiljoshi.naakh.user.UserProfile;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -85,7 +87,8 @@ public class SignIn extends AppCompatActivity {
             editor.putString(getString(R.string.token), access_token);
             editor.commit();
 
-            Intent intent = new Intent(this, Translate.class);
+//            Intent intent = new Intent(this, Translate.class);
+            Intent intent = new Intent(this, Profile.class);
             startActivity(intent);
 
         } catch (JSONException e) {
