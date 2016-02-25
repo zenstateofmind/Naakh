@@ -13,7 +13,6 @@ public class UserProfile {
     private final long phone_number;
     private final String[] languages;
 
-
     public UserProfile(String username, long phone_number, String[] languages) {
         this.username = username;
         this.phone_number = phone_number;
