@@ -17,4 +17,8 @@
     <string name="title_activity_alert_dialog">" "</string>
     <string name="title_activity_translation_complete_dialog">Translation</string>
     <string name="please_translate">Please translate :)</string>
+    <string name="title_activity_profile">Profile</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
 </resources>
