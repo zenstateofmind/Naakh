@@ -14,13 +14,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="@string/username"
+        android:text="@string/phone_number"
         android:id="@+id/username_textview" />
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="textEmailAddress"
+        android:inputType="phone"
         android:ems="10"
         android:id="@+id/username"
         android:layout_below="@+id/username_textview"
