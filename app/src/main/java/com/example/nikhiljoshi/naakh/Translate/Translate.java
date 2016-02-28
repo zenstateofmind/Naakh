@@ -48,25 +48,6 @@ public class Translate extends AppCompatActivity {
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        Log.i(TRANSLATE_LOG, "State: resuming");
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        Log.i(TRANSLATE_LOG, "State: pausing");
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        Log.i(TRANSLATE_LOG, "State: stopping");
-    }
-
-
-    @Override
     public void onBackPressed() {
         Intent startMain = new Intent(Intent.ACTION_MAIN);
         startMain.addCategory(Intent.CATEGORY_HOME);
