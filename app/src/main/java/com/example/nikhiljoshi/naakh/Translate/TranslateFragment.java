@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -24,6 +25,9 @@ import com.example.nikhiljoshi.naakh.network.calls.VolleyInstance;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -59,7 +63,14 @@ public class TranslateFragment extends Fragment {
             public void onErrorResponse(VolleyError error) {
                 Toast.makeText(getActivity(), "Unable to gather translations", Toast.LENGTH_SHORT).show();
             }
-        });
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<String, String>();
+                headers.put("authorization", "ab89611abed189ce0f9f13f5f9ec818442ed44e7");
+                return headers;
+            }
+        };
 
         VolleyInstance.getInstance(getActivity().getApplicationContext()).addToRequestQueue(request);
     }
@@ -73,7 +84,6 @@ public class TranslateFragment extends Fragment {
                 .appendPath("incomplete")
                 .appendPath("translations")
                 .appendPath("")
-                .appendQueryParameter(NaakhApiQueryKeys.OAUTH_CONSUMER_KEY, token)
                 .appendQueryParameter(NaakhApiQueryKeys.LANGUAGE, language)
                 .appendQueryParameter(NaakhApiQueryKeys.TRANSLATION_STATUS, untranslated)
                 .appendQueryParameter(NaakhApiQueryKeys.LIMIT, limit + "");
@@ -86,15 +96,19 @@ public class TranslateFragment extends Fragment {
         try {
             JSONObject jsonResonse = new JSONObject(response);
             final JSONArray objectsArray = jsonResonse.getJSONArray(NaakhApiQueryKeys.OBJECTS);
-            final JSONObject incompleteTranslationObject = objectsArray.getJSONObject(0);
-            final String uuid = incompleteTranslationObject.getString("uuid");
+            if (objectsArray.length() > 0) {
+                final JSONObject incompleteTranslationObject = objectsArray.getJSONObject(0);
+                final String uuid = incompleteTranslationObject.getString("uuid");
 
-            final JSONObject translationRequestObject = incompleteTranslationObject.getJSONObject(NaakhApiQueryKeys.TRANSLATION_REQUEST);
-            final String to_translate_text = translationRequestObject.getString(NaakhApiQueryKeys.TRANSLATION_TEXT);
+                final JSONObject translationRequestObject = incompleteTranslationObject.getJSONObject(NaakhApiQueryKeys.TRANSLATION_REQUEST);
+                final String to_translate_text = translationRequestObject.getString(NaakhApiQueryKeys.TRANSLATION_TEXT);
 
-            ((Translate)getActivity()).setTranslatedTextUuid(uuid);
-            Log.i(LOG_TAG, "Uiud of translate text: " + uuid);
-            ((TextView) rootView.findViewById(R.id.to_translate)).setText(to_translate_text);
+                ((Translate) getActivity()).setTranslatedTextUuid(uuid);
+                Log.i(LOG_TAG, "Uiud of translate text: " + uuid);
+                toTranslateView.setText(to_translate_text);
+            } else {
+                Toast.makeText(rootView.getContext(), "No phrases to translate as of now!", Toast.LENGTH_SHORT).show();
+            }
         } catch (JSONException e) {
             Log.e(LOG_TAG, "Unable to response into json: " + e.getMessage());
         }
