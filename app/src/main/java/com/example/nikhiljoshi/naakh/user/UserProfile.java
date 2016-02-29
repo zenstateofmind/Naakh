@@ -3,6 +3,8 @@ package com.example.nikhiljoshi.naakh.user;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.Arrays;
+
 /**
  * This will a POJO for a user. This object will contain information such as the
  * languages that the user is proficient in, the name of the user, and maybe some other information
@@ -63,6 +65,10 @@ public class UserProfile implements Parcelable {
 
     public void setNumWordsTranslated(String numWordsTranslated) {
         this.numWordsTranslated = numWordsTranslated;
+    }
+
+    public String getTranslatorLanguages() {
+        return Arrays.toString(languages).replace("[", "").replace("]", "");
     }
 
     @Override

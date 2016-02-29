@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -18,6 +19,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.nikhiljoshi.naakh.R;
 import com.example.nikhiljoshi.naakh.network.calls.NaakhApiBaseUrls;
+import com.example.nikhiljoshi.naakh.network.calls.VolleyInstance;
 import com.example.nikhiljoshi.naakh.user.UserProfile;
 
 import org.json.JSONArray;
@@ -38,17 +40,22 @@ public class ProfileFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.fragment_profile, container, false);
+        populateView(rootView);
         return rootView;
+    }
+
+    private void populateView(View rootView) {
+        final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
+        getUserProfile("", rootView);
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
-        UserProfile userProfile = getUserProfile("");
+
     }
 
-    private UserProfile getUserProfile(String phone_number) {
+    private UserProfile getUserProfile(String phone_number, final View rootView) {
 
         final UserProfile profile = new UserProfile();
 
@@ -66,11 +73,18 @@ public class ProfileFragment extends Fragment {
                     for (int i = 0; i < fluent_languages_array.length(); i++) {
                         fluent_languages[i] = fluent_languages_array.getString(i);
                     }
+
+                    //TODO: Tie up fluent languages into shared preferences?
                     profile.setName(name);
                     profile.setLanguages(fluent_languages);
                     profile.setMoneyEarned(money_earned);
                     profile.setNumWordsTranslated(words_translated);
-                    
+
+                    ((TextView)rootView.findViewById(R.id.translator_name)).setText(profile.getName());
+                    ((TextView)rootView.findViewById(R.id.languages)).setText(profile.getTranslatorLanguages());
+                    ((TextView)rootView.findViewById(R.id.money_earned)).setText(profile.getMoneyEarned());
+                    ((TextView)rootView.findViewById(R.id.words_translated)).setText(profile.getNumWordsTranslated());
+
                 } catch (JSONException e) {
                     Toast.makeText(getContext(), "Error in JSON parsing", Toast.LENGTH_SHORT).show();
                 }
@@ -88,6 +102,9 @@ public class ProfileFragment extends Fragment {
                 return headers;
             }
         };
+
+        VolleyInstance.getInstance(getContext().getApplicationContext()).addToRequestQueue(request);
+
         return profile;
     }
 
