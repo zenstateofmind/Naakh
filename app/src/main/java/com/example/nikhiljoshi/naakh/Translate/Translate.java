@@ -75,16 +75,10 @@ public class Translate extends AppCompatActivity {
 
     public void postTranslations(View view) {
         final String translatedText = ((EditText) findViewById(R.id.translated_text)).getText().toString();
+
         if (translatedText.trim().length() == 0 || uuid.trim().length() == 0) {
             Toast.makeText(this, getString(R.string.please_translate), Toast.LENGTH_SHORT).show();
         }
-
-        String baseUrl = "https://naakh.herokuapp.com/api/v1/translatedtext/" + uuid + "?";
-        final String uri = Uri.parse(baseUrl)
-                .buildUpon()
-                .appendQueryParameter("oauth_consumer_key", "ab89611abed189ce0f9f13f5f9ec818442ed44e7")
-                .appendQueryParameter("translation_text", translatedText)
-                .build().toString();
 
         StringRequest response = new StringRequest(Request.Method.POST, NaakhApiBaseUrls.getPostTranslatedTextUrl(uuid), new Response.Listener<String>() {
             @Override

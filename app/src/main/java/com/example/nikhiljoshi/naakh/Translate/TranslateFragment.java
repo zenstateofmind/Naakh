@@ -19,6 +19,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.nikhiljoshi.naakh.R;
 import com.example.nikhiljoshi.naakh.language.Language;
+import com.example.nikhiljoshi.naakh.network.calls.NaakhApiBaseUrls;
 import com.example.nikhiljoshi.naakh.network.calls.NaakhApiQueryKeys;
 import com.example.nikhiljoshi.naakh.network.calls.VolleyInstance;
 
@@ -51,7 +52,8 @@ public class TranslateFragment extends Fragment {
 
         final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
         final String token = sharedPreferences.getString(getString(R.string.token), "");
-        String incompleteTranslationUrl = getTranslationUrl(token, Language.HINDI.getDbValue(), "untranslated", 1);
+        //TODO: LANGUAGE IS CURRENTLY STATIC. CHANGE THIS BASED ON WHAT THE USER ACTUALLY KNOWS. ADD THIS IN SHARED PREFERENCES
+        String incompleteTranslationUrl = NaakhApiBaseUrls.getTranslationUrl(Language.HINDI.getDbValue(), "untranslated", 1);
 
         StringRequest request = new StringRequest(Request.Method.GET, incompleteTranslationUrl, new Response.Listener<String>() {
             @Override
@@ -73,22 +75,6 @@ public class TranslateFragment extends Fragment {
         };
 
         VolleyInstance.getInstance(getActivity().getApplicationContext()).addToRequestQueue(request);
-    }
-
-    private String getTranslationUrl(String token, String language, String untranslated, int limit) {
-        Uri.Builder builder = new Uri.Builder();
-        builder.scheme("https")
-                .authority("naakh.herokuapp.com")
-                .appendPath("api")
-                .appendPath("v1")
-                .appendPath("incomplete")
-                .appendPath("translations")
-                .appendPath("")
-                .appendQueryParameter(NaakhApiQueryKeys.LANGUAGE, language)
-                .appendQueryParameter(NaakhApiQueryKeys.TRANSLATION_STATUS, untranslated)
-                .appendQueryParameter(NaakhApiQueryKeys.LIMIT, limit + "");
-
-        return builder.build().toString();
     }
 
     private void populateView(View rootView, String response) {
