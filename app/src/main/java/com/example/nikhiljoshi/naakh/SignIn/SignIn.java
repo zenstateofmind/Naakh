@@ -20,6 +20,7 @@ import com.example.nikhiljoshi.naakh.Profile.Profile;
 import com.example.nikhiljoshi.naakh.R;
 import com.example.nikhiljoshi.naakh.network.calls.NaakhApiBaseUrls;
 import com.example.nikhiljoshi.naakh.network.calls.NaakhApiQueryKeys;
+import com.example.nikhiljoshi.naakh.network.calls.SignInRequest;
 import com.example.nikhiljoshi.naakh.network.calls.VolleyInstance;
 
 import org.json.JSONException;
@@ -35,57 +36,51 @@ public class SignIn extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_sign_in);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     public void signInValidation(View view) {
-        final String username = getStringFromEditText(R.id.username);
-        final String password = getStringFromEditText(R.id.password);
-        final VolleyInstance volley = VolleyInstance.getInstance(this.getApplicationContext());
+        final String username = ((EditText) findViewById(R.id.username)).getText().toString();
+        final String password = ((EditText) findViewById(R.id.password)).getText().toString();
         final String oauth_client_secret = "1f022ef12e35f86c2f02f1b9988b899a9cd7de02";
         final String oauth_client_id = "b73fa9950d135f4cdf21";
-
-        StringRequest request = new StringRequest(Request.Method.POST, NaakhApiBaseUrls.LOGIN_BASE_URL, new Response.Listener<String>() {
+        final Response.Listener<String> listener = new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 loginSuccess(response);
             }
-        }, new Response.ErrorListener() {
+        };
+
+        final Response.ErrorListener errorListener = new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Toast.makeText(getApplicationContext(), "failure", Toast.LENGTH_SHORT).show();
             }
-        }) {
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put(NaakhApiQueryKeys.PHONE_NUMBER, username);
-                params.put(NaakhApiQueryKeys.PASSWORD, password);
-                params.put(NaakhApiQueryKeys.OAUTH_CLIENT_ID, oauth_client_id);
-                params.put(NaakhApiQueryKeys.OAUTH_CLIENT_SECRET, oauth_client_secret);
-                return params;
-            }
         };
 
-        volley.getRequestQueue().add(request);
+        SignInRequest request = SignInRequest.builder().username(username).password(password)
+                .oauth_client_id(oauth_client_id).oauth_client_secret(oauth_client_secret)
+                .listener(listener).errorListener(errorListener).build();
+
+        VolleyInstance.getInstance(this.getApplicationContext()).getRequestQueue().add(request);
 
     }
 
     private void loginSuccess(String response) {
         try {
             JSONObject jsonResponse = new JSONObject(response);
-
             final String access_token = jsonResponse.getString("access_token");
+
             SharedPreferences preference = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
             SharedPreferences.Editor editor = preference.edit();
             editor.putString(getString(R.string.token), access_token);
             editor.commit();
 
-//            Intent intent = new Intent(this, Translate.class);
             Intent intent = new Intent(this, Profile.class);
             startActivity(intent);
 
@@ -94,8 +89,4 @@ public class SignIn extends AppCompatActivity {
         }
     }
 
-    private String getStringFromEditText(int id) {
-        EditText view = (EditText) findViewById(id);
-        return view.getText().toString();
-    }
 }
