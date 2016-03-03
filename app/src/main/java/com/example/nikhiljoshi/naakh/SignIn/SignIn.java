@@ -11,27 +11,22 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
+
 import com.example.nikhiljoshi.naakh.Profile.Profile;
 import com.example.nikhiljoshi.naakh.R;
-import com.example.nikhiljoshi.naakh.network.calls.NaakhApiBaseUrls;
-import com.example.nikhiljoshi.naakh.network.calls.NaakhApiQueryKeys;
-import com.example.nikhiljoshi.naakh.network.calls.SignInRequest;
-import com.example.nikhiljoshi.naakh.network.calls.VolleyInstance;
+import com.example.nikhiljoshi.naakh.network.NaakhApi;
+
+import com.example.nikhiljoshi.naakh.network.POJO.SignInPojo;
+import com.example.nikhiljoshi.naakh.network.Tasks.LoginTask;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.HashMap;
-import java.util.Map;
 
 public class SignIn extends AppCompatActivity {
 
     private static final String LOG_TAG = "naakh.SignIn";
+    private NaakhApi api;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,29 +40,29 @@ public class SignIn extends AppCompatActivity {
     }
 
     public void signInValidation(View view) {
+        api = new NaakhApi();
+
         final String username = ((EditText) findViewById(R.id.username)).getText().toString();
         final String password = ((EditText) findViewById(R.id.password)).getText().toString();
         final String oauth_client_secret = "1f022ef12e35f86c2f02f1b9988b899a9cd7de02";
         final String oauth_client_id = "b73fa9950d135f4cdf21";
-        final Response.Listener<String> listener = new Response.Listener<String>() {
+
+        new LoginTask(api, oauth_client_id, oauth_client_secret, username, password) {
             @Override
-            public void onResponse(String response) {
-                loginSuccess(response);
+            protected void onPostExecute(SignInPojo signInPojo) {
+                if (signInPojo == null) {
+                    Toast.makeText(getApplicationContext(), "failure", Toast.LENGTH_SHORT).show();
+                } else {
+                    SharedPreferences preference = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                    SharedPreferences.Editor editor = preference.edit();
+                    editor.putString(getString(R.string.token), signInPojo.getAccess_token());
+                    editor.commit();
+
+                    Intent intent = new Intent(SignIn.this, Profile.class);
+                    startActivity(intent);
+                }
             }
-        };
-
-        final Response.ErrorListener errorListener = new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getApplicationContext(), "failure", Toast.LENGTH_SHORT).show();
-            }
-        };
-
-        SignInRequest request = SignInRequest.builder().username(username).password(password)
-                .oauth_client_id(oauth_client_id).oauth_client_secret(oauth_client_secret)
-                .listener(listener).errorListener(errorListener).build();
-
-        VolleyInstance.getInstance(this.getApplicationContext()).getRequestQueue().add(request);
+        }.execute();
 
     }
 

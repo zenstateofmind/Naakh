@@ -1,4 +1,4 @@
-package com.example.nikhiljoshi.naakh.network.calls;
+package com.example.nikhiljoshi.naakh.network;
 
 /**
  * Created by nikhiljoshi on 2/18/16.

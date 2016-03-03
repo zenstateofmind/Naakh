@@ -1,22 +1,10 @@
-package com.example.nikhiljoshi.naakh.network.calls;
-
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
-import android.util.Log;
-import android.widget.Toast;
+package com.example.nikhiljoshi.naakh.network;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.example.nikhiljoshi.naakh.Profile.Profile;
-import com.example.nikhiljoshi.naakh.R;
 
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -57,6 +45,7 @@ public class SignInRequest extends StringRequest {
     }
 
     public static class Builder {
+
         private String username;
         private String password;
         private String oauth_client_id;

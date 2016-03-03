@@ -19,8 +19,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.nikhiljoshi.naakh.R;
 import com.example.nikhiljoshi.naakh.app.settings.SettingsActivity;
-import com.example.nikhiljoshi.naakh.network.calls.NaakhApiBaseUrls;
-import com.example.nikhiljoshi.naakh.network.calls.VolleyInstance;
+import com.example.nikhiljoshi.naakh.network.NaakhApiBaseUrls;
+import com.example.nikhiljoshi.naakh.network.VolleyInstance;
 
 import java.util.HashMap;
 import java.util.Map;
