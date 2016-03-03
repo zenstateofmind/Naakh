@@ -1,4 +1,4 @@
-package com.example.nikhiljoshi.naakh.network.POJO;
+package com.example.nikhiljoshi.naakh.network.POJO.SignIn;
 
 /**
  * Created by nikhiljoshi on 3/3/16.

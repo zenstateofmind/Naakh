@@ -19,8 +19,11 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.nikhiljoshi.naakh.R;
 import com.example.nikhiljoshi.naakh.language.Language;
+import com.example.nikhiljoshi.naakh.network.NaakhApi;
 import com.example.nikhiljoshi.naakh.network.NaakhApiBaseUrls;
 import com.example.nikhiljoshi.naakh.network.NaakhApiQueryKeys;
+import com.example.nikhiljoshi.naakh.network.POJO.Translate.TranslationRequestPojo;
+import com.example.nikhiljoshi.naakh.network.Tasks.GetTranslateJobTask;
 import com.example.nikhiljoshi.naakh.network.VolleyInstance;
 
 import org.json.JSONArray;
@@ -36,6 +39,7 @@ import java.util.Map;
 public class TranslateFragment extends Fragment {
 
     private static final String LOG_TAG = "TranslateFragment";
+    private NaakhApi api;
 
     public TranslateFragment() {
     }
@@ -49,55 +53,24 @@ public class TranslateFragment extends Fragment {
     }
 
     public void getIncompleteTranslation(final View rootView) {
-
         final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
         final String token = sharedPreferences.getString(getString(R.string.token), "");
-        //TODO: LANGUAGE IS CURRENTLY STATIC. CHANGE THIS BASED ON WHAT THE USER ACTUALLY KNOWS. ADD THIS IN SHARED PREFERENCES
-        String incompleteTranslationUrl = NaakhApiBaseUrls.getTranslationUrl(Language.HINDI.getDbValue(), "untranslated", 1);
+        api = new NaakhApi();
 
-        StringRequest request = new StringRequest(Request.Method.GET, incompleteTranslationUrl, new Response.Listener<String>() {
+        new GetTranslateJobTask(api, Language.HINDI, "untranslated") {
             @Override
-            public void onResponse(String response) {
-                populateView(rootView, response);
+            protected void onPostExecute(TranslationRequestPojo translationRequestPojo) {
+                if (translationRequestPojo == null) {
+                    Log.i(LOG_TAG, "Did not get any translation jobs");
+                } else {
+                    TextView toTranslateView = (TextView) rootView.findViewById(R.id.to_translate);
+                    toTranslateView.setText(translationRequestPojo.getText());
+                    ((Translate) getActivity()).setTranslatedTextUuid(translationRequestPojo.getUuid());
+                    Log.i(LOG_TAG, "Got translation task with uuid: " + translationRequestPojo.getUuid());
+                }
             }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getActivity(), "Unable to gather translations", Toast.LENGTH_SHORT).show();
-            }
-        }) {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> headers = new HashMap<String, String>();
-                headers.put("authorization", "ab89611abed189ce0f9f13f5f9ec818442ed44e7");
-                return headers;
-            }
-        };
+        }.execute();
 
-        VolleyInstance.getInstance(getActivity().getApplicationContext()).addToRequestQueue(request);
     }
 
-    private void populateView(View rootView, String response) {
-        TextView toTranslateView = (TextView) rootView.findViewById(R.id.to_translate);
-        try {
-            JSONObject jsonResonse = new JSONObject(response);
-            final JSONArray objectsArray = jsonResonse.getJSONArray(NaakhApiQueryKeys.OBJECTS);
-            if (objectsArray.length() > 0) {
-                final JSONObject incompleteTranslationObject = objectsArray.getJSONObject(0);
-                final String uuid = incompleteTranslationObject.getString("uuid");
-
-                final JSONObject translationRequestObject = incompleteTranslationObject.getJSONObject(NaakhApiQueryKeys.TRANSLATION_REQUEST);
-                final String to_translate_text = translationRequestObject.getString(NaakhApiQueryKeys.TRANSLATION_TEXT);
-
-                ((Translate) getActivity()).setTranslatedTextUuid(uuid);
-                Log.i(LOG_TAG, "Uiud of translate text: " + uuid);
-                toTranslateView.setText(to_translate_text);
-            } else {
-                Toast.makeText(rootView.getContext(), "No phrases to translate as of now!", Toast.LENGTH_SHORT).show();
-            }
-        } catch (JSONException e) {
-            Log.e(LOG_TAG, "Unable to response into json: " + e.getMessage());
-        }
-
-    }
 }

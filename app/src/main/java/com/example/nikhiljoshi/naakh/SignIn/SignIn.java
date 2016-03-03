@@ -16,16 +16,14 @@ import com.example.nikhiljoshi.naakh.Profile.Profile;
 import com.example.nikhiljoshi.naakh.R;
 import com.example.nikhiljoshi.naakh.network.NaakhApi;
 
-import com.example.nikhiljoshi.naakh.network.POJO.SignInPojo;
+import com.example.nikhiljoshi.naakh.network.POJO.SignIn.SignInPojo;
 import com.example.nikhiljoshi.naakh.network.Tasks.LoginTask;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 
 public class SignIn extends AppCompatActivity {
 
     private static final String LOG_TAG = "naakh.SignIn";
+    //TODO: Will eventually be injecting this
     private NaakhApi api;
 
     @Override
@@ -51,7 +49,8 @@ public class SignIn extends AppCompatActivity {
             @Override
             protected void onPostExecute(SignInPojo signInPojo) {
                 if (signInPojo == null) {
-                    Toast.makeText(getApplicationContext(), "failure", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Phone Number/Password seems incorrect :( ", Toast.LENGTH_SHORT).show();
+                    Log.w(LOG_TAG, "Didn't get an access token... seems like username/password is incorrect");
                 } else {
                     SharedPreferences preference = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                     SharedPreferences.Editor editor = preference.edit();
@@ -64,24 +63,6 @@ public class SignIn extends AppCompatActivity {
             }
         }.execute();
 
-    }
-
-    private void loginSuccess(String response) {
-        try {
-            JSONObject jsonResponse = new JSONObject(response);
-            final String access_token = jsonResponse.getString("access_token");
-
-            SharedPreferences preference = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-            SharedPreferences.Editor editor = preference.edit();
-            editor.putString(getString(R.string.token), access_token);
-            editor.commit();
-
-            Intent intent = new Intent(this, Profile.class);
-            startActivity(intent);
-
-        } catch (JSONException e) {
-            Log.e(LOG_TAG, e.getMessage());
-        }
     }
 
 }

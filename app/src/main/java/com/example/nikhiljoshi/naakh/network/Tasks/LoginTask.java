@@ -3,7 +3,7 @@ package com.example.nikhiljoshi.naakh.network.Tasks;
 import android.os.AsyncTask;
 
 import com.example.nikhiljoshi.naakh.network.NaakhApi;
-import com.example.nikhiljoshi.naakh.network.POJO.SignInPojo;
+import com.example.nikhiljoshi.naakh.network.POJO.SignIn.SignInPojo;
 
 /**
  * Created by nikhiljoshi on 3/3/16.
