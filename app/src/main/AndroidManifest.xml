@@ -11,7 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".welcome.Welcome"
+            android:name=".UI.welcome.Welcome"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -21,39 +21,39 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".signin.SignIn"
+            android:name=".UI.signin.SignIn"
             android:label="@string/title_activity_sign_in"
-            android:parentActivityName=".welcome.Welcome"
+            android:parentActivityName=".UI.welcome.Welcome"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustResize">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".welcome.Welcome" />
+                android:value=".UI.welcome.Welcome" />
         </activity>
         <activity
-            android:name=".translate.Translate"
+            android:name=".UI.translate.Translate"
             android:label="@string/title_activity_translate"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustResize">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Profile.Profile" />
+                android:value=".UI.Profile.Profile" />
         </activity>
         <activity
             android:name=".app.settings.SettingsActivity"
             android:label="Settings" />
         <activity
-            android:name=".Profile.Profile"
+            android:name=".UI.Profile.Profile"
             android:label="@string/title_activity_profile"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".Verification.Verification"
+            android:name=".UI.Verification.Verification"
             android:label="@string/title_activity_verification"
-            android:parentActivityName=".Profile.Profile"
+            android:parentActivityName=".UI.Profile.Profile"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.nikhiljoshi.naakh.Profile.Profile" />
+                android:value=".UI.Profile.Profile" />
         </activity>
     </application>
 

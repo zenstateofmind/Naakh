@@ -8,7 +8,7 @@ import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 
 import com.example.nikhiljoshi.naakh.R;
-import com.example.nikhiljoshi.naakh.welcome.Welcome;
+import com.example.nikhiljoshi.naakh.UI.welcome.Welcome;
 
 /**
  * Created by nikhiljoshi on 2/16/16.
