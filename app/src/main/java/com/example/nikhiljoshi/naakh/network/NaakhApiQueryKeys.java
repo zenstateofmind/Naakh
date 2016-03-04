@@ -15,5 +15,5 @@ public class NaakhApiQueryKeys {
     public static final String OAUTH_CLIENT_SECRET = "oauth_client_secret";
     public static final String OBJECTS = "objects";
     public static final String TRANSLATION_REQUEST = "translation_request";
-    public static final String TRANSLATION_TEXT = "text";
+    public static final String TRANSLATION_TEXT = "translation_text";
 }

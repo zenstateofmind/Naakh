@@ -4,12 +4,12 @@ import android.os.AsyncTask;
 
 import com.example.nikhiljoshi.naakh.language.Language;
 import com.example.nikhiljoshi.naakh.network.NaakhApi;
-import com.example.nikhiljoshi.naakh.network.POJO.Translate.TranslationRequestPojo;
+import com.example.nikhiljoshi.naakh.network.POJO.Translate.TranslationInfoPojo;
 
 /**
  * Created by nikhiljoshi on 3/3/16.
  */
-public class GetTranslateJobTask extends AsyncTask<Object, Object, TranslationRequestPojo> {
+public class GetTranslateJobTask extends AsyncTask<Object, Object, TranslationInfoPojo> {
 
     private final NaakhApi api;
     private final Language language;
@@ -22,7 +22,7 @@ public class GetTranslateJobTask extends AsyncTask<Object, Object, TranslationRe
     }
 
     @Override
-    protected TranslationRequestPojo doInBackground(Object... params) {
+    protected TranslationInfoPojo doInBackground(Object... params) {
         return api.getTranslateJob(language, translation_status);
     }
 }

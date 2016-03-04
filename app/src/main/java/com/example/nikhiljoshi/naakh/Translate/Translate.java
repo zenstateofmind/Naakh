@@ -1,7 +1,6 @@
 package com.example.nikhiljoshi.naakh.translate;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -12,27 +11,22 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
 import com.example.nikhiljoshi.naakh.R;
 import com.example.nikhiljoshi.naakh.app.settings.SettingsActivity;
-import com.example.nikhiljoshi.naakh.network.NaakhApiBaseUrls;
-import com.example.nikhiljoshi.naakh.network.VolleyInstance;
-
-import java.util.HashMap;
-import java.util.Map;
+import com.example.nikhiljoshi.naakh.network.NaakhApi;
+import com.example.nikhiljoshi.naakh.network.POJO.Translate.TranslationInfoPojo;
+import com.example.nikhiljoshi.naakh.network.Tasks.PostTranslationTextTask;
 
 public class Translate extends AppCompatActivity {
 
+    private NaakhApi api;
     private String uuid;
-    private static final String TRANSLATE_LOG = Translate.class.getSimpleName();
+    private static final String LOG_TAG = Translate.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.i(TRANSLATE_LOG, "State: creating");
+
+        Log.i(LOG_TAG, "State: creating");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_translate);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -69,6 +63,8 @@ public class Translate extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    //TODO: Make sure that the back button goes to the profile page
+
     public void setTranslatedTextUuid(String uuid) {
         this.uuid = uuid;
     }
@@ -80,26 +76,20 @@ public class Translate extends AppCompatActivity {
             Toast.makeText(this, getString(R.string.please_translate), Toast.LENGTH_SHORT).show();
         }
 
-        StringRequest response = new StringRequest(Request.Method.POST, NaakhApiBaseUrls.getPostTranslatedTextUrl(uuid), new Response.Listener<String>() {
+        api = new NaakhApi();
+        new PostTranslationTextTask(api, translatedText, uuid) {
             @Override
-            public void onResponse(String response) {
-                Toast.makeText(getApplicationContext(), "successfully posted back", Toast.LENGTH_SHORT).show();
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getApplicationContext(), "failure", Toast.LENGTH_SHORT).show();
-            }
-        }) {
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("oauth_consumer_key", "ab89611abed189ce0f9f13f5f9ec818442ed44e7");
-                params.put("translation_text", translatedText);
-                return params;
-            }
-        };
+            protected void onPostExecute(TranslationInfoPojo translationInfoPojo) {
+                if (translationInfoPojo != null) {
+                    Toast.makeText(Translate.this, "Thank you!", Toast.LENGTH_SHORT).show();
 
-        VolleyInstance.getInstance(getApplicationContext()).getRequestQueue().add(response);
+                    Intent intent = new Intent(Translate.this, Translate.class);
+                    startActivity(intent);
+                } else {
+                    Log.e(LOG_TAG, "Problems in posting the results back to the Naakh API server");
+                }
+            }
+        }.execute();
+
     }
 }

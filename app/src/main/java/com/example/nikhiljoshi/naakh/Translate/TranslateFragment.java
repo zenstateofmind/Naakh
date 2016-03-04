@@ -1,7 +1,6 @@
 package com.example.nikhiljoshi.naakh.translate;
 
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -10,28 +9,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
 import com.example.nikhiljoshi.naakh.R;
 import com.example.nikhiljoshi.naakh.language.Language;
 import com.example.nikhiljoshi.naakh.network.NaakhApi;
-import com.example.nikhiljoshi.naakh.network.NaakhApiBaseUrls;
-import com.example.nikhiljoshi.naakh.network.NaakhApiQueryKeys;
-import com.example.nikhiljoshi.naakh.network.POJO.Translate.TranslationRequestPojo;
+import com.example.nikhiljoshi.naakh.network.POJO.Translate.TranslationInfoPojo;
 import com.example.nikhiljoshi.naakh.network.Tasks.GetTranslateJobTask;
-import com.example.nikhiljoshi.naakh.network.VolleyInstance;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -59,14 +43,14 @@ public class TranslateFragment extends Fragment {
 
         new GetTranslateJobTask(api, Language.HINDI, "untranslated") {
             @Override
-            protected void onPostExecute(TranslationRequestPojo translationRequestPojo) {
-                if (translationRequestPojo == null) {
+            protected void onPostExecute(TranslationInfoPojo translationInfoPojo) {
+                if (translationInfoPojo == null) {
                     Log.i(LOG_TAG, "Did not get any translation jobs");
                 } else {
                     TextView toTranslateView = (TextView) rootView.findViewById(R.id.to_translate);
-                    toTranslateView.setText(translationRequestPojo.getText());
-                    ((Translate) getActivity()).setTranslatedTextUuid(translationRequestPojo.getUuid());
-                    Log.i(LOG_TAG, "Got translation task with uuid: " + translationRequestPojo.getUuid());
+                    toTranslateView.setText(translationInfoPojo.getTranslation_request().getText());
+                    ((Translate) getActivity()).setTranslatedTextUuid(translationInfoPojo.getUuid());
+                    Log.i(LOG_TAG, "Got translation task with uuid: " + translationInfoPojo.getUuid());
                 }
             }
         }.execute();

@@ -6,7 +6,6 @@ package com.example.nikhiljoshi.naakh.network.POJO.Translate;
 public class TranslationRequestPojo {
 
     private String text;
-    private String uuid;
 
     public String getText() {
         return text;
@@ -16,11 +15,4 @@ public class TranslationRequestPojo {
         this.text = text;
     }
 
-    public String getUuid() {
-        return uuid;
-    }
-
-    public void setUuid(String uuid) {
-        this.uuid = uuid;
-    }
 }

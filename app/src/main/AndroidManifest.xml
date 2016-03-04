@@ -45,7 +45,16 @@
         <activity
             android:name=".Profile.Profile"
             android:label="@string/title_activity_profile"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Verification.Verification"
+            android:label="@string/title_activity_verification"
+            android:parentActivityName=".Profile.Profile"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.nikhiljoshi.naakh.Profile.Profile" />
+        </activity>
     </application>
 
 </manifest>

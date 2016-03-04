@@ -6,7 +6,6 @@ import com.example.nikhiljoshi.naakh.language.Language;
 import com.example.nikhiljoshi.naakh.network.POJO.SignIn.SignInPojo;
 import com.example.nikhiljoshi.naakh.network.POJO.Translate.GetTranslatePojo;
 import com.example.nikhiljoshi.naakh.network.POJO.Translate.TranslationInfoPojo;
-import com.example.nikhiljoshi.naakh.network.POJO.Translate.TranslationRequestPojo;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -48,13 +47,13 @@ public class NaakhApi {
         }
     }
 
-    public TranslationRequestPojo getTranslateJob(Language language, String translationStatus) {
+    public TranslationInfoPojo getTranslateJob(Language language, String translationStatus) {
         final Map<String, String> params = new HashMap<String, String>();
         params.put(NaakhApiQueryKeys.LANGUAGE, language.getDbValue());
         params.put(NaakhApiQueryKeys.TRANSLATION_STATUS, translationStatus);
         params.put(NaakhApiQueryKeys.LIMIT, 1 + "");
 
-        final Call<GetTranslatePojo> call = client.getTranslateInfo(params, "ab89611abed189ce0f9f13f5f9ec818442ed44e7");
+        final Call<GetTranslatePojo> call = client.getTranslationJob(params, "ab89611abed189ce0f9f13f5f9ec818442ed44e7");
         try {
             final GetTranslatePojo getTranslatePojo = call.execute().body();
             final List<TranslationInfoPojo> translationInfoObjects = getTranslatePojo.getObjects();
@@ -62,12 +61,26 @@ public class NaakhApi {
                 Log.i(LOG_TAG, "Nothing to translate for the current user");
                 return null;
             } else {
-                final TranslationRequestPojo translationRequestPojo = translationInfoObjects.get(0).getTranslation_request();
-                return translationRequestPojo;
+                final TranslationInfoPojo translationInfoPojo = translationInfoObjects.get(0);
+                return translationInfoPojo;
             }
         } catch (IOException e) {
-            e.printStackTrace();
             Log.e(LOG_TAG, "Error with getting translation job " + e.getMessage());
+            return null;
+        }
+    }
+
+    public TranslationInfoPojo postTranslateJob(String uiud, String translated_text) {
+        final Map<String, String> params = new HashMap<String, String>();
+        params.put(NaakhApiQueryKeys.TRANSLATION_TEXT, translated_text);
+
+        final Call<TranslationInfoPojo> call = client.postTranslationJob(params,
+                "ab89611abed189ce0f9f13f5f9ec818442ed44e7", uiud);
+        try {
+            final TranslationInfoPojo translationInfoPojo = call.execute().body();
+            return translationInfoPojo;
+        } catch (IOException e) {
+            Log.e(LOG_TAG, "Error with posting translation job " + e.getMessage());
             return null;
         }
     }
