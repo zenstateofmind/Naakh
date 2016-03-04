@@ -2,7 +2,7 @@ package com.example.nikhiljoshi.naakh.network;
 
 import android.util.Log;
 
-import com.example.nikhiljoshi.naakh.language.Language;
+import com.example.nikhiljoshi.naakh.Enums.Language;
 import com.example.nikhiljoshi.naakh.network.POJO.SignIn.SignInPojo;
 import com.example.nikhiljoshi.naakh.network.POJO.Translate.GetTranslatePojo;
 import com.example.nikhiljoshi.naakh.network.POJO.Translate.TranslationInfoPojo;

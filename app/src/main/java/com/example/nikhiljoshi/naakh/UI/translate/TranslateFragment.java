@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.nikhiljoshi.naakh.R;
-import com.example.nikhiljoshi.naakh.language.Language;
+import com.example.nikhiljoshi.naakh.Enums.Language;
 import com.example.nikhiljoshi.naakh.network.NaakhApi;
 import com.example.nikhiljoshi.naakh.network.POJO.Translate.TranslationInfoPojo;
 import com.example.nikhiljoshi.naakh.network.Tasks.GetTranslateJobTask;

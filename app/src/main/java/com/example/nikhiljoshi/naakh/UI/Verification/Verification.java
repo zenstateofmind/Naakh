@@ -108,7 +108,7 @@ public class Verification extends AppCompatActivity {
                 .setPositiveButton("Correct it!", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        //TODO: save incorrectTranslationReasons
+                        //TODO: where do we save this information?
                         String list = "";
                         for (String incorrect: incorrectTranslationReasons) {
                             list += incorrect + " ";

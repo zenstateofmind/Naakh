@@ -2,7 +2,7 @@ package com.example.nikhiljoshi.naakh.network.Tasks;
 
 import android.os.AsyncTask;
 
-import com.example.nikhiljoshi.naakh.language.Language;
+import com.example.nikhiljoshi.naakh.Enums.Language;
 import com.example.nikhiljoshi.naakh.network.NaakhApi;
 import com.example.nikhiljoshi.naakh.network.POJO.Translate.TranslationInfoPojo;
 

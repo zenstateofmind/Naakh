@@ -1,4 +1,4 @@
-package com.example.nikhiljoshi.naakh.language;
+package com.example.nikhiljoshi.naakh.Enums;
 
 /**
  * Representation of a language
