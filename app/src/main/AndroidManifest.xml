@@ -55,6 +55,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".UI.Profile.Profile" />
         </activity>
+        <activity
+            android:name=".UI.Verification.FixTranslation"
+            android:label="@string/title_activity_fix_translation"
+            android:parentActivityName=".UI.Verification.Verification"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.nikhiljoshi.naakh.UI.Verification.Verification" />
+        </activity>
     </application>
 
 </manifest>

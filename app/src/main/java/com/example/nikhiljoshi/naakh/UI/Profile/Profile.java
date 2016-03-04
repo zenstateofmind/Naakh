@@ -17,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.nikhiljoshi.naakh.R;
+import com.example.nikhiljoshi.naakh.UI.Verification.Verification;
 import com.example.nikhiljoshi.naakh.UI.translate.Translate;
 import com.example.nikhiljoshi.naakh.UI.welcome.Welcome;
 
@@ -95,7 +96,8 @@ public class Profile extends AppCompatActivity
             Intent intent = new Intent(this, Translate.class);
             startActivity(intent);
         } else if (id == R.id.nav_review) {
-
+            Intent intent = new Intent(this, Verification.class);
+            startActivity(intent);
         } else if (id == R.id.nav_logout) {
             final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
             final SharedPreferences.Editor editor = sharedPreferences.edit();

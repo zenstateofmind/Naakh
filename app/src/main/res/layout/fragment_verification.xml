@@ -78,7 +78,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Correct"
-        android:id="@+id/button"
+        android:id="@+id/correct_button"
+        android:onClick="correctOptionDialog"
         android:layout_marginBottom="34dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
@@ -88,17 +89,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Incorrect"
-        android:id="@+id/button2"
-        android:layout_alignTop="@+id/button"
+        android:onClick="incorrectDialog"
+        android:id="@+id/incorrect_button"
+        android:layout_alignTop="@+id/correct_button"
         android:layout_centerHorizontal="true" />
 
     <Button
-        style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Not sure"
-        android:id="@+id/button3"
-        android:layout_alignTop="@+id/button2"
+        android:id="@+id/not_sure_button"
+        android:onClick="notSureDialog"
+        android:layout_alignTop="@+id/incorrect_button"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
 
