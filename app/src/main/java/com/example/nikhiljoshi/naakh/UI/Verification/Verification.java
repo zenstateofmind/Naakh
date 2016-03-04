@@ -2,6 +2,7 @@ package com.example.nikhiljoshi.naakh.UI.Verification;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.preference.DialogPreference;
 import android.support.design.widget.FloatingActionButton;
@@ -107,11 +108,14 @@ public class Verification extends AppCompatActivity {
                 .setPositiveButton("Correct it!", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        //save incorrectTranslationReasons
+                        //TODO: save incorrectTranslationReasons
                         String list = "";
                         for (String incorrect: incorrectTranslationReasons) {
                             list += incorrect + " ";
                         }
+
+                        Intent intent = new Intent(Verification.this, FixTranslation.class);
+                        startActivity(intent);
                         Toast.makeText(Verification.this, "Time to translate!" + list , Toast.LENGTH_SHORT).show();
                     }
                 });
