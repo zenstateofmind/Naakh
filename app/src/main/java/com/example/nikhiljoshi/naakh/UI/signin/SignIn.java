@@ -1,4 +1,4 @@
-package com.example.nikhiljoshi.naakh.signin;
+package com.example.nikhiljoshi.naakh.UI.signin;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -12,7 +12,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 
-import com.example.nikhiljoshi.naakh.Profile.Profile;
+import com.example.nikhiljoshi.naakh.UI.Profile.Profile;
 import com.example.nikhiljoshi.naakh.R;
 import com.example.nikhiljoshi.naakh.network.NaakhApi;
 

@@ -1,4 +1,4 @@
-package com.example.nikhiljoshi.naakh.translate;
+package com.example.nikhiljoshi.naakh.UI.translate;
 
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;

@@ -1,4 +1,4 @@
-package com.example.nikhiljoshi.naakh.welcome;
+package com.example.nikhiljoshi.naakh.UI.welcome;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,7 +8,7 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.example.nikhiljoshi.naakh.R;
-import com.example.nikhiljoshi.naakh.signin.SignIn;
+import com.example.nikhiljoshi.naakh.UI.signin.SignIn;
 
 public class Welcome extends AppCompatActivity {
 

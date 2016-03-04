@@ -1,4 +1,4 @@
-package com.example.nikhiljoshi.naakh.Profile;
+package com.example.nikhiljoshi.naakh.UI.Profile;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -17,8 +17,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.nikhiljoshi.naakh.R;
-import com.example.nikhiljoshi.naakh.translate.Translate;
-import com.example.nikhiljoshi.naakh.welcome.Welcome;
+import com.example.nikhiljoshi.naakh.UI.translate.Translate;
+import com.example.nikhiljoshi.naakh.UI.welcome.Welcome;
 
 public class Profile extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {

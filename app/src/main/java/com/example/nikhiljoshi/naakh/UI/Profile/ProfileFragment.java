@@ -1,4 +1,4 @@
-package com.example.nikhiljoshi.naakh.Profile;
+package com.example.nikhiljoshi.naakh.UI.Profile;
 
 
 import android.content.SharedPreferences;

@@ -1,4 +1,4 @@
-package com.example.nikhiljoshi.naakh.welcome;
+package com.example.nikhiljoshi.naakh.UI.Verification;
 
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -11,14 +11,14 @@ import com.example.nikhiljoshi.naakh.R;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class WelcomeFragment extends Fragment {
+public class VerificationFragment extends Fragment {
 
-    public WelcomeFragment() {
+    public VerificationFragment() {
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_welcome, container, false);
+        return inflater.inflate(R.layout.fragment_verification, container, false);
     }
 }

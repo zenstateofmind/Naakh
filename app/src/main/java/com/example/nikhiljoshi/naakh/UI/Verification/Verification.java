@@ -1,4 +1,4 @@
-package com.example.nikhiljoshi.naakh.Verification;
+package com.example.nikhiljoshi.naakh.UI.Verification;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;

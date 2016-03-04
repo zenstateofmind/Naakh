@@ -1,4 +1,4 @@
-package com.example.nikhiljoshi.naakh.signin;
+package com.example.nikhiljoshi.naakh.UI.welcome;
 
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -11,14 +11,14 @@ import com.example.nikhiljoshi.naakh.R;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class SignInFragment extends Fragment {
+public class WelcomeFragment extends Fragment {
 
-    public SignInFragment() {
+    public WelcomeFragment() {
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_sign_in, container, false);
+        return inflater.inflate(R.layout.fragment_welcome, container, false);
     }
 }
