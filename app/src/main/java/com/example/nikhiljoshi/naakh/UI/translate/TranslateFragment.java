@@ -10,11 +10,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.nikhiljoshi.naakh.Enums.TranslationStatus;
 import com.example.nikhiljoshi.naakh.R;
 import com.example.nikhiljoshi.naakh.Enums.Language;
 import com.example.nikhiljoshi.naakh.network.NaakhApi;
 import com.example.nikhiljoshi.naakh.network.POJO.Translate.TranslationInfoPojo;
-import com.example.nikhiljoshi.naakh.network.Tasks.GetTranslateJobTask;
+import com.example.nikhiljoshi.naakh.network.Tasks.GetTranslationJobTask;
 
 
 /**
@@ -41,16 +42,16 @@ public class TranslateFragment extends Fragment {
         final String token = sharedPreferences.getString(getString(R.string.token), "");
         api = new NaakhApi();
 
-        new GetTranslateJobTask(api, Language.HINDI, "untranslated") {
+        new GetTranslationJobTask(api, Language.HINDI, TranslationStatus.UNTRANSLATED) {
             @Override
             protected void onPostExecute(TranslationInfoPojo translationInfoPojo) {
                 if (translationInfoPojo == null) {
                     Log.i(LOG_TAG, "Did not get any translation jobs");
                 } else {
                     TextView toTranslateView = (TextView) rootView.findViewById(R.id.to_translate);
-                    toTranslateView.setText(translationInfoPojo.getTranslation_request().getText());
-                    ((Translate) getActivity()).setTranslatedTextUuid(translationInfoPojo.getUuid());
-                    Log.i(LOG_TAG, "Got translation task with uuid: " + translationInfoPojo.getUuid());
+                    toTranslateView.setText(translationInfoPojo.getTranslation_request().getOriginalText());
+                    ((Translate) getActivity()).setTranslatedTextUuid(translationInfoPojo.getTranslatedTextUuid());
+                    Log.i(LOG_TAG, "Got translation task with uuid: " + translationInfoPojo.getTranslatedTextUuid());
                 }
             }
         }.execute();

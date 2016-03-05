@@ -6,13 +6,21 @@ package com.example.nikhiljoshi.naakh.network.POJO.Translate;
 public class TranslationRequestPojo {
 
     private String text;
+    private String uuid;
 
-    public String getText() {
+    public String getOriginalText() {
         return text;
     }
 
-    public void setText(String text) {
+    public void setOriginalText(String text) {
         this.text = text;
     }
 
+    public String getOriginalPhraseUuid() {
+        return uuid;
+    }
+
+    public void setOriginalPhraseUuid(String uuid) {
+        this.uuid = uuid;
+    }
 }

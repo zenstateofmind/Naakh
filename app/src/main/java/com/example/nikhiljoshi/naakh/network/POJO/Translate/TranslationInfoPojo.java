@@ -13,23 +13,23 @@ public class TranslationInfoPojo {
         return translation_request;
     }
 
-    public void setTranslation_request(TranslationRequestPojo translation_request) {
+    public void setTranslationRequest(TranslationRequestPojo translation_request) {
         this.translation_request = translation_request;
     }
 
-    public String getUuid() {
+    public String getTranslatedTextUuid() {
         return uuid;
     }
 
-    public void setUuid(String uuid) {
-        this.uuid = uuid;
+    public void setTranslatedTextUuid(String translated_text_uuid) {
+        this.uuid = translated_text_uuid;
     }
 
-    public String getTranslation_text() {
+    public String getTranslationText() {
         return translation_text;
     }
 
-    public void setTranslation_text(String translation_text) {
+    public void setTranslationText(String translation_text) {
         this.translation_text = translation_text;
     }
 }

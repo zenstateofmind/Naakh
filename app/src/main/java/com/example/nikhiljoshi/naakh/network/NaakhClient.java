@@ -38,5 +38,7 @@ public interface NaakhClient {
                                                  @Path("uuid") String uiud);
 
 
+
+
     //get profile
 }

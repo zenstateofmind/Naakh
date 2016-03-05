@@ -3,6 +3,7 @@ package com.example.nikhiljoshi.naakh.network;
 import android.util.Log;
 
 import com.example.nikhiljoshi.naakh.Enums.Language;
+import com.example.nikhiljoshi.naakh.Enums.TranslationStatus;
 import com.example.nikhiljoshi.naakh.network.POJO.SignIn.SignInPojo;
 import com.example.nikhiljoshi.naakh.network.POJO.Translate.GetTranslatePojo;
 import com.example.nikhiljoshi.naakh.network.POJO.Translate.TranslationInfoPojo;
@@ -47,10 +48,10 @@ public class NaakhApi {
         }
     }
 
-    public TranslationInfoPojo getTranslateJob(Language language, String translationStatus) {
+    public TranslationInfoPojo getTranslateJob(Language language, TranslationStatus translationStatus) {
         final Map<String, String> params = new HashMap<String, String>();
         params.put(NaakhApiQueryKeys.LANGUAGE, language.getDbValue());
-        params.put(NaakhApiQueryKeys.TRANSLATION_STATUS, translationStatus);
+        params.put(NaakhApiQueryKeys.TRANSLATION_STATUS, translationStatus.get_translation_status());
         params.put(NaakhApiQueryKeys.LIMIT, 1 + "");
 
         final Call<GetTranslatePojo> call = client.getTranslationJob(params, "ab89611abed189ce0f9f13f5f9ec818442ed44e7");

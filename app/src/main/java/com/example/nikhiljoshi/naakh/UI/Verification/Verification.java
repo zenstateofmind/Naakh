@@ -21,6 +21,16 @@ import java.util.List;
 
 public class Verification extends AppCompatActivity {
 
+    public static final String ORIGINAL_TEXT_UUID = "original_text_uuid";
+    public static final String TRANSLATED_TEXT_UUID = "translated_text_uuid";
+    public static final String ORIGINAL_TEXT = "original_text";
+    public static final String TRANSLATED_TEXT = "translated_text";
+
+    private String original_text_uuid;
+    private String translated_text_uuid;
+    private String original_text;
+    private String translated_text;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +47,38 @@ public class Verification extends AppCompatActivity {
             }
         });
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    public void setOriginalTextUuid(String original_text_uuid) {
+        this.original_text_uuid = original_text_uuid;
+    }
+
+    public String getOriginalTextUuid() {
+        return original_text_uuid;
+    }
+
+    public void setTranslatedTextUuid(String translated_text_uuid) {
+        this.translated_text_uuid = translated_text_uuid;
+    }
+
+    public String getTranslatedTextUuid() {
+        return translated_text_uuid;
+    }
+
+    public String getOriginal_text() {
+        return original_text;
+    }
+
+    public void setOriginalText(String original_text) {
+        this.original_text = original_text;
+    }
+
+    public String getTranslated_text() {
+        return translated_text;
+    }
+
+    public void setTranslatedText(String translated_text) {
+        this.translated_text = translated_text;
     }
 
     public void notSureDialog(View view) {
@@ -110,17 +152,39 @@ public class Verification extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         //TODO: where do we save this information?
                         String list = "";
-                        for (String incorrect: incorrectTranslationReasons) {
+                        for (String incorrect : incorrectTranslationReasons) {
                             list += incorrect + " ";
                         }
 
-                        Intent intent = new Intent(Verification.this, FixTranslation.class);
-                        startActivity(intent);
-                        Toast.makeText(Verification.this, "Time to translate!" + list , Toast.LENGTH_SHORT).show();
+                        if (incorrectTranslationReasons.isEmpty()) {
+                            dialog.dismiss();
+                            showChooseOptionsPleaseDialogBox();
+                        } else {
+                            Intent intent = new Intent(Verification.this, FixTranslation.class);
+                            intent.putExtra(ORIGINAL_TEXT_UUID, original_text_uuid);
+                            intent.putExtra(ORIGINAL_TEXT, original_text);
+                            intent.putExtra(TRANSLATED_TEXT_UUID, translated_text_uuid);
+                            intent.putExtra(TRANSLATED_TEXT, translated_text);
+                            startActivity(intent);
+                            Toast.makeText(Verification.this, "Time to translate!" + list, Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
 
         final AlertDialog incorrectDialog = builder.create();
         incorrectDialog.show();
+    }
+
+    private void showChooseOptionsPleaseDialogBox() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Select whats incorrect")
+                .setNeutralButton("OK!", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        final AlertDialog alertDialog = builder.create();
+        alertDialog.show();
     }
 }
