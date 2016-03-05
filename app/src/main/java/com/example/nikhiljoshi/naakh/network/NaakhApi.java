@@ -24,6 +24,7 @@ public class NaakhApi {
     //TODO: Another thing that can be injected
     private NaakhClient client;
 
+
     //TODO: Inject it here maybe?
     public NaakhApi() {
         this.client = ServiceGenerator.createService(NaakhClient.class);
@@ -48,13 +49,14 @@ public class NaakhApi {
         }
     }
 
-    public TranslationInfoPojo getTranslateJob(Language language, TranslationStatus translationStatus) {
+    public TranslationInfoPojo getTranslateJob(Language language, TranslationStatus translationStatus,
+                                               String access_token) {
         final Map<String, String> params = new HashMap<String, String>();
         params.put(NaakhApiQueryKeys.LANGUAGE, language.getDbValue());
         params.put(NaakhApiQueryKeys.TRANSLATION_STATUS, translationStatus.get_translation_status());
         params.put(NaakhApiQueryKeys.LIMIT, 1 + "");
 
-        final Call<GetTranslatePojo> call = client.getTranslationJob(params, "ab89611abed189ce0f9f13f5f9ec818442ed44e7");
+        final Call<GetTranslatePojo> call = client.getTranslationJob(params, access_token);
         try {
             final GetTranslatePojo getTranslatePojo = call.execute().body();
             final List<TranslationInfoPojo> translationInfoObjects = getTranslatePojo.getObjects();
@@ -71,12 +73,13 @@ public class NaakhApi {
         }
     }
 
-    public TranslationInfoPojo postTranslateJob(String uiud, String translated_text) {
+    public TranslationInfoPojo postTranslateJob(String uiud, String translated_text,
+                                                String access_token) {
         final Map<String, String> params = new HashMap<String, String>();
         params.put(NaakhApiQueryKeys.TRANSLATION_TEXT, translated_text);
 
         final Call<TranslationInfoPojo> call = client.postTranslationJob(params,
-                "ab89611abed189ce0f9f13f5f9ec818442ed44e7", uiud);
+                access_token, uiud);
         try {
             final TranslationInfoPojo translationInfoPojo = call.execute().body();
             return translationInfoPojo;

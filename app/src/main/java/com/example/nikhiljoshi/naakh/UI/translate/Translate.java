@@ -1,7 +1,9 @@
 package com.example.nikhiljoshi.naakh.UI.translate;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -20,6 +22,7 @@ import com.example.nikhiljoshi.naakh.network.Tasks.PostTranslationTextTask;
 public class Translate extends AppCompatActivity {
 
     private NaakhApi api;
+    private SharedPreferences preferences;
     private String uuid;
     private static final String LOG_TAG = Translate.class.getSimpleName();
 
@@ -77,7 +80,10 @@ public class Translate extends AppCompatActivity {
         }
 
         api = new NaakhApi();
-        new PostTranslationTextTask(api, translatedText, uuid) {
+        preferences = PreferenceManager.getDefaultSharedPreferences(Translate.this.getApplicationContext());
+        final String access_token = preferences.getString(getString(R.string.token), "");
+
+        new PostTranslationTextTask(api, translatedText, uuid, access_token) {
             @Override
             protected void onPostExecute(TranslationInfoPojo translationInfoPojo) {
                 if (translationInfoPojo != null) {

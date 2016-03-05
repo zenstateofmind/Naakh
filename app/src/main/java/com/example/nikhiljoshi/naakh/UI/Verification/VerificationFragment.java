@@ -1,5 +1,7 @@
 package com.example.nikhiljoshi.naakh.UI.Verification;
 
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
@@ -38,8 +40,10 @@ public class VerificationFragment extends Fragment {
 
     private void getVerificationJob(final View rootView) {
         api = new NaakhApi();
+        final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
+        final String token = sharedPreferences.getString(getString(R.string.token), "");
 
-        new GetTranslationJobTask(api, Language.HINDI, TranslationStatus.UNVERIFIED) {
+        new GetTranslationJobTask(api, Language.HINDI, TranslationStatus.UNVERIFIED, token) {
             @Override
             protected void onPostExecute(TranslationInfoPojo translationInfoPojo) {
                 if (translationInfoPojo == null) {

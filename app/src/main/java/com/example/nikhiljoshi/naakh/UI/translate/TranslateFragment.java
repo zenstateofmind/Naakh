@@ -38,11 +38,12 @@ public class TranslateFragment extends Fragment {
     }
 
     public void getIncompleteTranslation(final View rootView) {
+
         final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
         final String token = sharedPreferences.getString(getString(R.string.token), "");
         api = new NaakhApi();
 
-        new GetTranslationJobTask(api, Language.HINDI, TranslationStatus.UNTRANSLATED) {
+        new GetTranslationJobTask(api, Language.HINDI, TranslationStatus.UNTRANSLATED, token) {
             @Override
             protected void onPostExecute(TranslationInfoPojo translationInfoPojo) {
                 if (translationInfoPojo == null) {
