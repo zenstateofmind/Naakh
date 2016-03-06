@@ -22,6 +22,7 @@ public class Welcome extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
 
+
     }
 
     public void openActivity(View view) {
