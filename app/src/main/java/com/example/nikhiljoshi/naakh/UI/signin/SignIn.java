@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 
+import com.example.nikhiljoshi.naakh.ProdApplication;
 import com.example.nikhiljoshi.naakh.UI.Profile.Profile;
 import com.example.nikhiljoshi.naakh.R;
 import com.example.nikhiljoshi.naakh.network.NaakhApi;
@@ -19,12 +20,14 @@ import com.example.nikhiljoshi.naakh.network.NaakhApi;
 import com.example.nikhiljoshi.naakh.network.POJO.SignIn.SignInPojo;
 import com.example.nikhiljoshi.naakh.network.Tasks.LoginTask;
 
+import javax.inject.Inject;
+
 
 public class SignIn extends AppCompatActivity {
 
     private static final String LOG_TAG = "naakh.SignIn";
     //TODO: Will eventually be injecting this
-    private NaakhApi api;
+    @Inject NaakhApi api;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +38,8 @@ public class SignIn extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        ((ProdApplication) getApplication()).component().inject(this);
     }
 
     public void signInValidation(View view) {
