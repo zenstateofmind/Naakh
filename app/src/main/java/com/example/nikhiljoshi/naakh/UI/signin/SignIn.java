@@ -43,7 +43,6 @@ public class SignIn extends AppCompatActivity {
     }
 
     public void signInValidation(View view) {
-        api = new NaakhApi();
 
         final String username = ((EditText) findViewById(R.id.username)).getText().toString();
         final String password = ((EditText) findViewById(R.id.password)).getText().toString();
@@ -57,16 +56,19 @@ public class SignIn extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Phone Number/Password seems incorrect :( ", Toast.LENGTH_SHORT).show();
                     Log.w(LOG_TAG, "Didn't get an access token... seems like username/password is incorrect");
                 } else {
-                    SharedPreferences preference = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-                    SharedPreferences.Editor editor = preference.edit();
-                    editor.putString(getString(R.string.token), signInPojo.getAccess_token());
-                    editor.commit();
+//                    SharedPreferences preference = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+//                    SharedPreferences.Editor editor = preference.edit();
+//                    editor.putString(getString(R.string.token), signInPojo.getAccess_token());
+//                    editor.commit();
 
-                    Intent intent = new Intent(SignIn.this, Profile.class);
-                    startActivity(intent);
+//                    Intent intent = new Intent(SignIn.this, Profile.class);
+//                    startActivity(intent);
                 }
             }
         }.execute();
+
+        Intent intent = new Intent(SignIn.this, Profile.class);
+        startActivity(intent);
 
     }
 

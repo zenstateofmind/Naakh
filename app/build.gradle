@@ -11,6 +11,8 @@ android {
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
+
+        testInstrumentationRunner 'com.example.nikhiljoshi.naakh.MockTestRunner'
     }
     buildTypes {
         release {
@@ -27,9 +29,25 @@ dependencies {
     compile 'com.android.support:design:23.1.0'
     compile project(':volley')
     apt 'com.google.dagger:dagger-compiler:2.0.2'
+    androidTestApt 'com.google.dagger:dagger-compiler:2.0.2'
     compile 'com.google.dagger:dagger:2.0.2'
     provided 'org.glassfish:javax.annotation:10.0-b28'
     compile 'com.squareup.retrofit2:retrofit:2.0.0-beta4'
     compile 'com.squareup.retrofit2:converter-gson:2.0.0-beta4'
     compile 'com.squareup.okhttp3:okhttp:3.2.0'
+
+    androidTestCompile 'com.android.support:support-annotations:23.1.0'
+    androidTestCompile 'com.android.support.test:runner:0.4.1'
+    androidTestCompile 'com.android.support.test:rules:0.4.1'
+    // Optional -- Hamcrest library
+    androidTestCompile 'org.hamcrest:hamcrest-library:1.3'
+    // Optional -- UI testing with Espresso
+    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.1'
+    androidTestCompile 'com.android.support.test.espresso:espresso-intents:2.2.1'
+
+    androidTestCompile 'org.mockito:mockito-core:1.10.19'
+
+    androidTestCompile 'com.google.dexmaker:dexmaker:1.2'
+    androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.2'
+
 }

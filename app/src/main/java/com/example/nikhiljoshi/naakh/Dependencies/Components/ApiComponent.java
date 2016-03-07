@@ -1,6 +1,6 @@
 package com.example.nikhiljoshi.naakh.Dependencies.Components;
 
-import com.example.nikhiljoshi.naakh.Dependencies.Modules.NaakhApiModule;
+import com.example.nikhiljoshi.naakh.Dependencies.Modules.NaakhModule;
 
 import javax.inject.Singleton;
 
@@ -11,5 +11,5 @@ import dagger.Component;
  */
 
 @Singleton
-@Component(modules = NaakhApiModule.class)
+@Component(modules = NaakhModule.class)
 public interface ApiComponent extends BaseComponent {}
