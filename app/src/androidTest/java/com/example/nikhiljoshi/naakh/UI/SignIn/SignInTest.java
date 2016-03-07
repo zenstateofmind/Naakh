@@ -1,6 +1,7 @@
 package com.example.nikhiljoshi.naakh.UI.SignIn;
 
 import android.app.Instrumentation;
+import android.app.Service;
 import android.content.Intent;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.rule.ActivityTestRule;
@@ -63,7 +64,6 @@ public class SignInTest {
 
 
         signInActivityTestRule.launchActivity(new Intent());
-
 
         onView(withId(R.id.sign_in_validation)).perform(click());
         Assert.assertEquals(1, monitor.getHits());
