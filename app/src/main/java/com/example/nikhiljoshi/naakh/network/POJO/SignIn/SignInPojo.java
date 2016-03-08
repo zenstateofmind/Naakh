@@ -7,7 +7,7 @@ public class SignInPojo {
 
     private String access_token;
 
-    public String getAccess_token() {
+    public String getAccessToken() {
         return access_token;
     }
 
