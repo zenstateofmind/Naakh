@@ -13,7 +13,4 @@ public class GetTranslatePojo {
         return objects;
     }
 
-    public void setObjects(List<TranslationInfoPojo> objects) {
-        this.objects = objects;
-    }
 }

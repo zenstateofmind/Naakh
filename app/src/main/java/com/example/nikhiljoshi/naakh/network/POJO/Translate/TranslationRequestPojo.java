@@ -8,19 +8,12 @@ public class TranslationRequestPojo {
     private String text;
     private String uuid;
 
-    public String getOriginalText() {
+    public String getTranslationRequestTest() {
         return text;
     }
 
-    public void setOriginalText(String text) {
-        this.text = text;
-    }
-
-    public String getOriginalPhraseUuid() {
+    public String getTranslationRequestUuid() {
         return uuid;
     }
 
-    public void setOriginalPhraseUuid(String uuid) {
-        this.uuid = uuid;
-    }
 }

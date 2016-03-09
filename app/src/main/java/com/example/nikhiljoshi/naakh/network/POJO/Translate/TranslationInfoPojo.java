@@ -21,15 +21,8 @@ public class TranslationInfoPojo {
         return uuid;
     }
 
-    public void setTranslatedTextUuid(String translated_text_uuid) {
-        this.uuid = translated_text_uuid;
-    }
-
     public String getTranslationText() {
         return translation_text;
     }
 
-    public void setTranslationText(String translation_text) {
-        this.translation_text = translation_text;
-    }
 }

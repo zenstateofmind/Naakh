@@ -16,4 +16,9 @@ public class NaakhApiQueryKeys {
     public static final String OBJECTS = "objects";
     public static final String TRANSLATION_REQUEST = "translation_request";
     public static final String TRANSLATION_TEXT = "translation_text";
+    public static final String TRANSLATION_REQUEST_UUID = "translation_request_uuid";
+    public static final String VERIFIED_CONTEXT = "verified_context";
+    public static final String VERIFIED_GRAMMAR = "verified_grammar";
+    public static final String VERIFIED_SPELLING = "verified_spelling";
+
 }

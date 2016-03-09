@@ -3,8 +3,9 @@ package com.example.nikhiljoshi.naakh.UI.Verification;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.DialogPreference;
+import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -13,23 +14,34 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.nikhiljoshi.naakh.Enums.VerificationParameter;
 import com.example.nikhiljoshi.naakh.R;
+import com.example.nikhiljoshi.naakh.network.NaakhApi;
+import com.example.nikhiljoshi.naakh.network.POJO.Translate.TranslationInfoPojo;
+import com.example.nikhiljoshi.naakh.network.Tasks.PostReviewerVerificationInfoTask;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Verification extends AppCompatActivity {
 
-    public static final String ORIGINAL_TEXT_UUID = "original_text_uuid";
+    public static final String TRANSLATION_REQUEST_UUID = "translation_request_uuid";
     public static final String TRANSLATED_TEXT_UUID = "translated_text_uuid";
-    public static final String ORIGINAL_TEXT = "original_text";
+    public static final String TRANSLATION_REQUEST_TEXT = "translation_request_text";
     public static final String TRANSLATED_TEXT = "translated_text";
 
-    private String original_text_uuid;
-    private String translated_text_uuid;
-    private String original_text;
-    private String translated_text;
+    private static final String LOG_TAG = Verification.class.getSimpleName();
+
+    private String translationRequestUuid;
+    private String translatedTextUuid;
+    private String translationRequestTest;
+    private String translatedText;
+
+    private NaakhApi api;
+    private SharedPreferences preferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,36 +61,36 @@ public class Verification extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
-    public void setOriginalTextUuid(String original_text_uuid) {
-        this.original_text_uuid = original_text_uuid;
+    public void setTranslationRequestUuid(String original_text_uuid) {
+        this.translationRequestUuid = original_text_uuid;
     }
 
-    public String getOriginalTextUuid() {
-        return original_text_uuid;
+    public String getTranslationRequestUuid() {
+        return translationRequestUuid;
     }
 
     public void setTranslatedTextUuid(String translated_text_uuid) {
-        this.translated_text_uuid = translated_text_uuid;
+        this.translatedTextUuid = translated_text_uuid;
     }
 
     public String getTranslatedTextUuid() {
-        return translated_text_uuid;
+        return translatedTextUuid;
     }
 
-    public String getOriginal_text() {
-        return original_text;
+    public String getTranslationRequestTest() {
+        return translationRequestTest;
     }
 
-    public void setOriginalText(String original_text) {
-        this.original_text = original_text;
+    public void setTranslationRequestTest(String translationRequestTest) {
+        this.translationRequestTest = translationRequestTest;
     }
 
-    public String getTranslated_text() {
-        return translated_text;
+    public String getTranslatedText() {
+        return translatedText;
     }
 
     public void setTranslatedText(String translated_text) {
-        this.translated_text = translated_text;
+        this.translatedText = translated_text;
     }
 
     public void notSureDialog(View view) {
@@ -125,7 +137,7 @@ public class Verification extends AppCompatActivity {
     }
 
     public void incorrectDialog(View view) {
-        final List<String> incorrectTranslationReasons = new ArrayList<String>();
+        final List<VerificationParameter> incorrectTranslationReasons = new ArrayList<VerificationParameter>();
         final List<String> incorrectOptions = Arrays.asList(getResources().getStringArray(R.array.incorrect_translation_options));
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -133,7 +145,7 @@ public class Verification extends AppCompatActivity {
                 .setMultiChoiceItems(R.array.incorrect_translation_options, null, new DialogInterface.OnMultiChoiceClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-                        final String incorrectOption = incorrectOptions.get(which);
+                        final VerificationParameter incorrectOption = VerificationParameter.getEnum(incorrectOptions.get(which));
                         if (isChecked) {
                             incorrectTranslationReasons.add(incorrectOption);
                         } else if (incorrectTranslationReasons.contains(incorrectOption)) {
@@ -151,22 +163,19 @@ public class Verification extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         //TODO: where do we save this information?
-                        String list = "";
-                        for (String incorrect : incorrectTranslationReasons) {
-                            list += incorrect + " ";
-                        }
-
                         if (incorrectTranslationReasons.isEmpty()) {
                             dialog.dismiss();
                             showChooseOptionsPleaseDialogBox();
                         } else {
+                            postReviewerVerification(incorrectTranslationReasons);
+
                             Intent intent = new Intent(Verification.this, FixTranslation.class);
-                            intent.putExtra(ORIGINAL_TEXT_UUID, original_text_uuid);
-                            intent.putExtra(ORIGINAL_TEXT, original_text);
-                            intent.putExtra(TRANSLATED_TEXT_UUID, translated_text_uuid);
-                            intent.putExtra(TRANSLATED_TEXT, translated_text);
+                            intent.putExtra(TRANSLATION_REQUEST_UUID, translationRequestUuid);
+                            intent.putExtra(TRANSLATION_REQUEST_TEXT, translationRequestTest);
+                            intent.putExtra(TRANSLATED_TEXT_UUID, translatedTextUuid);
+                            intent.putExtra(TRANSLATED_TEXT, translatedText);
                             startActivity(intent);
-                            Toast.makeText(Verification.this, "Time to translate!" + list, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Verification.this, "Time to translate!", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -174,6 +183,31 @@ public class Verification extends AppCompatActivity {
         final AlertDialog incorrectDialog = builder.create();
         incorrectDialog.show();
     }
+
+    private void postReviewerVerification(List<VerificationParameter> incorrectTranslationReasons) {
+        api = new NaakhApi();
+
+        preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        final String accessToken = preferences.getString(getString(R.string.token), "");
+
+        Map<VerificationParameter, Boolean> verificationInfo = new HashMap<VerificationParameter, Boolean>();
+        verificationInfo.put(VerificationParameter.SPELLING, incorrectTranslationReasons.contains(VerificationParameter.SPELLING));
+        verificationInfo.put(VerificationParameter.CONTEXT, incorrectTranslationReasons.contains(VerificationParameter.CONTEXT));
+        verificationInfo.put(VerificationParameter.TONE, incorrectTranslationReasons.contains(VerificationParameter.TONE));
+        verificationInfo.put(VerificationParameter.GRAMMAR, incorrectTranslationReasons.contains(VerificationParameter.GRAMMAR));
+        new PostReviewerVerificationInfoTask(api, verificationInfo, getTranslatedTextUuid(), accessToken) {
+            @Override
+            protected void onPostExecute(TranslationInfoPojo translationInfoPojo) {
+                if (translationInfoPojo == null) {
+                    Log.e(LOG_TAG, "Unable to update reviewer's critique for translated text uuid: " +
+                    translatedTextUuid);
+                }
+            }
+        }.execute();
+
+    }
+
+
 
     private void showChooseOptionsPleaseDialogBox() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);

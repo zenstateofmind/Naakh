@@ -1,9 +1,11 @@
 package com.example.nikhiljoshi.naakh.network;
 
+import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.example.nikhiljoshi.naakh.Enums.Language;
 import com.example.nikhiljoshi.naakh.Enums.TranslationStatus;
+import com.example.nikhiljoshi.naakh.Enums.VerificationParameter;
 import com.example.nikhiljoshi.naakh.network.POJO.SignIn.SignInPojo;
 import com.example.nikhiljoshi.naakh.network.POJO.Translate.GetTranslatePojo;
 import com.example.nikhiljoshi.naakh.network.POJO.Translate.TranslationInfoPojo;
@@ -30,14 +32,15 @@ public class NaakhApi {
         this.client = ServiceGenerator.createService(NaakhClient.class);
     }
 
-    public SignInPojo login(String oauth_client_secret, String oauth_client_id,
-                            String phone_number, String password) {
+    @Nullable
+    public SignInPojo login(String oauthClientSecret, String oauthClientId,
+                            String phoneNumber, String password) {
 
         final Map<String, String> params = new HashMap<String, String>();
-        params.put(NaakhApiQueryKeys.PHONE_NUMBER, phone_number);
+        params.put(NaakhApiQueryKeys.PHONE_NUMBER, phoneNumber);
         params.put(NaakhApiQueryKeys.PASSWORD, password);
-        params.put(NaakhApiQueryKeys.OAUTH_CLIENT_SECRET, oauth_client_secret);
-        params.put(NaakhApiQueryKeys.OAUTH_CLIENT_ID, oauth_client_id);
+        params.put(NaakhApiQueryKeys.OAUTH_CLIENT_SECRET, oauthClientSecret);
+        params.put(NaakhApiQueryKeys.OAUTH_CLIENT_ID, oauthClientId);
 
         final Call<SignInPojo> call = client.login(params);
         try {
@@ -49,14 +52,15 @@ public class NaakhApi {
         }
     }
 
+    @Nullable
     public TranslationInfoPojo getTranslateJob(Language language, TranslationStatus translationStatus,
-                                               String access_token) {
+                                               String accessToken) {
         final Map<String, String> params = new HashMap<String, String>();
         params.put(NaakhApiQueryKeys.LANGUAGE, language.getDbValue());
-        params.put(NaakhApiQueryKeys.TRANSLATION_STATUS, translationStatus.get_translation_status());
+        params.put(NaakhApiQueryKeys.TRANSLATION_STATUS, translationStatus.getTranslationStatus());
         params.put(NaakhApiQueryKeys.LIMIT, 1 + "");
 
-        final Call<GetTranslatePojo> call = client.getTranslationJob(params, access_token);
+        final Call<GetTranslatePojo> call = client.getTranslationJob(params, accessToken);
         try {
             final GetTranslatePojo getTranslatePojo = call.execute().body();
             final List<TranslationInfoPojo> translationInfoObjects = getTranslatePojo.getObjects();
@@ -73,13 +77,30 @@ public class NaakhApi {
         }
     }
 
-    public TranslationInfoPojo postTranslateJob(String uiud, String translated_text,
-                                                String access_token) {
+    public TranslationInfoPojo postTranslatorTranslatedText(String translatedTextUuid, String translatedText,
+                                                            String accessToken) {
         final Map<String, String> params = new HashMap<String, String>();
-        params.put(NaakhApiQueryKeys.TRANSLATION_TEXT, translated_text);
+        params.put(NaakhApiQueryKeys.TRANSLATION_TEXT, translatedText);
 
-        final Call<TranslationInfoPojo> call = client.postTranslationJob(params,
-                access_token, uiud);
+        return postTranslatedTextInfo(translatedTextUuid, accessToken, params);
+    }
+
+
+    public TranslationInfoPojo postReviewerVerificationInformation(String translatedTextUiud,
+                                                                   Map<VerificationParameter, Boolean> verificationInfo,
+                                                                   String accessToken) {
+        final Map<String, String> params = new HashMap<String, String>();
+        params.put(NaakhApiQueryKeys.VERIFIED_CONTEXT, String.valueOf(!verificationInfo.get(VerificationParameter.CONTEXT)));
+        params.put(NaakhApiQueryKeys.VERIFIED_GRAMMAR, String.valueOf(!verificationInfo.get(VerificationParameter.GRAMMAR)));
+        params.put(NaakhApiQueryKeys.VERIFIED_SPELLING, String.valueOf(!verificationInfo.get(VerificationParameter.SPELLING)));
+
+        return postTranslatedTextInfo(translatedTextUiud, accessToken, params);
+    }
+
+    @Nullable
+    private TranslationInfoPojo postTranslatedTextInfo(String translatedTextUuid, String accessToken, Map<String, String> params) {
+        final Call<TranslationInfoPojo> call = client.postTranslatedTextInfo(params,
+                accessToken, translatedTextUuid);
         try {
             final TranslationInfoPojo translationInfoPojo = call.execute().body();
             return translationInfoPojo;
@@ -87,5 +108,24 @@ public class NaakhApi {
             Log.e(LOG_TAG, "Error with posting translation job " + e.getMessage());
             return null;
         }
+    }
+
+    @Nullable
+    public TranslationInfoPojo postReviewerTranslatedText(String translatedText, String translationRequestUuid,
+                                                          Language language, String accessToken) {
+        final Map<String, String> params = new HashMap<String, String>();
+        params.put(NaakhApiQueryKeys.TRANSLATION_TEXT, translatedText);
+        params.put(NaakhApiQueryKeys.TRANSLATION_REQUEST_UUID, translationRequestUuid);
+        params.put(NaakhApiQueryKeys.LANGUAGE, language.getDbValue());
+
+        final Call<TranslationInfoPojo> call = client.postReviewersTranslateTextInfo(params, accessToken);
+        try {
+            final TranslationInfoPojo translationInfoPojo = call.execute().body();
+            return translationInfoPojo;
+        } catch (IOException e) {
+            Log.e(LOG_TAG, "Error with posting reviewer's translated text" + e.getMessage());
+            return null;
+        }
+
     }
 }

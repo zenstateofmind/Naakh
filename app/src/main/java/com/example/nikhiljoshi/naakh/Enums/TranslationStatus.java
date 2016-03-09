@@ -8,13 +8,13 @@ public enum TranslationStatus {
     UNTRANSLATED("untranslated"),
     UNVERIFIED("unverified");
 
-    private final String translation_status;
+    private final String translationStatus;
 
-    TranslationStatus(String translation_status) {
-        this.translation_status = translation_status;
+    TranslationStatus(String translationStatus) {
+        this.translationStatus = translationStatus;
     }
 
-    public String get_translation_status() {
-        return translation_status;
+    public String getTranslationStatus() {
+        return translationStatus;
     }
 }

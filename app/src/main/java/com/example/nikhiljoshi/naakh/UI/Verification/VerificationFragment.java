@@ -61,12 +61,12 @@ public class VerificationFragment extends Fragment {
         final TranslationRequestPojo translationRequestPojo = translationInfoPojo.getTranslation_request();
         final Verification verificationActivity = (Verification) getActivity();
 
-        verificationActivity.setOriginalTextUuid(translationRequestPojo.getOriginalPhraseUuid());
+        verificationActivity.setTranslationRequestUuid(translationRequestPojo.getTranslationRequestUuid());
         verificationActivity.setTranslatedTextUuid(translationInfoPojo.getTranslatedTextUuid());
         verificationActivity.setTranslatedText(translationInfoPojo.getTranslationText());
-        verificationActivity.setOriginalText(translationRequestPojo.getOriginalText());
+        verificationActivity.setTranslationRequestTest(translationRequestPojo.getTranslationRequestTest());
 
-        ((TextView) rootView.findViewById(R.id.original_text)).setText(translationRequestPojo.getOriginalText());
+        ((TextView) rootView.findViewById(R.id.original_text)).setText(translationRequestPojo.getTranslationRequestTest());
         ((TextView) rootView.findViewById(R.id.translated_text)).setText(translationInfoPojo.getTranslationText());
         //TODO: Add context and tone
     }

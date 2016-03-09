@@ -8,12 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.nikhiljoshi.naakh.Enums.Language;
-import com.example.nikhiljoshi.naakh.Enums.TranslationStatus;
 import com.example.nikhiljoshi.naakh.R;
 import com.example.nikhiljoshi.naakh.network.NaakhApi;
-import com.example.nikhiljoshi.naakh.network.POJO.Translate.TranslationInfoPojo;
-import com.example.nikhiljoshi.naakh.network.Tasks.GetTranslationJobTask;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -37,9 +33,9 @@ public class FixTranslationFragment extends Fragment {
         final Intent intent = getActivity().getIntent();
         final String translatedText = intent.getStringExtra(Verification.TRANSLATED_TEXT);
         final String translatedTextUuid = intent.getStringExtra(Verification.TRANSLATED_TEXT_UUID);
-        final String originalText = intent.getStringExtra(Verification.ORIGINAL_TEXT);
-        final String originalTextUuid = intent.getStringExtra(Verification.ORIGINAL_TEXT_UUID);
-        ((TextView) rootView.findViewById(R.id.original_text)).setText(originalText);
+        final String translationRequestText = intent.getStringExtra(Verification.TRANSLATION_REQUEST_TEXT);
+        ((FixTranslation) getActivity()).setTranslationRequestUuid(intent.getStringExtra(Verification.TRANSLATION_REQUEST_UUID));
+        ((TextView) rootView.findViewById(R.id.original_text)).setText(translationRequestText);
         ((TextView) rootView.findViewById(R.id.previous_translation_text)).setText(translatedText);
     }
 

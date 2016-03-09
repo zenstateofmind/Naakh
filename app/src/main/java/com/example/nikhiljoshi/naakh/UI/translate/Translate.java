@@ -17,18 +17,17 @@ import com.example.nikhiljoshi.naakh.R;
 import com.example.nikhiljoshi.naakh.app.settings.SettingsActivity;
 import com.example.nikhiljoshi.naakh.network.NaakhApi;
 import com.example.nikhiljoshi.naakh.network.POJO.Translate.TranslationInfoPojo;
-import com.example.nikhiljoshi.naakh.network.Tasks.PostTranslationTextTask;
+import com.example.nikhiljoshi.naakh.network.Tasks.PostUntranslatedTranslateTextTask;
 
 public class Translate extends AppCompatActivity {
 
     private NaakhApi api;
     private SharedPreferences preferences;
-    private String uuid;
+    private String translated_text_uuid;
     private static final String LOG_TAG = Translate.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         Log.i(LOG_TAG, "State: creating");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_translate);
@@ -69,13 +68,13 @@ public class Translate extends AppCompatActivity {
     //TODO: Make sure that the back button goes to the profile page
 
     public void setTranslatedTextUuid(String uuid) {
-        this.uuid = uuid;
+        this.translated_text_uuid = uuid;
     }
 
     public void postTranslations(View view) {
         final String translatedText = ((EditText) findViewById(R.id.translated_text)).getText().toString();
 
-        if (translatedText.trim().length() == 0 || uuid.trim().length() == 0) {
+        if (translatedText.trim().length() == 0 || translated_text_uuid.trim().length() == 0) {
             Toast.makeText(this, getString(R.string.please_translate), Toast.LENGTH_SHORT).show();
         }
 
@@ -83,7 +82,7 @@ public class Translate extends AppCompatActivity {
         preferences = PreferenceManager.getDefaultSharedPreferences(Translate.this.getApplicationContext());
         final String access_token = preferences.getString(getString(R.string.token), "");
 
-        new PostTranslationTextTask(api, translatedText, uuid, access_token) {
+        new PostUntranslatedTranslateTextTask(api, translatedText, translated_text_uuid, access_token) {
             @Override
             protected void onPostExecute(TranslationInfoPojo translationInfoPojo) {
                 if (translationInfoPojo != null) {

@@ -50,7 +50,7 @@ public class TranslateFragment extends Fragment {
                     Log.i(LOG_TAG, "Did not get any translation jobs");
                 } else {
                     TextView toTranslateView = (TextView) rootView.findViewById(R.id.to_translate);
-                    toTranslateView.setText(translationInfoPojo.getTranslation_request().getOriginalText());
+                    toTranslateView.setText(translationInfoPojo.getTranslation_request().getTranslationRequestTest());
                     ((Translate) getActivity()).setTranslatedTextUuid(translationInfoPojo.getTranslatedTextUuid());
                     Log.i(LOG_TAG, "Got translation task with uuid: " + translationInfoPojo.getTranslatedTextUuid());
                 }

@@ -33,12 +33,14 @@ public interface NaakhClient {
     //post translate
     @FormUrlEncoded
     @POST("/api/v1/translatedtext/{uuid}")
-    Call<TranslationInfoPojo> postTranslationJob(@FieldMap Map<String, String> options,
-                                                 @Header("authorization") String authorization,
-                                                 @Path("uuid") String uiud);
+    Call<TranslationInfoPojo> postTranslatedTextInfo(@FieldMap Map<String, String> options,
+                                                     @Header("authorization") String authorization,
+                                                     @Path("uuid") String translatedTextUuid);
 
-
-
+    @FormUrlEncoded
+    @POST("/api/v1/translatetext/")
+    Call<TranslationInfoPojo> postReviewersTranslateTextInfo(@FieldMap Map<String, String> options,
+                                                             @Header("authorization") String authorization);
 
 
     //get profile
