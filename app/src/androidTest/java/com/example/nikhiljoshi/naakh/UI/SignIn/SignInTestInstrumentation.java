@@ -24,9 +24,6 @@ import org.mockito.Mockito;
 
 import javax.inject.Inject;
 
-import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.matcher.ViewMatchers.withId;
 
 /**
  * Created by nikhiljoshi on 3/7/16.
