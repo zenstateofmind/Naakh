@@ -22,7 +22,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".UI.signin.SignIn"
+            android:name=".UI.SignIn.SignIn"
             android:label="@string/title_activity_sign_in"
             android:parentActivityName=".UI.welcome.Welcome"
             android:theme="@style/AppTheme.NoActionBar"

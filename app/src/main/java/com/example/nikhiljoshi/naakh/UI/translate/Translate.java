@@ -13,24 +13,30 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.nikhiljoshi.naakh.ProdApplication;
 import com.example.nikhiljoshi.naakh.R;
+import com.example.nikhiljoshi.naakh.UI.CallbackInterfaces.OnSendingTranslations;
 import com.example.nikhiljoshi.naakh.app.settings.SettingsActivity;
 import com.example.nikhiljoshi.naakh.network.NaakhApi;
 import com.example.nikhiljoshi.naakh.network.POJO.Translate.TranslationInfoPojo;
 import com.example.nikhiljoshi.naakh.network.Tasks.PostUntranslatedTranslateTextTask;
 
-public class Translate extends AppCompatActivity {
+import javax.inject.Inject;
 
-    private NaakhApi api;
+public class Translate extends AppCompatActivity implements OnSendingTranslations {
+
+    @Inject NaakhApi api;
     private SharedPreferences preferences;
     private String translated_text_uuid;
     private static final String LOG_TAG = Translate.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.i(LOG_TAG, "State: creating");
         super.onCreate(savedInstanceState);
+        ((ProdApplication) getApplication()).component().inject(this);
+
         setContentView(R.layout.activity_translate);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -76,25 +82,23 @@ public class Translate extends AppCompatActivity {
 
         if (translatedText.trim().length() == 0 || translated_text_uuid.trim().length() == 0) {
             Toast.makeText(this, getString(R.string.please_translate), Toast.LENGTH_SHORT).show();
+        } else {
+
+            preferences = PreferenceManager.getDefaultSharedPreferences(Translate.this.getApplicationContext());
+            final String access_token = preferences.getString(getString(R.string.token), "");
+
+            new PostUntranslatedTranslateTextTask(api, this).execute(translatedText, translated_text_uuid, access_token);
         }
+    }
 
-        api = new NaakhApi();
-        preferences = PreferenceManager.getDefaultSharedPreferences(Translate.this.getApplicationContext());
-        final String access_token = preferences.getString(getString(R.string.token), "");
-
-        new PostUntranslatedTranslateTextTask(api, translatedText, translated_text_uuid, access_token) {
-            @Override
-            protected void onPostExecute(TranslationInfoPojo translationInfoPojo) {
-                if (translationInfoPojo != null) {
-                    Toast.makeText(Translate.this, "Thank you!", Toast.LENGTH_SHORT).show();
-
-                    Intent intent = new Intent(Translate.this, Translate.class);
-                    startActivity(intent);
-                } else {
-                    Log.e(LOG_TAG, "Problems in posting the results back to the Naakh API server");
-                }
-            }
-        }.execute();
-
+    @Override
+    public void runOnSendingTranslations(TranslationInfoPojo translationInfoPojo) {
+        if (translationInfoPojo != null) {
+            Toast.makeText(Translate.this, "Thank you!", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(Translate.this, Translate.class);
+            startActivity(intent);
+        } else {
+            Log.e(LOG_TAG, "Problems in posting the results back to the Naakh API server");
+        }
     }
 }

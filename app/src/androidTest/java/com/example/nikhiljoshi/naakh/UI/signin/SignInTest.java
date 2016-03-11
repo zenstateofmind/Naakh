@@ -1,4 +1,4 @@
-package com.example.nikhiljoshi.naakh.UI.signin;
+package com.example.nikhiljoshi.naakh.UI.SignIn;
 
 import android.app.Instrumentation;
 import android.support.test.InstrumentationRegistry;

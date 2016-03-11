@@ -1,11 +1,9 @@
 package com.example.nikhiljoshi.naakh.Dependencies.Components;
 
-import com.example.nikhiljoshi.naakh.UI.signin.SignIn;
-import com.example.nikhiljoshi.naakh.UI.signin.SignInFragment;
-import com.example.nikhiljoshi.naakh.UI.welcome.WelcomeFragment;
-import com.example.nikhiljoshi.naakh.network.Tasks.LoginTask;
-
-import dagger.Component;
+import com.example.nikhiljoshi.naakh.UI.SignIn.SignIn;
+import com.example.nikhiljoshi.naakh.UI.Verification.VerificationFragment;
+import com.example.nikhiljoshi.naakh.UI.translate.Translate;
+import com.example.nikhiljoshi.naakh.UI.translate.TranslateFragment;
 
 /**
  * Created by nikhiljoshi on 3/6/16.
@@ -13,5 +11,8 @@ import dagger.Component;
 public interface BaseComponent {
 
     void inject(SignIn signIn);
+    void inject(VerificationFragment verificationFragment);
+    void inject(TranslateFragment translateFragment);
+    void inject(Translate translate);
 
 }

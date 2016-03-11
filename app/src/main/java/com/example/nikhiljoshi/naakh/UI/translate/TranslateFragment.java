@@ -12,20 +12,26 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.nikhiljoshi.naakh.Enums.TranslationStatus;
+import com.example.nikhiljoshi.naakh.ProdApplication;
 import com.example.nikhiljoshi.naakh.R;
 import com.example.nikhiljoshi.naakh.Enums.Language;
+import com.example.nikhiljoshi.naakh.UI.CallbackInterfaces.OnGettingIncompleteTranslatedText;
 import com.example.nikhiljoshi.naakh.network.NaakhApi;
 import com.example.nikhiljoshi.naakh.network.POJO.Translate.TranslationInfoPojo;
 import com.example.nikhiljoshi.naakh.network.Tasks.GetTranslationJobTask;
+
+import javax.inject.Inject;
 
 
 /**
  * A placeholder fragment containing a simple view.
  */
-public class TranslateFragment extends Fragment {
+public class TranslateFragment extends Fragment implements OnGettingIncompleteTranslatedText {
 
-    private static final String LOG_TAG = "TranslateFragment";
-    private NaakhApi api;
+    private static final String LOG_TAG = TranslateFragment.class.getSimpleName();
+    private View rootView;
+
+    @Inject NaakhApi api;
 
     public TranslateFragment() {
     }
@@ -33,33 +39,36 @@ public class TranslateFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        final View rootView = inflater.inflate(R.layout.fragment_translate, container, false);
+        rootView = inflater.inflate(R.layout.fragment_translate, container, false);
         getIncompleteTranslation(rootView);
         return rootView;
     }
 
-    public void getIncompleteTranslation(final View rootView) {
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        ((ProdApplication) getActivity().getApplication()).component().inject(this);
+    }
 
+    public void getIncompleteTranslation(final View rootView) {
         final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
         final String token = sharedPreferences.getString(getString(R.string.token), "");
-        api = new NaakhApi();
 
-        new GetTranslationJobTask(api, Language.HINDI, TranslationStatus.UNTRANSLATED, token) {
-            @Override
-            protected void onPostExecute(TranslationInfoPojo translationInfoPojo) {
-                if (translationInfoPojo == null) {
-                    Log.i(LOG_TAG, "Did not get any translation jobs");
-                    final Button sendButton = (Button) rootView.findViewById(R.id.send_translations);
-                    sendButton.setEnabled(false);
-                } else {
-                    TextView toTranslateView = (TextView) rootView.findViewById(R.id.to_translate);
-                    toTranslateView.setText(translationInfoPojo.getTranslation_request().getTranslationRequestTest());
-                    ((Translate) getActivity()).setTranslatedTextUuid(translationInfoPojo.getTranslatedTextUuid());
-                    Log.i(LOG_TAG, "Got translation task with uuid: " + translationInfoPojo.getTranslatedTextUuid());
-                }
-            }
-        }.execute();
+        new GetTranslationJobTask(api, this, Language.MALAYALAM, TranslationStatus.UNTRANSLATED, token).execute();
+    }
 
+    @Override
+    public void updateViewWithIncompleteTranslatedTextObject(TranslationInfoPojo translationInfoPojo) {
+        if (translationInfoPojo == null) {
+            Log.i(LOG_TAG, "Did not get any translation jobs");
+            final Button sendButton = (Button) rootView.findViewById(R.id.send_translations);
+            sendButton.setEnabled(false);
+        } else {
+            TextView toTranslateView = (TextView) rootView.findViewById(R.id.to_translate);
+            toTranslateView.setText(translationInfoPojo.getTranslationRequest().getTranslationRequestText());
+            ((Translate) getActivity()).setTranslatedTextUuid(translationInfoPojo.getTranslatedTextUuid());
+            Log.i(LOG_TAG, "Got translation task with uuid: " + translationInfoPojo.getTranslatedTextUuid());
+        }
     }
 
 }

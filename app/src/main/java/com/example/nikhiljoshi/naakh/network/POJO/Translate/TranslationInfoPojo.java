@@ -9,7 +9,7 @@ public class TranslationInfoPojo {
     private String uuid;
     private String translation_text;
 
-    public TranslationRequestPojo getTranslation_request() {
+    public TranslationRequestPojo getTranslationRequest() {
         return translation_request;
     }
 
@@ -25,4 +25,11 @@ public class TranslationInfoPojo {
         return translation_text;
     }
 
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
+    }
+
+    public void setTranslationText(String translation_text) {
+        this.translation_text = translation_text;
+    }
 }

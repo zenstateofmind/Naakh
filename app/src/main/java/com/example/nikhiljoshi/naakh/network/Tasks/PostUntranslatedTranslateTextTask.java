@@ -2,31 +2,33 @@ package com.example.nikhiljoshi.naakh.network.Tasks;
 
 import android.os.AsyncTask;
 
+import com.example.nikhiljoshi.naakh.UI.CallbackInterfaces.OnSendingTranslations;
 import com.example.nikhiljoshi.naakh.network.NaakhApi;
 import com.example.nikhiljoshi.naakh.network.POJO.Translate.TranslationInfoPojo;
 
 /**
  * Created by nikhiljoshi on 3/3/16.
  */
-public class PostUntranslatedTranslateTextTask extends AsyncTask<Object, Object, TranslationInfoPojo> {
+public class PostUntranslatedTranslateTextTask extends AsyncTask<String, Object, TranslationInfoPojo> {
 
     private final NaakhApi api;
-    private final String translatedText;
-    private final String translatedTextUuid;
-    private final String accessToken;
+    private final OnSendingTranslations listener;
 
-    public PostUntranslatedTranslateTextTask(NaakhApi api, String translatedText, String translatedTextUuid,
-                                             String accessToken) {
-
+    public PostUntranslatedTranslateTextTask(NaakhApi api, OnSendingTranslations listener) {
         this.api = api;
-        this.translatedText = translatedText;
-        this.translatedTextUuid = translatedTextUuid;
-        this.accessToken = accessToken;
+        this.listener = listener;
     }
 
+    @Override
+    protected void onPostExecute(TranslationInfoPojo translationInfoPojo) {
+        listener.runOnSendingTranslations(translationInfoPojo);
+    }
 
     @Override
-    protected TranslationInfoPojo doInBackground(Object... params) {
+    protected TranslationInfoPojo doInBackground(String... params) {
+        String translatedText = params[0];
+        String translatedTextUuid = params[1];
+        String accessToken = params[2];
         return api.postTranslatorTranslatedText(translatedTextUuid, translatedText, accessToken);
     }
 }

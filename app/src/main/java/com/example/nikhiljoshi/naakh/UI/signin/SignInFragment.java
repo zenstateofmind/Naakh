@@ -1,4 +1,4 @@
-package com.example.nikhiljoshi.naakh.UI.signin;
+package com.example.nikhiljoshi.naakh.UI.SignIn;
 
 import android.support.v4.app.Fragment;
 import android.os.Bundle;

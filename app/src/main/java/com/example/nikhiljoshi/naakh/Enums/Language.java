@@ -6,7 +6,7 @@ package com.example.nikhiljoshi.naakh.Enums;
 public enum Language {
 
     HINDI("Hindi", "hi"),
-    MALAYALAM("Malayalam", "ma"),
+    MALAYALAM("Malayalam", "ml"),
     KANNADA("Kannada", "ka");
 
     private final String dbValue;

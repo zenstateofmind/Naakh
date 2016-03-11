@@ -8,7 +8,7 @@ public class TranslationRequestPojo {
     private String text;
     private String uuid;
 
-    public String getTranslationRequestTest() {
+    public String getTranslationRequestText() {
         return text;
     }
 
@@ -16,4 +16,11 @@ public class TranslationRequestPojo {
         return uuid;
     }
 
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
+    }
 }

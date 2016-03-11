@@ -8,7 +8,7 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.example.nikhiljoshi.naakh.R;
-import com.example.nikhiljoshi.naakh.UI.signin.SignIn;
+import com.example.nikhiljoshi.naakh.UI.SignIn.SignIn;
 
 public class Welcome extends AppCompatActivity {
 
