@@ -11,8 +11,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-
-import com.example.nikhiljoshi.naakh.Dependencies.Components.SignInComponent;
 import com.example.nikhiljoshi.naakh.ProdApplication;
 import com.example.nikhiljoshi.naakh.UI.Profile.Profile;
 import com.example.nikhiljoshi.naakh.R;
@@ -29,7 +27,6 @@ public class SignIn extends AppCompatActivity implements OnSignInTaskCompleted {
     private static final String LOG_TAG = "naakh.SignIn";
     //TODO: Will eventually be injecting this
     @Inject NaakhApi api;
-    @Inject LoginTask loginTask;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,9 +38,7 @@ public class SignIn extends AppCompatActivity implements OnSignInTaskCompleted {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        final ProdApplication application = (ProdApplication) getApplication();
-        application.setSignIn(this);
-        application.createBaseComponent().inject(this);
+        ((ProdApplication) getApplication()).component().inject(this);
     }
 
     public void signInValidation(View view) {

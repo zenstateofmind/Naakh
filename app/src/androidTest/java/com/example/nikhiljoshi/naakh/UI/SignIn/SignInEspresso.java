@@ -18,7 +18,6 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Matchers;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -39,8 +38,6 @@ public class SignInEspresso {
 
     @Inject
     NaakhApi api;
-    @Inject
-    LoginTask loginTask;
 
     @Rule
     public ActivityTestRule<SignIn> signInActivityRule = new ActivityTestRule<SignIn>(
@@ -52,8 +49,7 @@ public class SignInEspresso {
     public void setUp() {
         Instrumentation instrumentation = InstrumentationRegistry.getInstrumentation();
         final MockApplication applicationContext = (MockApplication) instrumentation.getTargetContext().getApplicationContext();
-        final TestApiComponent testApiComponent = (TestApiComponent) applicationContext.createBaseComponent();
-        testApiComponent.inject(this);
+        ((TestApiComponent) applicationContext.component()).inject(this);
     }
 
     @Test
@@ -75,14 +71,22 @@ public class SignInEspresso {
     public void profileActivityOpensWhenLoginSucceeds() {
         Mockito.when(api.login(Matchers.anyString(), Matchers.anyString(), Matchers.anyString(), Matchers.anyString()))
                 .thenReturn(getSignInPojo(true));
-//        Mockito.when(loginTask.execute(Matchers.anyString(), Matchers.anyString(), Matchers.anyString(), Matchers.anyString()))
-//                .thenAnswer()
 
         onView(withId(R.id.username)).perform(typeText("12345"));
         onView(withId(R.id.password)).perform(typeText("password"));
         onView(withId(R.id.sign_in_validation)).perform(click());
-
         onView(withId(R.id.translator_name)).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void profileActivityDoesntOpenWhenLoginFails() {
+        Mockito.when(api.login(Matchers.anyString(), Matchers.anyString(), Matchers.anyString(), Matchers.anyString()))
+                .thenReturn(getSignInPojo(false));
+
+        onView(withId(R.id.username)).perform(typeText("12345"));
+        onView(withId(R.id.password)).perform(typeText("password"));
+        onView(withId(R.id.sign_in_validation)).perform(click());
+        onView(withId(R.id.username)).check(matches(isDisplayed()));
     }
 
     private SignInPojo getSignInPojo(boolean loginSuccess) {

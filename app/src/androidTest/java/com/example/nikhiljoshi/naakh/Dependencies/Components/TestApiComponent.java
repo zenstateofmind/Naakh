@@ -14,7 +14,7 @@ import dagger.Component;
  */
 
 @Singleton
-@Component(modules = {MockNaakhApiModule.class, MockSignInModule.class})
+@Component(modules = {MockNaakhApiModule.class})
 public interface TestApiComponent extends BaseComponent {
     void inject(SignInInstrumentation signInInstrumentation);
     void inject(SignInEspresso signInEspresso);

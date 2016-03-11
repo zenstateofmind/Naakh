@@ -46,7 +46,7 @@ public class SignInInstrumentation extends ActivityInstrumentationTestCase2<Sign
 
         final MockApplication mockApplication = (MockApplication) getInstrumentation()
                 .getTargetContext().getApplicationContext();
-        final TestApiComponent component = (TestApiComponent) mockApplication.baseComponent();
+        final TestApiComponent component = (TestApiComponent) mockApplication.component();
         component.inject(this);
 
         monitor = getInstrumentation().addMonitor(Profile.class.getName(), null, true);
