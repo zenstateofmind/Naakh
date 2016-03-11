@@ -15,6 +15,7 @@ import dagger.Provides;
 public class NaakhModule {
 
     @Provides
+    @Singleton
     NaakhApi provideNaakhApi() {
         return new NaakhApi();
     }

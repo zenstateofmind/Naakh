@@ -13,7 +13,7 @@ import com.example.nikhiljoshi.naakh.UI.signin.SignIn;
 public class MockApplication extends ProdApplication{
 
     @Override
-    public BaseComponent createComponent() {
+    protected BaseComponent createComponent() {
         return DaggerTestApiComponent.builder().mockNaakhApiModule(new MockNaakhApiModule()).build();
     }
 }

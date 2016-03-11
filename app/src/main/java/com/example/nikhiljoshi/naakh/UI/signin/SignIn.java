@@ -25,7 +25,6 @@ import javax.inject.Inject;
 public class SignIn extends AppCompatActivity implements OnSignInTaskCompleted {
 
     private static final String LOG_TAG = "naakh.SignIn";
-    //TODO: Will eventually be injecting this
     @Inject NaakhApi api;
 
     @Override

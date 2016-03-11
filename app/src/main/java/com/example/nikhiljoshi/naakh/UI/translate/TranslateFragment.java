@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.nikhiljoshi.naakh.Enums.TranslationStatus;
@@ -48,6 +49,8 @@ public class TranslateFragment extends Fragment {
             protected void onPostExecute(TranslationInfoPojo translationInfoPojo) {
                 if (translationInfoPojo == null) {
                     Log.i(LOG_TAG, "Did not get any translation jobs");
+                    final Button sendButton = (Button) rootView.findViewById(R.id.send_translations);
+                    sendButton.setEnabled(false);
                 } else {
                     TextView toTranslateView = (TextView) rootView.findViewById(R.id.to_translate);
                     toTranslateView.setText(translationInfoPojo.getTranslation_request().getTranslationRequestTest());

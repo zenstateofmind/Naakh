@@ -1,4 +1,4 @@
-package com.example.nikhiljoshi.naakh.UI.SignIn;
+package com.example.nikhiljoshi.naakh.UI.signin;
 
 import android.app.Instrumentation;
 import android.support.test.InstrumentationRegistry;
@@ -8,10 +8,8 @@ import android.support.test.runner.AndroidJUnit4;
 import com.example.nikhiljoshi.naakh.Dependencies.Components.TestApiComponent;
 import com.example.nikhiljoshi.naakh.MockApplication;
 import com.example.nikhiljoshi.naakh.R;
-import com.example.nikhiljoshi.naakh.UI.signin.SignIn;
 import com.example.nikhiljoshi.naakh.network.NaakhApi;
 import com.example.nikhiljoshi.naakh.network.POJO.SignIn.SignInPojo;
-import com.example.nikhiljoshi.naakh.network.Tasks.LoginTask;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -26,7 +24,6 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 import javax.inject.Inject;
 
@@ -34,7 +31,7 @@ import javax.inject.Inject;
  * Created by nikhiljoshi on 3/9/16.
  */
 @RunWith(AndroidJUnit4.class)
-public class SignInEspresso {
+public class SignInTest {
 
     @Inject
     NaakhApi api;

@@ -11,4 +11,5 @@ import dagger.Component;
  */
 
 @Component(modules = {NaakhModule.class})
+@Singleton
 public interface ApiComponent extends BaseComponent {}
