@@ -3,6 +3,7 @@ package com.example.nikhiljoshi.naakh.Dependencies.Components;
 import com.example.nikhiljoshi.naakh.UI.signin.SignIn;
 import com.example.nikhiljoshi.naakh.UI.signin.SignInFragment;
 import com.example.nikhiljoshi.naakh.UI.welcome.WelcomeFragment;
+import com.example.nikhiljoshi.naakh.network.Tasks.LoginTask;
 
 import dagger.Component;
 
@@ -12,4 +13,5 @@ import dagger.Component;
 public interface BaseComponent {
 
     void inject(SignIn signIn);
+
 }

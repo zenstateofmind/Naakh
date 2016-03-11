@@ -11,14 +11,13 @@ import com.example.nikhiljoshi.naakh.Dependencies.Modules.NaakhModule;
  */
 public class ProdApplication extends Application {
 
-    private final BaseComponent component = createComponent();
+    private BaseComponent baseComponent = createComponent();
 
-    protected BaseComponent createComponent() {
-//        return DaggerApiComponent.builder().naakhApiModule(new NaakhModule()).build();
+    public BaseComponent createComponent() {
         return DaggerApiComponent.builder().naakhModule(new NaakhModule()).build();
     }
 
     public BaseComponent component() {
-        return component;
+        return baseComponent;
     }
 }

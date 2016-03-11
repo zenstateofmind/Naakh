@@ -1,11 +1,9 @@
 package com.example.nikhiljoshi.naakh.UI.SignIn;
 
-import android.app.Activity;
 import android.app.Instrumentation;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.TouchUtils;
 import android.test.ViewAsserts;
-import android.text.method.Touch;
 import android.view.View;
 import android.widget.EditText;
 
@@ -19,6 +17,7 @@ import com.example.nikhiljoshi.naakh.network.POJO.SignIn.SignInPojo;
 
 import junit.framework.Assert;
 
+import org.junit.Test;
 import org.mockito.Matchers;
 import org.mockito.Mockito;
 
@@ -28,7 +27,7 @@ import javax.inject.Inject;
 /**
  * Created by nikhiljoshi on 3/7/16.
  */
-public class SignInTestInstrumentation extends ActivityInstrumentationTestCase2<SignIn> {
+public class SignInInstrumentation extends ActivityInstrumentationTestCase2<SignIn> {
 
     @Inject
     NaakhApi api;
@@ -37,7 +36,7 @@ public class SignInTestInstrumentation extends ActivityInstrumentationTestCase2<
     private View signInButton;
     private Instrumentation.ActivityMonitor monitor;
 
-    public SignInTestInstrumentation() {
+    public SignInInstrumentation() {
         super(SignIn.class);
     }
 
@@ -60,6 +59,7 @@ public class SignInTestInstrumentation extends ActivityInstrumentationTestCase2<
      * When login succeeds, ensure that we open Profile Activity.
      * TODO: Ensure that things get saved in SharedPreferences
      */
+    @Test
     public void testProfileActivityLoadsOnLoginSuccess() throws Throwable {
         logInTester(getSignInPojo(true));
     }
@@ -67,6 +67,7 @@ public class SignInTestInstrumentation extends ActivityInstrumentationTestCase2<
     /**
      * When login fails, ensure that Profile Activity doesnt open up
      */
+    @Test
     public void testProfileActivityDoesntLoadOnIncorrectPhonePassword() throws Throwable {
         logInTester(getSignInPojo(false));
     }
@@ -76,15 +77,21 @@ public class SignInTestInstrumentation extends ActivityInstrumentationTestCase2<
 //
 //    }
 //
+
+    @Test
     public void testSignInFailsOnIncompleteForm() {
         TouchUtils.clickView(this, signInButton);
         Assert.assertEquals(0, monitor.getHits());
+
         getInstrumentation().removeMonitor(monitor);
+        signInActivity.finish();
+
     }
 
     /**
      * Ensure that sign in button exists when the user is on the sign in page
      */
+    @Test
     public void testSignInButtonExists() {
         final View signInView = signInActivity.getWindow().getDecorView();
         ViewAsserts.assertOnScreen(signInView, signInButton);
@@ -106,6 +113,7 @@ public class SignInTestInstrumentation extends ActivityInstrumentationTestCase2<
         Mockito.when(api.login(Matchers.anyString(), Matchers.anyString(), Matchers.anyString(), Matchers.anyString()))
                 .thenReturn(signInPojo);
 
+
         signInActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -124,6 +132,7 @@ public class SignInTestInstrumentation extends ActivityInstrumentationTestCase2<
         }
         getInstrumentation().removeMonitor(monitor);
         signInActivity.finish();
+
 
     }
 

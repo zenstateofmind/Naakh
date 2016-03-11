@@ -1,8 +1,9 @@
 package com.example.nikhiljoshi.naakh.Dependencies.Components;
 
 import com.example.nikhiljoshi.naakh.Dependencies.Modules.MockNaakhApiModule;
-import com.example.nikhiljoshi.naakh.UI.SignIn.SignInTest;
-import com.example.nikhiljoshi.naakh.UI.SignIn.SignInTestInstrumentation;
+import com.example.nikhiljoshi.naakh.Dependencies.Modules.MockSignInModule;
+import com.example.nikhiljoshi.naakh.UI.SignIn.SignInEspresso;
+import com.example.nikhiljoshi.naakh.UI.SignIn.SignInInstrumentation;
 
 import javax.inject.Singleton;
 
@@ -13,8 +14,8 @@ import dagger.Component;
  */
 
 @Singleton
-@Component(modules = MockNaakhApiModule.class)
+@Component(modules = {MockNaakhApiModule.class})
 public interface TestApiComponent extends BaseComponent {
-    void inject(SignInTest signInTest);
-    void inject(SignInTestInstrumentation signInTestInstrumentation);
+    void inject(SignInInstrumentation signInInstrumentation);
+    void inject(SignInEspresso signInEspresso);
 }
