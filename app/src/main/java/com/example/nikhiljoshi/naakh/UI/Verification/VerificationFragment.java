@@ -59,7 +59,7 @@ public class VerificationFragment extends Fragment implements OnGettingIncomplet
 
 
     @Override
-    public void updateViewWithIncompleteTranslatedTextObject(TranslationInfoPojo translationInfoPojo) {
+    public void takeActionWithIncompleteTranslatedTextObject(TranslationInfoPojo translationInfoPojo) {
         if (translationInfoPojo == null) {
             Log.e(LOG_TAG, "Did not get any translations back");
             //Todo: Figure out what to do here

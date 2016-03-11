@@ -31,7 +31,7 @@ public class GetTranslationJobTask extends AsyncTask<String, Object, Translation
 
     @Override
     protected void onPostExecute(TranslationInfoPojo translationInfoPojo) {
-        onGettingIncompleteTranslatedText.updateViewWithIncompleteTranslatedTextObject(translationInfoPojo);
+        onGettingIncompleteTranslatedText.takeActionWithIncompleteTranslatedTextObject(translationInfoPojo);
     }
 
     @Override

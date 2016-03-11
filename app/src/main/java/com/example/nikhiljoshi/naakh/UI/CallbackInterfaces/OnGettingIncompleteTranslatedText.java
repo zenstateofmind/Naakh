@@ -7,5 +7,5 @@ import com.example.nikhiljoshi.naakh.network.POJO.Translate.TranslationInfoPojo;
  */
 public interface OnGettingIncompleteTranslatedText {
 
-    void updateViewWithIncompleteTranslatedTextObject(TranslationInfoPojo translationInfoPojo);
+    void takeActionWithIncompleteTranslatedTextObject(TranslationInfoPojo translationInfoPojo);
 }

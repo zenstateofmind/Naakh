@@ -36,4 +36,10 @@
         <item>Grammar</item>
     </string-array>
     <string name="title_activity_fix_translation">Correct The Translation</string>
+    <string name="no_more_translations">No more translations!</string>
+    <string name="OK">OK</string>
+    <string name="are_you_sure">"Are you sure? :) "</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="do_another_translation">Do another translation?</string>
 </resources>

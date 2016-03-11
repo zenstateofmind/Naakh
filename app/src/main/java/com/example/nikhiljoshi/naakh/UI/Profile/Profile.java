@@ -16,13 +16,27 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.example.nikhiljoshi.naakh.Enums.Language;
+import com.example.nikhiljoshi.naakh.Enums.TranslationStatus;
+import com.example.nikhiljoshi.naakh.ProdApplication;
 import com.example.nikhiljoshi.naakh.R;
+import com.example.nikhiljoshi.naakh.UI.CallbackInterfaces.OnGettingIncompleteTranslatedText;
 import com.example.nikhiljoshi.naakh.UI.Verification.Verification;
 import com.example.nikhiljoshi.naakh.UI.translate.Translate;
 import com.example.nikhiljoshi.naakh.UI.welcome.Welcome;
+import com.example.nikhiljoshi.naakh.network.NaakhApi;
+import com.example.nikhiljoshi.naakh.network.POJO.Translate.TranslationInfoPojo;
+import com.example.nikhiljoshi.naakh.network.Tasks.GetTranslationJobTask;
+
+import javax.inject.Inject;
 
 public class Profile extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, OnGettingIncompleteTranslatedText {
+
+    public static final String TRANSLATION_INFO_POJO = "TranslationInfoPojo";
+
+    @Inject
+    NaakhApi api;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +62,8 @@ public class Profile extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        ((ProdApplication) getApplication()).component().inject(this);
     }
 
     @Override
@@ -93,8 +109,11 @@ public class Profile extends AppCompatActivity
         if (id == R.id.nav_profile) {
 
         } else if (id == R.id.nav_translate) {
-            Intent intent = new Intent(this, Translate.class);
-            startActivity(intent);
+            final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+            final String token = sharedPreferences.getString(getString(R.string.token), "");
+
+            new GetTranslationJobTask(api, this, Language.MALAYALAM, TranslationStatus.UNTRANSLATED, token).execute();
+
         } else if (id == R.id.nav_review) {
             Intent intent = new Intent(this, Verification.class);
             startActivity(intent);
@@ -111,5 +130,13 @@ public class Profile extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public void takeActionWithIncompleteTranslatedTextObject(TranslationInfoPojo translationInfoPojo) {
+        Intent intent = new Intent(this, Translate.class);
+        intent.putExtra(TRANSLATION_INFO_POJO, translationInfoPojo);
+        startActivity(intent);
+
     }
 }

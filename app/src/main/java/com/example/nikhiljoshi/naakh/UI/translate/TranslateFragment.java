@@ -1,6 +1,10 @@
 package com.example.nikhiljoshi.naakh.UI.translate;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Parcelable;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -16,6 +20,7 @@ import com.example.nikhiljoshi.naakh.ProdApplication;
 import com.example.nikhiljoshi.naakh.R;
 import com.example.nikhiljoshi.naakh.Enums.Language;
 import com.example.nikhiljoshi.naakh.UI.CallbackInterfaces.OnGettingIncompleteTranslatedText;
+import com.example.nikhiljoshi.naakh.UI.Profile.Profile;
 import com.example.nikhiljoshi.naakh.network.NaakhApi;
 import com.example.nikhiljoshi.naakh.network.POJO.Translate.TranslationInfoPojo;
 import com.example.nikhiljoshi.naakh.network.Tasks.GetTranslationJobTask;
@@ -26,7 +31,7 @@ import javax.inject.Inject;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class TranslateFragment extends Fragment implements OnGettingIncompleteTranslatedText {
+public class TranslateFragment extends Fragment{
 
     private static final String LOG_TAG = TranslateFragment.class.getSimpleName();
     private View rootView;
@@ -40,35 +45,42 @@ public class TranslateFragment extends Fragment implements OnGettingIncompleteTr
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_translate, container, false);
-        getIncompleteTranslation(rootView);
+
+        displayTranslationsIfAvailable();
+
         return rootView;
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        ((ProdApplication) getActivity().getApplication()).component().inject(this);
-    }
+    private void displayTranslationsIfAvailable() {
+        final Intent intent = getActivity().getIntent();
+        final TranslationInfoPojo translationInfoPojo = intent.getParcelableExtra(Profile.TRANSLATION_INFO_POJO);
 
-    public void getIncompleteTranslation(final View rootView) {
-        final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
-        final String token = sharedPreferences.getString(getString(R.string.token), "");
-
-        new GetTranslationJobTask(api, this, Language.MALAYALAM, TranslationStatus.UNTRANSLATED, token).execute();
-    }
-
-    @Override
-    public void updateViewWithIncompleteTranslatedTextObject(TranslationInfoPojo translationInfoPojo) {
         if (translationInfoPojo == null) {
-            Log.i(LOG_TAG, "Did not get any translation jobs");
-            final Button sendButton = (Button) rootView.findViewById(R.id.send_translations);
-            sendButton.setEnabled(false);
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setTitle(R.string.no_more_translations)
+                    .setMessage("Sorry, we have no more phrases for you to translate :(")
+                    .setNeutralButton(R.string.OK, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            final Intent profileIntent = new Intent(getActivity(), Profile.class);
+                            startActivity(profileIntent);
+                        }
+                    });
+            final AlertDialog alertDialog = builder.create();
+            alertDialog.show();
         } else {
             TextView toTranslateView = (TextView) rootView.findViewById(R.id.to_translate);
             toTranslateView.setText(translationInfoPojo.getTranslationRequest().getTranslationRequestText());
             ((Translate) getActivity()).setTranslatedTextUuid(translationInfoPojo.getTranslatedTextUuid());
             Log.i(LOG_TAG, "Got translation task with uuid: " + translationInfoPojo.getTranslatedTextUuid());
         }
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        ((ProdApplication) getActivity().getApplication()).component().inject(this);
+
     }
 
 }

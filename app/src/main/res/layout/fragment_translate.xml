@@ -33,7 +33,7 @@
          android:layout_height="wrap_content"
          android:text="Send"
          android:id="@+id/send_translations"
-         android:onClick="postTranslations"
+         android:onClick="sendTranslations"
          android:layout_alignBottom="@+id/translated_text"
          android:layout_alignParentRight="true"
          android:layout_alignParentEnd="true" />
