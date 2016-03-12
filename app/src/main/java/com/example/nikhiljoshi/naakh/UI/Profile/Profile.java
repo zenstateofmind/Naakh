@@ -106,19 +106,16 @@ public class Profile extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
+        final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        final String token = sharedPreferences.getString(getString(R.string.token), "");
+
         if (id == R.id.nav_profile) {
 
         } else if (id == R.id.nav_translate) {
-            final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-            final String token = sharedPreferences.getString(getString(R.string.token), "");
-
             new GetTranslationJobTask(api, this, Language.MALAYALAM, TranslationStatus.UNTRANSLATED, token).execute();
-
         } else if (id == R.id.nav_review) {
-            Intent intent = new Intent(this, Verification.class);
-            startActivity(intent);
+            new GetTranslationJobTask(api, this, Language.MALAYALAM, TranslationStatus.UNVERIFIED, token).execute();
         } else if (id == R.id.nav_logout) {
-            final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
             final SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.remove(getString(R.string.token));
             editor.commit();
@@ -133,10 +130,16 @@ public class Profile extends AppCompatActivity
     }
 
     @Override
-    public void takeActionWithIncompleteTranslatedTextObject(TranslationInfoPojo translationInfoPojo) {
-        Intent intent = new Intent(this, Translate.class);
-        intent.putExtra(TRANSLATION_INFO_POJO, translationInfoPojo);
-        startActivity(intent);
-
+    public void takeActionWithIncompleteTranslatedTextObject(TranslationInfoPojo translationInfoPojo,
+                                                             TranslationStatus translationStatus) {
+        if (translationStatus == TranslationStatus.UNTRANSLATED) {
+            Intent intent = new Intent(this, Translate.class);
+            intent.putExtra(TRANSLATION_INFO_POJO, translationInfoPojo);
+            startActivity(intent);
+        } else if (translationStatus == TranslationStatus.UNVERIFIED) {
+            Intent intent = new Intent(this, Verification.class);
+            intent.putExtra(TRANSLATION_INFO_POJO, translationInfoPojo);
+            startActivity(intent);
+        }
     }
 }

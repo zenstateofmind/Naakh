@@ -2,6 +2,7 @@ package com.example.nikhiljoshi.naakh.Dependencies.Components;
 
 import com.example.nikhiljoshi.naakh.Dependencies.Modules.MockNaakhApiModule;
 import com.example.nikhiljoshi.naakh.UI.SignIn.SignInTest;
+import com.example.nikhiljoshi.naakh.UI.Verification.VerificationTest;
 import com.example.nikhiljoshi.naakh.UI.translate.TranslateTest;
 
 import javax.inject.Singleton;
@@ -17,4 +18,5 @@ import dagger.Component;
 public interface TestApiComponent extends BaseComponent {
     void inject(SignInTest signInTest);
     void inject(TranslateTest translateTest);
+    void inject(VerificationTest verificationTest);
 }

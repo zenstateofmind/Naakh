@@ -1,6 +1,10 @@
 package com.example.nikhiljoshi.naakh.UI.Verification;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Parcelable;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -15,6 +19,7 @@ import com.example.nikhiljoshi.naakh.Enums.TranslationStatus;
 import com.example.nikhiljoshi.naakh.ProdApplication;
 import com.example.nikhiljoshi.naakh.R;
 import com.example.nikhiljoshi.naakh.UI.CallbackInterfaces.OnGettingIncompleteTranslatedText;
+import com.example.nikhiljoshi.naakh.UI.Profile.Profile;
 import com.example.nikhiljoshi.naakh.network.NaakhApi;
 import com.example.nikhiljoshi.naakh.network.POJO.Translate.TranslationInfoPojo;
 import com.example.nikhiljoshi.naakh.network.POJO.Translate.TranslationRequestPojo;
@@ -25,7 +30,7 @@ import javax.inject.Inject;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class VerificationFragment extends Fragment implements OnGettingIncompleteTranslatedText {
+public class VerificationFragment extends Fragment {
 
     private static final String LOG_TAG = VerificationFragment.class.getSimpleName();
     private View rootView;
@@ -39,7 +44,7 @@ public class VerificationFragment extends Fragment implements OnGettingIncomplet
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_verification, container, false);
-        getVerificationJob(rootView);
+        getVerificationJob();
         return rootView;
     }
 
@@ -49,20 +54,23 @@ public class VerificationFragment extends Fragment implements OnGettingIncomplet
         ((ProdApplication) getActivity().getApplication()).component().inject(this);
     }
 
-    private void getVerificationJob(final View rootView) {
-        api = new NaakhApi();
-        final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
-        final String token = sharedPreferences.getString(getString(R.string.token), "");
+    private void getVerificationJob() {
+        final Intent intent = getActivity().getIntent();
+        final TranslationInfoPojo translationInfoPojo = intent.getParcelableExtra(Profile.TRANSLATION_INFO_POJO);
 
-        new GetTranslationJobTask(api, this, Language.HINDI, TranslationStatus.UNVERIFIED, token).execute();
-    }
-
-
-    @Override
-    public void takeActionWithIncompleteTranslatedTextObject(TranslationInfoPojo translationInfoPojo) {
         if (translationInfoPojo == null) {
-            Log.e(LOG_TAG, "Did not get any translations back");
-            //Todo: Figure out what to do here
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setTitle(R.string.no_more_verifications)
+                    .setMessage("Sorry, we have no more phrases for you to verify :(")
+                    .setNeutralButton(R.string.OK, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            final Intent profileIntent = new Intent(getActivity(), Profile.class);
+                            startActivity(profileIntent);
+                        }
+                    });
+            final AlertDialog alertDialog = builder.create();
+            alertDialog.show();
         } else {
             final TranslationRequestPojo translationRequestPojo = translationInfoPojo.getTranslationRequest();
             final Verification verificationActivity = (Verification) getActivity();

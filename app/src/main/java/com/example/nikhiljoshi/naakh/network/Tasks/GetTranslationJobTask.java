@@ -16,26 +16,27 @@ public class GetTranslationJobTask extends AsyncTask<String, Object, Translation
     private final NaakhApi api;
     private final OnGettingIncompleteTranslatedText onGettingIncompleteTranslatedText;
     private final Language language;
-    private final TranslationStatus translation_status;
-    private final String access_token;
+    private final TranslationStatus translationStatus;
+    private final String accessToken;
 
     public GetTranslationJobTask(NaakhApi api, OnGettingIncompleteTranslatedText onGettingIncompleteTranslatedText,
-                                 Language language, TranslationStatus translation_status,
-                                 String access_token) {
+                                 Language language, TranslationStatus translationStatus,
+                                 String accessToken) {
         this.api = api;
         this.onGettingIncompleteTranslatedText = onGettingIncompleteTranslatedText;
         this.language = language;
-        this.translation_status = translation_status;
-        this.access_token = access_token;
+        this.translationStatus = translationStatus;
+        this.accessToken = accessToken;
     }
 
     @Override
     protected void onPostExecute(TranslationInfoPojo translationInfoPojo) {
-        onGettingIncompleteTranslatedText.takeActionWithIncompleteTranslatedTextObject(translationInfoPojo);
+        onGettingIncompleteTranslatedText.takeActionWithIncompleteTranslatedTextObject(translationInfoPojo,
+                translationStatus);
     }
 
     @Override
     protected TranslationInfoPojo doInBackground(String... params) {
-        return api.getTranslateJob(language, translation_status, access_token);
+        return api.getTranslateJob(language, translationStatus, accessToken);
     }
 }

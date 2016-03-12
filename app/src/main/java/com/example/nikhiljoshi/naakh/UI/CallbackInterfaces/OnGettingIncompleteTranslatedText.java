@@ -1,5 +1,6 @@
 package com.example.nikhiljoshi.naakh.UI.CallbackInterfaces;
 
+import com.example.nikhiljoshi.naakh.Enums.TranslationStatus;
 import com.example.nikhiljoshi.naakh.network.POJO.Translate.TranslationInfoPojo;
 
 /**
@@ -7,5 +8,6 @@ import com.example.nikhiljoshi.naakh.network.POJO.Translate.TranslationInfoPojo;
  */
 public interface OnGettingIncompleteTranslatedText {
 
-    void takeActionWithIncompleteTranslatedTextObject(TranslationInfoPojo translationInfoPojo);
+    void takeActionWithIncompleteTranslatedTextObject(TranslationInfoPojo translationInfoPojo,
+                                                      TranslationStatus translationStatus);
 }

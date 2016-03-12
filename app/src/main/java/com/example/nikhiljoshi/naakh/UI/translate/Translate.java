@@ -165,7 +165,8 @@ public class Translate extends AppCompatActivity implements OnSendingTranslation
     }
 
     @Override
-    public void takeActionWithIncompleteTranslatedTextObject(TranslationInfoPojo translationInfoPojo) {
+    public void takeActionWithIncompleteTranslatedTextObject(TranslationInfoPojo translationInfoPojo,
+                                                             TranslationStatus translationStatus) {
         Intent intent = new Intent(this, Translate.class);
         intent.putExtra(Profile.TRANSLATION_INFO_POJO, translationInfoPojo);
         startActivity(intent);

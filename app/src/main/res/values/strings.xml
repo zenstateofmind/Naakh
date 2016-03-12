@@ -42,4 +42,5 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="do_another_translation">Do another translation?</string>
+    <string name="no_more_verifications">No More Verifications</string>
 </resources>
