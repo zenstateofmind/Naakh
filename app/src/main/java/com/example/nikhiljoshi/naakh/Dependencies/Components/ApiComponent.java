@@ -7,7 +7,7 @@ import javax.inject.Singleton;
 import dagger.Component;
 
 /**
- * Created by nikhiljoshi on 3/6/16.
+ * Api Component
  */
 
 @Component(modules = {NaakhModule.class})

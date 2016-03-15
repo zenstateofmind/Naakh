@@ -1,8 +1,9 @@
 package com.example.nikhiljoshi.naakh.network;
 
-import com.example.nikhiljoshi.naakh.network.POJO.SignIn.SignInPojo;
-import com.example.nikhiljoshi.naakh.network.POJO.Translate.GetTranslatePojo;
-import com.example.nikhiljoshi.naakh.network.POJO.Translate.TranslationInfoPojo;
+import com.example.nikhiljoshi.naakh.network.POJO.Profile.ProfileObject;
+import com.example.nikhiljoshi.naakh.network.POJO.SignIn.AccessToken;
+import com.example.nikhiljoshi.naakh.network.POJO.Translate.TranslateObject;
+import com.example.nikhiljoshi.naakh.network.POJO.Translate.TranslationInfo;
 
 import java.util.Map;
 
@@ -16,32 +17,34 @@ import retrofit2.http.Path;
 import retrofit2.http.QueryMap;
 
 /**
- * Created by nikhiljoshi on 3/3/16.
+ * Using retrofit, set up the calls to all the endpoints that are present in Naakh API
  */
 public interface NaakhClient {
 
     //sign in
     @FormUrlEncoded
     @POST("/api/v1/oauth2/access_token")
-    Call<SignInPojo> login (@FieldMap Map<String, String> params);
+    Call<AccessToken> login (@FieldMap Map<String, String> params);
 
     //get translate
     @GET("/api/v1/incomplete/translations/")
-    Call<GetTranslatePojo> getTranslationJob(@QueryMap Map<String, String> options,
+    Call<TranslateObject> getTranslationJob(@QueryMap Map<String, String> options,
                                              @Header("authorization") String authorization);
 
     //post translate
     @FormUrlEncoded
     @POST("/api/v1/translatedtext/{uuid}")
-    Call<TranslationInfoPojo> postTranslatedTextInfo(@FieldMap Map<String, String> options,
+    Call<TranslationInfo> postTranslatedTextInfo(@FieldMap Map<String, String> options,
                                                      @Header("authorization") String authorization,
                                                      @Path("uuid") String translatedTextUuid);
 
     @FormUrlEncoded
     @POST("/api/v1/translatetext/")
-    Call<TranslationInfoPojo> postReviewersTranslateTextInfo(@FieldMap Map<String, String> options,
+    Call<TranslationInfo> postReviewersTranslateTextInfo(@FieldMap Map<String, String> options,
                                                              @Header("authorization") String authorization);
 
 
     //get profile
+    @GET("/api/v1/translator/profile/")
+    Call<ProfileObject> getProfile(@Header("authorization") String authorization);
 }

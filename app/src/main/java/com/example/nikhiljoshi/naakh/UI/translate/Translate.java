@@ -24,7 +24,7 @@ import com.example.nikhiljoshi.naakh.UI.CallbackInterfaces.OnSendingTranslations
 import com.example.nikhiljoshi.naakh.UI.Profile.Profile;
 import com.example.nikhiljoshi.naakh.app.settings.SettingsActivity;
 import com.example.nikhiljoshi.naakh.network.NaakhApi;
-import com.example.nikhiljoshi.naakh.network.POJO.Translate.TranslationInfoPojo;
+import com.example.nikhiljoshi.naakh.network.POJO.Translate.TranslationInfo;
 import com.example.nikhiljoshi.naakh.network.Tasks.GetTranslationJobTask;
 import com.example.nikhiljoshi.naakh.network.Tasks.PostUntranslatedTranslateTextTask;
 
@@ -50,8 +50,6 @@ public class Translate extends AppCompatActivity implements OnSendingTranslation
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
-
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -130,11 +128,10 @@ public class Translate extends AppCompatActivity implements OnSendingTranslation
                 .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
                         final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                         final String token = sharedPreferences.getString(getString(R.string.token), "");
-
-                        new GetTranslationJobTask(api, Translate.this, Language.MALAYALAM, TranslationStatus.UNTRANSLATED, token).execute();
+                        final Language language = Language.chooseFluentLanguage(sharedPreferences.getString(getString(R.string.languages), ""));
+                        new GetTranslationJobTask(api, Translate.this,language, TranslationStatus.UNTRANSLATED, token).execute();
                     }
                 })
                 .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
@@ -156,8 +153,8 @@ public class Translate extends AppCompatActivity implements OnSendingTranslation
     }
 
     @Override
-    public void runOnSendingTranslations(TranslationInfoPojo translationInfoPojo) {
-        if (translationInfoPojo != null) {
+    public void runOnSendingTranslations(TranslationInfo translationInfo) {
+        if (translationInfo != null) {
             Toast.makeText(Translate.this, "Thank you!", Toast.LENGTH_SHORT).show();
         } else {
             Log.e(LOG_TAG, "Problems in posting the results back to the Naakh API server");
@@ -165,10 +162,10 @@ public class Translate extends AppCompatActivity implements OnSendingTranslation
     }
 
     @Override
-    public void takeActionWithIncompleteTranslatedTextObject(TranslationInfoPojo translationInfoPojo,
+    public void takeActionWithIncompleteTranslatedTextObject(TranslationInfo translationInfo,
                                                              TranslationStatus translationStatus) {
         Intent intent = new Intent(this, Translate.class);
-        intent.putExtra(Profile.TRANSLATION_INFO_POJO, translationInfoPojo);
+        intent.putExtra(Profile.TRANSLATION_INFO_POJO, translationInfo);
         startActivity(intent);
     }
 }

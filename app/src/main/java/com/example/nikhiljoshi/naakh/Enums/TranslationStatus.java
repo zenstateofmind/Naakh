@@ -1,7 +1,8 @@
 package com.example.nikhiljoshi.naakh.Enums;
 
 /**
- * Created by nikhiljoshi on 3/4/16.
+ * Translation Statuses. Different types of statuses that will be used while trying to fetch
+ * translations/verifications for the translator to work on.
  */
 public enum TranslationStatus {
 

@@ -15,7 +15,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:hint="My name is long as hell and it is really long"
+        android:hint=""
         android:id="@+id/translator_name"
         android:textSize="30dp"
         android:paddingBottom="25dp"/>
@@ -33,7 +33,7 @@
         android:layout_weight="2"
         android:layout_height="0dp"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:hint="Hindi, Malyalam, Kannada"
+        android:hint=""
         android:id="@+id/languages" />
 
     <TextView
@@ -49,7 +49,7 @@
         android:layout_weight="2"
         android:layout_height="0dp"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:hint="Moolah"
+        android:hint=""
         android:id="@+id/money_earned" />
 
     <TextView
@@ -65,7 +65,7 @@
         android:layout_weight="2"
         android:layout_height="0dp"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:hint="Words Translated"
+        android:hint=""
         android:id="@+id/words_translated" />
 
 </LinearLayout>

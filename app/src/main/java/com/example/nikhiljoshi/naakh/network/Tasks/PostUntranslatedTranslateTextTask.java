@@ -4,12 +4,12 @@ import android.os.AsyncTask;
 
 import com.example.nikhiljoshi.naakh.UI.CallbackInterfaces.OnSendingTranslations;
 import com.example.nikhiljoshi.naakh.network.NaakhApi;
-import com.example.nikhiljoshi.naakh.network.POJO.Translate.TranslationInfoPojo;
+import com.example.nikhiljoshi.naakh.network.POJO.Translate.TranslationInfo;
 
 /**
- * Created by nikhiljoshi on 3/3/16.
+ * AsyncTask that posts the translator's translations to the Naakh API endpoint
  */
-public class PostUntranslatedTranslateTextTask extends AsyncTask<String, Object, TranslationInfoPojo> {
+public class PostUntranslatedTranslateTextTask extends AsyncTask<String, Object, TranslationInfo> {
 
     private final NaakhApi api;
     private final OnSendingTranslations listener;
@@ -20,12 +20,12 @@ public class PostUntranslatedTranslateTextTask extends AsyncTask<String, Object,
     }
 
     @Override
-    protected void onPostExecute(TranslationInfoPojo translationInfoPojo) {
-        listener.runOnSendingTranslations(translationInfoPojo);
+    protected void onPostExecute(TranslationInfo translationInfo) {
+        listener.runOnSendingTranslations(translationInfo);
     }
 
     @Override
-    protected TranslationInfoPojo doInBackground(String... params) {
+    protected TranslationInfo doInBackground(String... params) {
         String translatedText = params[0];
         String translatedTextUuid = params[1];
         String accessToken = params[2];

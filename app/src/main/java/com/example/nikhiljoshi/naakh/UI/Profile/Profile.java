@@ -25,11 +25,15 @@ import com.example.nikhiljoshi.naakh.UI.Verification.Verification;
 import com.example.nikhiljoshi.naakh.UI.translate.Translate;
 import com.example.nikhiljoshi.naakh.UI.welcome.Welcome;
 import com.example.nikhiljoshi.naakh.network.NaakhApi;
-import com.example.nikhiljoshi.naakh.network.POJO.Translate.TranslationInfoPojo;
+import com.example.nikhiljoshi.naakh.network.POJO.Translate.TranslationInfo;
 import com.example.nikhiljoshi.naakh.network.Tasks.GetTranslationJobTask;
 
 import javax.inject.Inject;
 
+/**
+ * A profile Activity. When the user logs in, this is the first activity that is visible to the user.
+ * This activity contains a navigation drawer as well as basic user information.
+ */
 public class Profile extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, OnGettingIncompleteTranslatedText {
 
@@ -108,13 +112,14 @@ public class Profile extends AppCompatActivity
 
         final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         final String token = sharedPreferences.getString(getString(R.string.token), "");
+        final Language language = Language.chooseFluentLanguage(sharedPreferences.getString(getString(R.string.languages), ""));
 
         if (id == R.id.nav_profile) {
 
         } else if (id == R.id.nav_translate) {
-            new GetTranslationJobTask(api, this, Language.MALAYALAM, TranslationStatus.UNTRANSLATED, token).execute();
+            new GetTranslationJobTask(api, this, language, TranslationStatus.UNTRANSLATED, token).execute();
         } else if (id == R.id.nav_review) {
-            new GetTranslationJobTask(api, this, Language.MALAYALAM, TranslationStatus.UNVERIFIED, token).execute();
+            new GetTranslationJobTask(api, this, language, TranslationStatus.UNVERIFIED, token).execute();
         } else if (id == R.id.nav_logout) {
             final SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.remove(getString(R.string.token));
@@ -130,15 +135,15 @@ public class Profile extends AppCompatActivity
     }
 
     @Override
-    public void takeActionWithIncompleteTranslatedTextObject(TranslationInfoPojo translationInfoPojo,
+    public void takeActionWithIncompleteTranslatedTextObject(TranslationInfo translationInfo,
                                                              TranslationStatus translationStatus) {
         if (translationStatus == TranslationStatus.UNTRANSLATED) {
             Intent intent = new Intent(this, Translate.class);
-            intent.putExtra(TRANSLATION_INFO_POJO, translationInfoPojo);
+            intent.putExtra(TRANSLATION_INFO_POJO, translationInfo);
             startActivity(intent);
         } else if (translationStatus == TranslationStatus.UNVERIFIED) {
             Intent intent = new Intent(this, Verification.class);
-            intent.putExtra(TRANSLATION_INFO_POJO, translationInfoPojo);
+            intent.putExtra(TRANSLATION_INFO_POJO, translationInfo);
             startActivity(intent);
         }
     }

@@ -13,15 +13,14 @@ import com.example.nikhiljoshi.naakh.MockApplication;
 import com.example.nikhiljoshi.naakh.R;
 import com.example.nikhiljoshi.naakh.UI.Profile.Profile;
 import com.example.nikhiljoshi.naakh.network.NaakhApi;
-import com.example.nikhiljoshi.naakh.network.POJO.Translate.TranslationInfoPojo;
-import com.example.nikhiljoshi.naakh.network.POJO.Translate.TranslationRequestPojo;
+import com.example.nikhiljoshi.naakh.network.POJO.Translate.TranslationInfo;
+import com.example.nikhiljoshi.naakh.network.POJO.Translate.TranslationRequest;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Matchers;
 
 import org.mockito.Mockito;
 
@@ -65,22 +64,22 @@ public class TranslateTest {
 
     @Test
     public void displayIncompleteTranslations() {
-        final TranslationInfoPojo translationInfoPojo = getTranslationInfoPojo(true);
+        final TranslationInfo translationInfo = getTranslationInfoPojo(true);
 
         Intent intent = new Intent();
-        intent.putExtra(Profile.TRANSLATION_INFO_POJO, translationInfoPojo);
+        intent.putExtra(Profile.TRANSLATION_INFO_POJO, translationInfo);
         translateActivityTestRule.launchActivity(intent);
 
-        onView(withId(R.id.to_translate)).check(matches(withText(translationInfoPojo.getTranslationRequest().getTranslationRequestText())));
+        onView(withId(R.id.to_translate)).check(matches(withText(translationInfo.getTranslationRequest().getTranslationRequestText())));
         onView(withId(R.id.send_translations)).check(matches(isEnabled()));
     }
 
     @Test
     public void goToProfilesPageOnNullTranslationInfo() {
-        final TranslationInfoPojo translationInfoPojo = getTranslationInfoPojo(false);
+        final TranslationInfo translationInfo = getTranslationInfoPojo(false);
 
         Intent intent = new Intent();
-        intent.putExtra(Profile.TRANSLATION_INFO_POJO, translationInfoPojo);
+        intent.putExtra(Profile.TRANSLATION_INFO_POJO, translationInfo);
         translateActivityTestRule.launchActivity(intent);
 
         onView(withText(R.string.no_more_translations)).check(matches(isDisplayed()));
@@ -91,31 +90,31 @@ public class TranslateTest {
 
     @Test
     public void notSendEmptyTranslationsOnClickingSend() {
-        final TranslationInfoPojo translationInfoPojo = getTranslationInfoPojo(true);
+        final TranslationInfo translationInfo = getTranslationInfoPojo(true);
 
         Mockito.when(api.postTranslatorTranslatedText(Mockito.anyString(), Mockito.anyString(),
-                Mockito.anyString())).thenReturn(translationInfoPojo);
+                Mockito.anyString())).thenReturn(translationInfo);
 
         Intent intent = new Intent();
-        intent.putExtra(Profile.TRANSLATION_INFO_POJO, translationInfoPojo);
+        intent.putExtra(Profile.TRANSLATION_INFO_POJO, translationInfo);
         translateActivityTestRule.launchActivity(intent);
 
         onView(withId(R.id.send_translations)).perform(click());
         onView(withText(R.string.please_translate)).check(matches(isDisplayed()));
         onView(withText(R.string.OK)).perform(click());
         onView(withId(R.id.to_translate)).check(matches(withText(
-                translationInfoPojo.getTranslationRequest().getTranslationRequestText())));
+                translationInfo.getTranslationRequest().getTranslationRequestText())));
     }
 
     @Test
     public void sendTranslationsAndNotDoAdditionalTranslations() {
-        final TranslationInfoPojo translationInfoPojo = getTranslationInfoPojo(true);
+        final TranslationInfo translationInfo = getTranslationInfoPojo(true);
 
         Mockito.when(api.postTranslatorTranslatedText(Mockito.anyString(), Mockito.anyString(),
-                Mockito.anyString())).thenReturn(translationInfoPojo);
+                Mockito.anyString())).thenReturn(translationInfo);
 
         Intent intent = new Intent();
-        intent.putExtra(Profile.TRANSLATION_INFO_POJO, translationInfoPojo);
+        intent.putExtra(Profile.TRANSLATION_INFO_POJO, translationInfo);
         translateActivityTestRule.launchActivity(intent);
 
         onView(withId(R.id.translated_text)).perform(typeText("stuff"));
@@ -131,16 +130,16 @@ public class TranslateTest {
 
     @Test
     public void sendTranslationsAndDoAnotherTranslations() {
-        final TranslationInfoPojo translationInfoPojo = getTranslationInfoPojo(true);
+        final TranslationInfo translationInfo = getTranslationInfoPojo(true);
         Mockito.when(api.postTranslatorTranslatedText(Mockito.anyString(), Mockito.anyString(),
-                Mockito.anyString())).thenReturn(translationInfoPojo);
+                Mockito.anyString())).thenReturn(translationInfo);
 
-        final TranslationInfoPojo nextTranslationInfoPojo = getNewTranslationInfoPojo();
+        final TranslationInfo nextTranslationInfo = getNewTranslationInfoPojo();
         Mockito.when(api.getTranslateJob(Mockito.any(Language.class), Mockito.any(TranslationStatus.class),
-                Mockito.anyString())).thenReturn(nextTranslationInfoPojo);
+                Mockito.anyString())).thenReturn(nextTranslationInfo);
 
         Intent intent = new Intent();
-        intent.putExtra(Profile.TRANSLATION_INFO_POJO, translationInfoPojo);
+        intent.putExtra(Profile.TRANSLATION_INFO_POJO, translationInfo);
         translateActivityTestRule.launchActivity(intent);
 
         onView(withId(R.id.translated_text)).perform(typeText("stuff"));
@@ -153,37 +152,37 @@ public class TranslateTest {
 
         onView(withId(R.id.to_translate)).check(matches(isDisplayed()));
         onView(withId(R.id.to_translate)).check(matches(withText(
-                nextTranslationInfoPojo.getTranslationRequest().getTranslationRequestText())));
+                nextTranslationInfo.getTranslationRequest().getTranslationRequestText())));
     }
 
-    private TranslationInfoPojo getTranslationInfoPojo(boolean incompleteTranslationsAvailable) {
+    private TranslationInfo getTranslationInfoPojo(boolean incompleteTranslationsAvailable) {
         if (incompleteTranslationsAvailable) {
-            TranslationInfoPojo translationInfoPojo = new TranslationInfoPojo();
-            translationInfoPojo.setTranslationText("translationText");
-            translationInfoPojo.setUuid("translationTextUuid");
+            TranslationInfo translationInfo = new TranslationInfo();
+            translationInfo.setTranslationText("translationText");
+            translationInfo.setUuid("translationTextUuid");
 
-            TranslationRequestPojo translationRequestPojo = new TranslationRequestPojo();
-            translationRequestPojo.setUuid("translationRequestUuid");
-            translationRequestPojo.setText("translationRequestText");
+            TranslationRequest translationRequest = new TranslationRequest();
+            translationRequest.setUuid("translationRequestUuid");
+            translationRequest.setText("translationRequestText");
 
-            translationInfoPojo.setTranslationRequest(translationRequestPojo);
-            return translationInfoPojo;
+            translationInfo.setTranslationRequest(translationRequest);
+            return translationInfo;
         } else {
             return null;
         }
     }
 
-    private TranslationInfoPojo getNewTranslationInfoPojo() {
-        TranslationInfoPojo translationInfoPojo = new TranslationInfoPojo();
-        translationInfoPojo.setTranslationText("translationText");
-        translationInfoPojo.setUuid("translationTextUuid");
+    private TranslationInfo getNewTranslationInfoPojo() {
+        TranslationInfo translationInfo = new TranslationInfo();
+        translationInfo.setTranslationText("translationText");
+        translationInfo.setUuid("translationTextUuid");
 
-        TranslationRequestPojo translationRequestPojo = new TranslationRequestPojo();
-        translationRequestPojo.setUuid("translationRequestUuid");
-        translationRequestPojo.setText("newTranslationRequest");
+        TranslationRequest translationRequest = new TranslationRequest();
+        translationRequest.setUuid("translationRequestUuid");
+        translationRequest.setText("newTranslationRequest");
 
-        translationInfoPojo.setTranslationRequest(translationRequestPojo);
-        return translationInfoPojo;
+        translationInfo.setTranslationRequest(translationRequest);
+        return translationInfo;
     }
 
 }

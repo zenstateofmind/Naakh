@@ -34,9 +34,13 @@ public class FixTranslationFragment extends Fragment {
         final String translatedText = intent.getStringExtra(Verification.TRANSLATED_TEXT);
         final String translatedTextUuid = intent.getStringExtra(Verification.TRANSLATED_TEXT_UUID);
         final String translationRequestText = intent.getStringExtra(Verification.TRANSLATION_REQUEST_TEXT);
+        final String topics = intent.getStringExtra(Verification.TOPICS);
+        final String tone = intent.getStringExtra(Verification.TONE);
         ((FixTranslation) getActivity()).setTranslationRequestUuid(intent.getStringExtra(Verification.TRANSLATION_REQUEST_UUID));
         ((TextView) rootView.findViewById(R.id.original_text)).setText(translationRequestText);
         ((TextView) rootView.findViewById(R.id.previous_translation_text)).setText(translatedText);
+        ((TextView) rootView.findViewById(R.id.topics_fix_trans)).setText(topics);
+        ((TextView) rootView.findViewById(R.id.tone_fix_trans)).setText(tone);
     }
 
 }

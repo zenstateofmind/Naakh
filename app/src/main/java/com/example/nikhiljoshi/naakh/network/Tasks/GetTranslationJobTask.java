@@ -6,12 +6,13 @@ import com.example.nikhiljoshi.naakh.Enums.Language;
 import com.example.nikhiljoshi.naakh.Enums.TranslationStatus;
 import com.example.nikhiljoshi.naakh.UI.CallbackInterfaces.OnGettingIncompleteTranslatedText;
 import com.example.nikhiljoshi.naakh.network.NaakhApi;
-import com.example.nikhiljoshi.naakh.network.POJO.Translate.TranslationInfoPojo;
+import com.example.nikhiljoshi.naakh.network.POJO.Translate.TranslationInfo;
 
 /**
- * Created by nikhiljoshi on 3/3/16.
+ * AsyncTask that calls the NaakhAPI and returns the translation objects that either need
+ * to be translated or verified
  */
-public class GetTranslationJobTask extends AsyncTask<String, Object, TranslationInfoPojo> {
+public class GetTranslationJobTask extends AsyncTask<String, Object, TranslationInfo> {
 
     private final NaakhApi api;
     private final OnGettingIncompleteTranslatedText onGettingIncompleteTranslatedText;
@@ -30,13 +31,13 @@ public class GetTranslationJobTask extends AsyncTask<String, Object, Translation
     }
 
     @Override
-    protected void onPostExecute(TranslationInfoPojo translationInfoPojo) {
-        onGettingIncompleteTranslatedText.takeActionWithIncompleteTranslatedTextObject(translationInfoPojo,
+    protected void onPostExecute(TranslationInfo translationInfo) {
+        onGettingIncompleteTranslatedText.takeActionWithIncompleteTranslatedTextObject(translationInfo,
                 translationStatus);
     }
 
     @Override
-    protected TranslationInfoPojo doInBackground(String... params) {
+    protected TranslationInfo doInBackground(String... params) {
         return api.getTranslateJob(language, translationStatus, accessToken);
     }
 }

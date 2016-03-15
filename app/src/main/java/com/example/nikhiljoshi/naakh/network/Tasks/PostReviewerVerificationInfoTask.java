@@ -4,14 +4,15 @@ import android.os.AsyncTask;
 
 import com.example.nikhiljoshi.naakh.Enums.VerificationParameter;
 import com.example.nikhiljoshi.naakh.network.NaakhApi;
-import com.example.nikhiljoshi.naakh.network.POJO.Translate.TranslationInfoPojo;
+import com.example.nikhiljoshi.naakh.network.POJO.Translate.TranslationInfo;
 
 import java.util.Map;
 
 /**
- * Created by nikhiljoshi on 3/9/16.
+ * AsyncTask that updates the verifier's take on the context/spelling/grammar of a specific
+ * translation
  */
-public class PostReviewerVerificationInfoTask extends AsyncTask<Object, Object, TranslationInfoPojo> {
+public class PostReviewerVerificationInfoTask extends AsyncTask<Object, Object, TranslationInfo> {
 
     private final NaakhApi api;
     private final Map<VerificationParameter, Boolean> verificationInfo;
@@ -28,7 +29,7 @@ public class PostReviewerVerificationInfoTask extends AsyncTask<Object, Object, 
     }
 
     @Override
-    protected TranslationInfoPojo doInBackground(Object... params) {
+    protected TranslationInfo doInBackground(Object... params) {
         return api.postReviewerVerificationInformation(translatedTextUuid, verificationInfo, accessToken);
     }
 }

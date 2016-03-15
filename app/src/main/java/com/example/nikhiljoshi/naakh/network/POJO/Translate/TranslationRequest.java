@@ -4,9 +4,13 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 /**
- * Created by nikhiljoshi on 3/3/16.
+ * Translation Request Object. Contains the original text that needs to be translated. Also
+ * contains all the languages that the phrase needs to be translated into
+ *
+ * <br> Note: Don't change the name of the variables unless there are changes made in the
+ * NaakhAPI.
  */
-public class TranslationRequestPojo implements Parcelable {
+public class TranslationRequest implements Parcelable {
 
     private String text;
     private String uuid;
@@ -39,21 +43,21 @@ public class TranslationRequestPojo implements Parcelable {
         dest.writeString(this.uuid);
     }
 
-    public TranslationRequestPojo() {
+    public TranslationRequest() {
     }
 
-    private TranslationRequestPojo(Parcel in) {
+    private TranslationRequest(Parcel in) {
         this.text = in.readString();
         this.uuid = in.readString();
     }
 
-    public static final Parcelable.Creator<TranslationRequestPojo> CREATOR = new Parcelable.Creator<TranslationRequestPojo>() {
-        public TranslationRequestPojo createFromParcel(Parcel source) {
-            return new TranslationRequestPojo(source);
+    public static final Parcelable.Creator<TranslationRequest> CREATOR = new Parcelable.Creator<TranslationRequest>() {
+        public TranslationRequest createFromParcel(Parcel source) {
+            return new TranslationRequest(source);
         }
 
-        public TranslationRequestPojo[] newArray(int size) {
-            return new TranslationRequestPojo[size];
+        public TranslationRequest[] newArray(int size) {
+            return new TranslationRequest[size];
         }
     };
 }

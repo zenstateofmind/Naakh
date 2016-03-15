@@ -34,8 +34,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="Context: "
-                android:id="@+id/context_label_fix_translation"
+                android:text="Topics: "
+                android:id="@+id/topics_label_fix_translation"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
@@ -45,11 +45,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="Medium Text"
-                android:id="@+id/context_fix_trans"
+                android:hint="Topics"
+                android:id="@+id/topics_fix_trans"
                 android:layout_alignParentTop="true"
-                android:layout_toRightOf="@+id/context_label_fix_translation"
-                android:layout_toEndOf="@+id/context_label_fix_translation" />
+                android:layout_toRightOf="@+id/topics_label_fix_translation"
+                android:layout_toEndOf="@+id/topics_label_fix_translation" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -57,7 +57,7 @@
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="Tone: "
                 android:id="@+id/tone_label_fix_translation"
-                android:layout_below="@+id/context_label_fix_translation"
+                android:layout_below="@+id/topics_label_fix_translation"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:textColor="#000000" />
@@ -66,9 +66,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="Medium Text"
+                android:hint="Tone"
                 android:id="@+id/tone_fix_trans"
-                android:layout_below="@+id/context_label_fix_translation"
+                android:layout_below="@+id/topics_label_fix_translation"
                 android:layout_toRightOf="@+id/tone_label_fix_translation"
                 android:layout_toEndOf="@+id/tone_label_fix_translation" />
 

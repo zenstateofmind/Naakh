@@ -3,27 +3,22 @@ package com.example.nikhiljoshi.naakh.UI.translate;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.Parcelable;
-import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.nikhiljoshi.naakh.Enums.TranslationStatus;
 import com.example.nikhiljoshi.naakh.ProdApplication;
 import com.example.nikhiljoshi.naakh.R;
-import com.example.nikhiljoshi.naakh.Enums.Language;
-import com.example.nikhiljoshi.naakh.UI.CallbackInterfaces.OnGettingIncompleteTranslatedText;
 import com.example.nikhiljoshi.naakh.UI.Profile.Profile;
 import com.example.nikhiljoshi.naakh.network.NaakhApi;
-import com.example.nikhiljoshi.naakh.network.POJO.Translate.TranslationInfoPojo;
-import com.example.nikhiljoshi.naakh.network.Tasks.GetTranslationJobTask;
+import com.example.nikhiljoshi.naakh.network.POJO.Translate.TranslationInfo;
+
+import org.w3c.dom.Text;
 
 import javax.inject.Inject;
 
@@ -53,9 +48,9 @@ public class TranslateFragment extends Fragment{
 
     private void displayTranslationsIfAvailable() {
         final Intent intent = getActivity().getIntent();
-        final TranslationInfoPojo translationInfoPojo = intent.getParcelableExtra(Profile.TRANSLATION_INFO_POJO);
+        final TranslationInfo translationInfo = intent.getParcelableExtra(Profile.TRANSLATION_INFO_POJO);
 
-        if (translationInfoPojo == null) {
+        if (translationInfo == null) {
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
             builder.setTitle(R.string.no_more_translations)
                     .setMessage("Sorry, we have no more phrases for you to translate :(")
@@ -69,10 +64,14 @@ public class TranslateFragment extends Fragment{
             final AlertDialog alertDialog = builder.create();
             alertDialog.show();
         } else {
-            TextView toTranslateView = (TextView) rootView.findViewById(R.id.to_translate);
-            toTranslateView.setText(translationInfoPojo.getTranslationRequest().getTranslationRequestText());
-            ((Translate) getActivity()).setTranslatedTextUuid(translationInfoPojo.getTranslatedTextUuid());
-            Log.i(LOG_TAG, "Got translation task with uuid: " + translationInfoPojo.getTranslatedTextUuid());
+            final TextView toTranslateView = (TextView) rootView.findViewById(R.id.to_translate);
+            final TextView topics = (TextView) rootView.findViewById(R.id.topics_translate);
+            final TextView tones = (TextView) rootView.findViewById(R.id.tone_translate);
+            toTranslateView.setText(translationInfo.getTranslationRequest().getTranslationRequestText());
+            tones.setText(translationInfo.getTone().getName());
+            topics.setText(TextUtils.join(",", translationInfo.getTopics()));
+            ((Translate) getActivity()).setTranslatedTextUuid(translationInfo.getTranslatedTextUuid());
+            Log.i(LOG_TAG, "Got translation task with uuid: " + translationInfo.getTranslatedTextUuid());
         }
     }
 

@@ -1,9 +1,12 @@
 package com.example.nikhiljoshi.naakh.network.POJO.SignIn;
 
 /**
- * Created by nikhiljoshi on 3/3/16.
+ * Contains keys for JSON returned when hitting a NaakhAPI sign in end point.
+ *
+ * <br> Note: Don't change the name of the variables unless there are changes made in the
+ * NaakhAPI.
  */
-public class SignInPojo {
+public class AccessToken {
 
     private String access_token;
 

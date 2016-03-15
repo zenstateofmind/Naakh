@@ -9,7 +9,7 @@ import com.example.nikhiljoshi.naakh.Dependencies.Components.TestApiComponent;
 import com.example.nikhiljoshi.naakh.MockApplication;
 import com.example.nikhiljoshi.naakh.R;
 import com.example.nikhiljoshi.naakh.network.NaakhApi;
-import com.example.nikhiljoshi.naakh.network.POJO.SignIn.SignInPojo;
+import com.example.nikhiljoshi.naakh.network.POJO.SignIn.AccessToken;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -86,11 +86,11 @@ public class SignInTest {
         onView(withId(R.id.username)).check(matches(isDisplayed()));
     }
 
-    private SignInPojo getSignInPojo(boolean loginSuccess) {
+    private AccessToken getSignInPojo(boolean loginSuccess) {
         if (loginSuccess) {
-            SignInPojo signInPojo = new SignInPojo();
-            signInPojo.setAccessToken("Access");
-            return signInPojo;
+            AccessToken accessToken = new AccessToken();
+            accessToken.setAccessToken("Access");
+            return accessToken;
         } else {
             return null;
         }

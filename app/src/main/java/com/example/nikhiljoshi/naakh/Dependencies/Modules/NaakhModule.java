@@ -8,7 +8,7 @@ import dagger.Module;
 import dagger.Provides;
 
 /**
- * Created by nikhiljoshi on 3/6/16.
+ * Provides Naakh API as of now
  */
 
 @Module

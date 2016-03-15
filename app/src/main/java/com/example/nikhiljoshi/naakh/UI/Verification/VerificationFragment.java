@@ -3,27 +3,20 @@ package com.example.nikhiljoshi.naakh.UI.Verification;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.Parcelable;
-import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.util.Log;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.nikhiljoshi.naakh.Enums.Language;
-import com.example.nikhiljoshi.naakh.Enums.TranslationStatus;
 import com.example.nikhiljoshi.naakh.ProdApplication;
 import com.example.nikhiljoshi.naakh.R;
-import com.example.nikhiljoshi.naakh.UI.CallbackInterfaces.OnGettingIncompleteTranslatedText;
 import com.example.nikhiljoshi.naakh.UI.Profile.Profile;
 import com.example.nikhiljoshi.naakh.network.NaakhApi;
-import com.example.nikhiljoshi.naakh.network.POJO.Translate.TranslationInfoPojo;
-import com.example.nikhiljoshi.naakh.network.POJO.Translate.TranslationRequestPojo;
-import com.example.nikhiljoshi.naakh.network.Tasks.GetTranslationJobTask;
+import com.example.nikhiljoshi.naakh.network.POJO.Translate.TranslationInfo;
+import com.example.nikhiljoshi.naakh.network.POJO.Translate.TranslationRequest;
 
 import javax.inject.Inject;
 
@@ -56,9 +49,9 @@ public class VerificationFragment extends Fragment {
 
     private void getVerificationJob() {
         final Intent intent = getActivity().getIntent();
-        final TranslationInfoPojo translationInfoPojo = intent.getParcelableExtra(Profile.TRANSLATION_INFO_POJO);
+        final TranslationInfo translationInfo = intent.getParcelableExtra(Profile.TRANSLATION_INFO_POJO);
 
-        if (translationInfoPojo == null) {
+        if (translationInfo == null) {
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
             builder.setTitle(R.string.no_more_verifications)
                     .setMessage("Sorry, we have no more phrases for you to verify :(")
@@ -72,16 +65,20 @@ public class VerificationFragment extends Fragment {
             final AlertDialog alertDialog = builder.create();
             alertDialog.show();
         } else {
-            final TranslationRequestPojo translationRequestPojo = translationInfoPojo.getTranslationRequest();
+            final TranslationRequest translationRequest = translationInfo.getTranslationRequest();
             final Verification verificationActivity = (Verification) getActivity();
 
-            verificationActivity.setTranslationRequestUuid(translationRequestPojo.getTranslationRequestUuid());
-            verificationActivity.setTranslatedTextUuid(translationInfoPojo.getTranslatedTextUuid());
-            verificationActivity.setTranslatedText(translationInfoPojo.getTranslationText());
-            verificationActivity.setTranslationRequestTest(translationRequestPojo.getTranslationRequestText());
+            verificationActivity.setTranslationRequestUuid(translationRequest.getTranslationRequestUuid());
+            verificationActivity.setTranslatedTextUuid(translationInfo.getTranslatedTextUuid());
+            verificationActivity.setTranslatedText(translationInfo.getTranslationText());
+            verificationActivity.setTranslationRequestTest(translationRequest.getTranslationRequestText());
+            verificationActivity.setTopics(TextUtils.join(",", translationInfo.getTopics()));
+            verificationActivity.setTone(translationInfo.getTone().getName());
 
-            ((TextView) rootView.findViewById(R.id.original_text)).setText(translationRequestPojo.getTranslationRequestText());
-            ((TextView) rootView.findViewById(R.id.translated_text)).setText(translationInfoPojo.getTranslationText());
+            ((TextView) rootView.findViewById(R.id.original_text)).setText(translationRequest.getTranslationRequestText());
+            ((TextView) rootView.findViewById(R.id.translated_text)).setText(translationInfo.getTranslationText());
+            ((TextView) rootView.findViewById(R.id.tone_verification)).setText(translationInfo.getTone().getName());
+            ((TextView) rootView.findViewById(R.id.topics_verification)).setText(TextUtils.join(",", translationInfo.getTopics()));
 
         }
     }

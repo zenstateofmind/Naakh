@@ -17,7 +17,7 @@ import com.example.nikhiljoshi.naakh.UI.Profile.Profile;
 import com.example.nikhiljoshi.naakh.R;
 import com.example.nikhiljoshi.naakh.network.NaakhApi;
 
-import com.example.nikhiljoshi.naakh.network.POJO.SignIn.SignInPojo;
+import com.example.nikhiljoshi.naakh.network.POJO.SignIn.AccessToken;
 import com.example.nikhiljoshi.naakh.network.Tasks.LoginTask;
 
 import javax.inject.Inject;
@@ -60,14 +60,14 @@ public class SignIn extends AppCompatActivity implements OnSignInTaskCompleted {
     }
 
     @Override
-    public void runOnPostTaskCompleted(SignInPojo signInPojo) {
-        if (signInPojo == null) {
+    public void runOnPostTaskCompleted(AccessToken accessToken) {
+        if (accessToken == null) {
             Toast.makeText(getApplicationContext(), "Phone Number/Password seems incorrect :( ", Toast.LENGTH_SHORT).show();
             Log.w(LOG_TAG, "Didn't get an access token... seems like username/password is incorrect");
         } else {
             SharedPreferences preference = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
             SharedPreferences.Editor editor = preference.edit();
-            editor.putString(getString(R.string.token), signInPojo.getAccessToken());
+            editor.putString(getString(R.string.token), accessToken.getAccessToken());
             editor.commit();
 
             Intent intent = new Intent(SignIn.this, Profile.class);
