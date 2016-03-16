@@ -65,7 +65,7 @@ public class ProfileFragment extends Fragment implements OnGettingTranslatorProf
             //TODO: FIGURE OUT WHAT TO DO HERE
         } else {
             ((TextView)rootView.findViewById(R.id.translator_name)).setText(profileObject.getName());
-            ((TextView)rootView.findViewById(R.id.languages)).setText(TextUtils.join(",", profileObject.getFluentLanguages()));
+            ((TextView)rootView.findViewById(R.id.languages)).setText(TextUtils.join(", ", profileObject.getFluentLanguages()));
             ((TextView)rootView.findViewById(R.id.money_earned)).setText(profileObject.getTotalMoneyEarned());
             ((TextView)rootView.findViewById(R.id.words_translated)).setText(profileObject.getWordsTranslated() + "");
             saveLanguagesInSharedPreferences(profileObject.getFluentLanguages());
@@ -77,7 +77,7 @@ public class ProfileFragment extends Fragment implements OnGettingTranslatorProf
         final String languages = preference.getString(getString(R.string.languages), "");
         if (languages.trim().isEmpty()) {
             SharedPreferences.Editor editor = preference.edit();
-            editor.putString(getString(R.string.languages), TextUtils.join(",", fluentLanguages));
+            editor.putString(getString(R.string.languages), TextUtils.join(", ", fluentLanguages));
             editor.commit();
         }
     }

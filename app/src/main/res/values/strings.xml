@@ -26,9 +26,9 @@
     <string name="review">Review</string>
     <string name="title_activity_verification">Verification</string>
     <string name="correct_translations_message">Are you sure that the translation is correct?</string>
-    <string name="not_sure_translation_message">Not sure whether this translation is correct or incorrect?</string>
+    <string name="not_sure_translation_message">Do you want to skip this verification?</string>
     <string name="incorrect_translation_message">Which one of the following is incorrect for the translation?</string>
-    <string name="choose_incorrect_options">Which of the following is incorrect?</string>
+    <string name="choose_incorrect_options">Why is this translation incorrect?</string>
     <string-array name="incorrect_translation_options">
         <item>Context</item>
         <item>Spelling</item>

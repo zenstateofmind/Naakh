@@ -45,7 +45,7 @@ public class TranslationInfo implements Parcelable {
     }
 
     public Tone getTone() {
-        return tone;
+        return tone == null ? new Tone() : tone;
     }
 
     public void setTone(Tone tone) {
@@ -59,7 +59,6 @@ public class TranslationInfo implements Parcelable {
     public void setTopics(List<String> topics) {
         this.topics = topics;
     }
-
 
     @Override
     public int describeContents() {
@@ -83,7 +82,8 @@ public class TranslationInfo implements Parcelable {
         this.uuid = in.readString();
         this.translation_text = in.readString();
         this.tone = in.readParcelable(Tone.class.getClassLoader());
-        in.readStringList(topics);
+        this.topics = new ArrayList<String>();
+        in.readStringList(this.topics);
     }
 
     public static final Parcelable.Creator<TranslationInfo> CREATOR = new Parcelable.Creator<TranslationInfo>() {

@@ -14,12 +14,7 @@ android {
 
         testInstrumentationRunner 'com.example.nikhiljoshi.naakh.MockTestRunner'
     }
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-    }
+
 }
 
 dependencies {

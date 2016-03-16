@@ -49,6 +49,9 @@ public class Tone implements Parcelable {
     }
 
     public Tone() {
+        description = "";
+        examples = "";
+        name = "";
     }
 
     private Tone(Parcel in) {

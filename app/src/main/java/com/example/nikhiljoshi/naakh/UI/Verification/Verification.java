@@ -65,15 +65,15 @@ public class Verification extends AppCompatActivity implements OnGettingIncomple
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent startMain = new Intent(Intent.ACTION_MAIN);
+        startMain.addCategory(Intent.CATEGORY_HOME);
+        startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(startMain);
     }
 
     public void setTranslationRequestUuid(String original_text_uuid) {
@@ -120,7 +120,7 @@ public class Verification extends AppCompatActivity implements OnGettingIncomple
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(R.string.not_sure_translation_message)
                 .setTitle("Not sure?")
-                .setPositiveButton("Yea, not sure", new DialogInterface.OnClickListener() {
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
@@ -131,7 +131,7 @@ public class Verification extends AppCompatActivity implements OnGettingIncomple
                         new GetTranslationJobTask(api, Verification.this, language, TranslationStatus.UNVERIFIED, token).execute();
                     }
                 })
-                .setNegativeButton("Actually, let me get back", new DialogInterface.OnClickListener() {
+                .setNegativeButton("No, Let me try", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();

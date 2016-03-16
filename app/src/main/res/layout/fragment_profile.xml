@@ -25,7 +25,7 @@
         android:layout_weight="1"
         android:layout_height="0dp"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Languages:"
+        android:text="Languages"
         android:id="@+id/languages_caption" />
 
     <TextView
@@ -41,7 +41,7 @@
         android:layout_weight="1"
         android:layout_height="0dp"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Money Earned:"
+        android:text="Money Earned"
         android:id="@+id/money_earned_caption"/>
 
     <TextView
@@ -57,7 +57,7 @@
         android:layout_weight="1"
         android:layout_height="0dp"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Words Translated:"
+        android:text="Words Translated"
         android:id="@+id/words_translated_caption" />
 
     <TextView
