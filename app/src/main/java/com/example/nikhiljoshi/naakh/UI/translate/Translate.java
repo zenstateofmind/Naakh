@@ -51,11 +51,11 @@ public class Translate extends AppCompatActivity implements OnSendingTranslation
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_translate, menu);
-        return true;
-    }
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        getMenuInflater().inflate(R.menu.menu_translate, menu);
+//        return true;
+//    }
 
     @Override
     public void onBackPressed() {
@@ -65,19 +65,19 @@ public class Translate extends AppCompatActivity implements OnSendingTranslation
         startActivity(startMain);
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        int id = item.getItemId();
-
-        if (id == R.id.action_settings) {
-            Intent intent = new Intent(this, SettingsActivity.class);
-            startActivity(intent);
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//
+//        int id = item.getItemId();
+//
+//        if (id == R.id.action_settings) {
+//            Intent intent = new Intent(this, SettingsActivity.class);
+//            startActivity(intent);
+//            return true;
+//        }
+//
+//        return super.onOptionsItemSelected(item);
+//    }
 
     //TODO: Make sure that the back button goes to the profile page
 
