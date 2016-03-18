@@ -3,14 +3,20 @@ package com.example.nikhiljoshi.naakh.UI.welcome;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.example.nikhiljoshi.naakh.GCM.RegistrationIntentService;
 import com.example.nikhiljoshi.naakh.R;
 import com.example.nikhiljoshi.naakh.UI.SignIn.SignIn;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
 
 public class Welcome extends AppCompatActivity {
+
+    private static final String LOG_TAG = Welcome.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,8 +27,6 @@ public class Welcome extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
-
-
     }
 
     public void openActivity(View view) {

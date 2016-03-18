@@ -6,6 +6,7 @@ import android.util.Log;
 import com.example.nikhiljoshi.naakh.Enums.Language;
 import com.example.nikhiljoshi.naakh.Enums.TranslationStatus;
 import com.example.nikhiljoshi.naakh.Enums.VerificationParameter;
+import com.example.nikhiljoshi.naakh.network.POJO.GCM.GCMRegistration;
 import com.example.nikhiljoshi.naakh.network.POJO.Profile.ProfileObject;
 import com.example.nikhiljoshi.naakh.network.POJO.SignIn.AccessToken;
 import com.example.nikhiljoshi.naakh.network.POJO.Translate.TranslateObject;
@@ -138,6 +139,22 @@ public class NaakhApi {
             return profileObject;
         } catch (IOException e) {
             Log.e(LOG_TAG, "Error while getting translator's profile");
+            return null;
+        }
+    }
+
+    public GCMRegistration postGCMRegistration(String registrationToken, String deviceId,
+                                               String accessToken) {
+        final Map<String, String> params = new HashMap<String, String>();
+        params.put(NaakhApiQueryKeys.REGISTRATION_TOKEN, registrationToken);
+        params.put(NaakhApiQueryKeys.DEVICE_ID, deviceId);
+
+        final Call<GCMRegistration> call = client.postGCMRegistrationToken(params, accessToken);
+        try {
+            final GCMRegistration gcmRegistration = call.execute().body();
+            return gcmRegistration;
+        } catch (IOException e) {
+            Log.e(LOG_TAG, "Error while posting registration token");
             return null;
         }
     }

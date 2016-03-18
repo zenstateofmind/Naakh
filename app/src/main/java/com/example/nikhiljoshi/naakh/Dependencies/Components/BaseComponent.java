@@ -1,5 +1,6 @@
 package com.example.nikhiljoshi.naakh.Dependencies.Components;
 
+import com.example.nikhiljoshi.naakh.GCM.RegistrationIntentService;
 import com.example.nikhiljoshi.naakh.UI.Profile.Profile;
 import com.example.nikhiljoshi.naakh.UI.Profile.ProfileFragment;
 import com.example.nikhiljoshi.naakh.UI.SignIn.SignIn;
@@ -21,4 +22,5 @@ public interface BaseComponent {
     void inject(Profile profile);
     void inject(Verification verification);
     void inject(ProfileFragment profileFragment);
+    void inject (RegistrationIntentService registrationIntentService);
 }

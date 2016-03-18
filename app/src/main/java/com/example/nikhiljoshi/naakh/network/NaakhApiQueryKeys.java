@@ -20,5 +20,7 @@ public class NaakhApiQueryKeys {
     public static final String VERIFIED_CONTEXT = "correct_context";
     public static final String VERIFIED_GRAMMAR = "correct_grammar";
     public static final String VERIFIED_SPELLING = "correct_spelling";
+    public static final String REGISTRATION_TOKEN = "registration_id";
+    public static final String DEVICE_ID = "device_uuid";
 
 }

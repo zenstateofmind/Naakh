@@ -1,5 +1,6 @@
 package com.example.nikhiljoshi.naakh.network;
 
+import com.example.nikhiljoshi.naakh.network.POJO.GCM.GCMRegistration;
 import com.example.nikhiljoshi.naakh.network.POJO.Profile.ProfileObject;
 import com.example.nikhiljoshi.naakh.network.POJO.SignIn.AccessToken;
 import com.example.nikhiljoshi.naakh.network.POJO.Translate.TranslateObject;
@@ -47,4 +48,9 @@ public interface NaakhClient {
     //get profile
     @GET("/api/v1/translator/profile/")
     Call<ProfileObject> getProfile(@Header("authorization") String authorization);
+
+    @FormUrlEncoded
+    @POST("/api/v1/notifications/gcm_registration/")
+    Call<GCMRegistration> postGCMRegistrationToken(@FieldMap Map<String, String> options,
+                                                   @Header("authorization") String authorization);
 }

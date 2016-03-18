@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.nikhiljoshi.naakh.GCM.RegistrationIntentService;
 import com.example.nikhiljoshi.naakh.ProdApplication;
 import com.example.nikhiljoshi.naakh.UI.CallbackInterfaces.OnSignInTaskCompleted;
 import com.example.nikhiljoshi.naakh.UI.Profile.Profile;
@@ -19,13 +20,17 @@ import com.example.nikhiljoshi.naakh.network.NaakhApi;
 
 import com.example.nikhiljoshi.naakh.network.POJO.SignIn.AccessToken;
 import com.example.nikhiljoshi.naakh.network.Tasks.LoginTask;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
 
 import javax.inject.Inject;
 
 
 public class SignIn extends AppCompatActivity implements OnSignInTaskCompleted {
 
-    private static final String LOG_TAG = "naakh.SignIn";
+    private static final String LOG_TAG = SignIn.class.getSimpleName();
+    private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
+
     @Inject NaakhApi api;
 
     @Override
@@ -70,8 +75,30 @@ public class SignIn extends AppCompatActivity implements OnSignInTaskCompleted {
             editor.putString(getString(R.string.token), accessToken.getAccessToken());
             editor.commit();
 
+            if (checkPlayServices()) {
+                // Start IntentService to register this application with GCM.
+                Intent intent = new Intent(this, RegistrationIntentService.class);
+                startService(intent);
+            }
+
             Intent intent = new Intent(SignIn.this, Profile.class);
             startActivity(intent);
         }
+    }
+
+    private boolean checkPlayServices() {
+        GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
+        int resultCode = apiAvailability.isGooglePlayServicesAvailable(this);
+        if (resultCode != ConnectionResult.SUCCESS) {
+            if (apiAvailability.isUserResolvableError(resultCode)) {
+                apiAvailability.getErrorDialog(this, resultCode, PLAY_SERVICES_RESOLUTION_REQUEST)
+                        .show();
+            } else {
+                Log.i(LOG_TAG, "This device is not supported.");
+                finish();
+            }
+            return false;
+        }
+        return true;
     }
 }
