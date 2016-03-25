@@ -1,5 +1,6 @@
 package com.example.nikhiljoshi.naakh.UI.SignIn;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -30,6 +31,7 @@ public class SignIn extends AppCompatActivity implements OnSignInTaskCompleted {
 
     private static final String LOG_TAG = SignIn.class.getSimpleName();
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
+    ProgressDialog progress;
 
     @Inject NaakhApi api;
 
@@ -48,6 +50,8 @@ public class SignIn extends AppCompatActivity implements OnSignInTaskCompleted {
 
     public void signInValidation(View view) {
 
+        showProgressDialog();
+
         final String username = ((EditText) findViewById(R.id.username)).getText().toString();
         final String password = ((EditText) findViewById(R.id.password)).getText().toString();
         final String oauth_client_secret = "1f022ef12e35f86c2f02f1b9988b899a9cd7de02";
@@ -55,9 +59,17 @@ public class SignIn extends AppCompatActivity implements OnSignInTaskCompleted {
 
         if (!fieldsFilled(username, password)) {
             Toast.makeText(this, "Please enter phone number and password!", Toast.LENGTH_SHORT).show();
+            progress.dismiss();
         } else {
             new LoginTask(api, this).execute(oauth_client_id, oauth_client_secret, username, password);
         }
+    }
+
+    private void showProgressDialog() {
+        progress = new ProgressDialog(this);
+        progress.setMessage(getString(R.string.loading));
+        progress.setCancelable(false);
+        progress.show();
     }
 
     private boolean fieldsFilled(String username, String password) {
@@ -69,6 +81,7 @@ public class SignIn extends AppCompatActivity implements OnSignInTaskCompleted {
         if (accessToken == null) {
             Toast.makeText(getApplicationContext(), "Phone Number/Password seems incorrect :( ", Toast.LENGTH_SHORT).show();
             Log.w(LOG_TAG, "Didn't get an access token... seems like username/password is incorrect");
+            progress.dismiss();
         } else {
             SharedPreferences preference = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
             SharedPreferences.Editor editor = preference.edit();
@@ -80,6 +93,8 @@ public class SignIn extends AppCompatActivity implements OnSignInTaskCompleted {
                 Intent intent = new Intent(this, RegistrationIntentService.class);
                 startService(intent);
             }
+
+            progress.dismiss();
 
             Intent intent = new Intent(SignIn.this, Profile.class);
             startActivity(intent);

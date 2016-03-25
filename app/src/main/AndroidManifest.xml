@@ -19,7 +19,8 @@
 
         <!-- [START gcm_receiver] -->
         <receiver
-            android:name="com.google.android.gms.gcm.GcmReceiver" android:exported="true"
+            android:name="com.google.android.gms.gcm.GcmReceiver" android:exported="false"
+            android:enabled="true"
             android:permission="com.google.android.c2dm.permission.SEND" >
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
@@ -32,7 +33,7 @@
         <!-- [START gcm_listener] -->
         <service
             android:name="com.example.nikhiljoshi.naakh.GCM.MyGcmListenerService"
-            android:exported="false" >
+            android:exported="false">
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
             </intent-filter>
@@ -57,7 +58,6 @@
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
