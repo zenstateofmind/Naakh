@@ -3,6 +3,7 @@ package com.example.nikhiljoshi.naakh.UI.Verification;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,11 +37,22 @@ public class FixTranslationFragment extends Fragment {
         final String translationRequestText = intent.getStringExtra(Verification.TRANSLATION_REQUEST_TEXT);
         final String topics = intent.getStringExtra(Verification.TOPICS);
         final String tone = intent.getStringExtra(Verification.TONE);
+
+        if (!topics.isEmpty()) {
+            ((CardView) rootView.findViewById(R.id.card_topics)).setVisibility(View.VISIBLE);
+            ((TextView) rootView.findViewById(R.id.topics_fix_trans)).setText(topics);
+        }
+
+        if (!tone.isEmpty()) {
+            ((CardView) rootView.findViewById(R.id.card_tone)).setVisibility(View.VISIBLE);
+            ((TextView) rootView.findViewById(R.id.tone_fix_trans)).setText(tone);
+        }
+
         ((FixTranslation) getActivity()).setTranslationRequestUuid(intent.getStringExtra(Verification.TRANSLATION_REQUEST_UUID));
         ((TextView) rootView.findViewById(R.id.original_text)).setText(translationRequestText);
         ((TextView) rootView.findViewById(R.id.previous_translation_text)).setText(translatedText);
-        ((TextView) rootView.findViewById(R.id.topics_fix_trans)).setText(topics);
-        ((TextView) rootView.findViewById(R.id.tone_fix_trans)).setText(tone);
+
+
     }
 
 }

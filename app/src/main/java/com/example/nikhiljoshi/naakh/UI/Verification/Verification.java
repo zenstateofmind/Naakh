@@ -34,7 +34,7 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
-public class Verification extends AppCompatActivity implements OnGettingIncompleteTranslatedText {
+public class Verification extends AppCompatActivity {
 
     public static final String TRANSLATION_REQUEST_UUID = "translation_request_uuid";
     public static final String TRANSLATED_TEXT_UUID = "translated_text_uuid";
@@ -123,12 +123,8 @@ public class Verification extends AppCompatActivity implements OnGettingIncomple
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-                        final String token = sharedPreferences.getString(getString(R.string.token), "");
-                        final Language language = Language.chooseFluentLanguage(
-                                sharedPreferences.getString(getString(R.string.languages), "")
-                        );
-                        new GetTranslationJobTask(api, Verification.this, language, TranslationStatus.UNVERIFIED, token).execute();
+                        Intent intent = new Intent(Verification.this, Verification.class);
+                        startActivity(intent);
                     }
                 })
                 .setNegativeButton("No, Let me try", new DialogInterface.OnClickListener() {
@@ -138,6 +134,7 @@ public class Verification extends AppCompatActivity implements OnGettingIncomple
                     }
                 });
         final AlertDialog notSureDialog = builder.create();
+        notSureDialog.setCanceledOnTouchOutside(false);
         notSureDialog.show();
     }
 
@@ -160,6 +157,7 @@ public class Verification extends AppCompatActivity implements OnGettingIncomple
                     }
                 });
         final AlertDialog correctDialog = builder.create();
+        correctDialog.setCanceledOnTouchOutside(false);
         correctDialog.show();
 
     }
@@ -170,12 +168,8 @@ public class Verification extends AppCompatActivity implements OnGettingIncomple
                 .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-                        final String token = sharedPreferences.getString(getString(R.string.token), "");
-                        final Language language = Language.chooseFluentLanguage(
-                                sharedPreferences.getString(getString(R.string.languages), "")
-                        );
-                        new GetTranslationJobTask(api, Verification.this, language, TranslationStatus.UNVERIFIED, token).execute();
+                        Intent intent = new Intent(Verification.this, Verification.class);
+                        startActivity(intent);
                     }
                 }).setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
             @Override
@@ -185,6 +179,7 @@ public class Verification extends AppCompatActivity implements OnGettingIncomple
             }
         });
         final AlertDialog alertDialog = builder.create();
+        alertDialog.setCanceledOnTouchOutside(false);
         alertDialog.show();
     }
 
@@ -234,6 +229,7 @@ public class Verification extends AppCompatActivity implements OnGettingIncomple
                 });
 
         final AlertDialog incorrectDialog = builder.create();
+        incorrectDialog.setCanceledOnTouchOutside(false);
         incorrectDialog.show();
     }
 
@@ -272,11 +268,4 @@ public class Verification extends AppCompatActivity implements OnGettingIncomple
         alertDialog.show();
     }
 
-    @Override
-    public void takeActionWithIncompleteTranslatedTextObject(TranslationInfo translationInfo,
-                                                             TranslationStatus translationStatus) {
-        Intent intent = new Intent(this, Verification.class);
-        intent.putExtra(Profile.TRANSLATION_INFO_POJO, translationInfo);
-        startActivity(intent);
-    }
 }

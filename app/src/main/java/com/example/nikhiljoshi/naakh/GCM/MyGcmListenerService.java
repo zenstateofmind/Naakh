@@ -21,17 +21,19 @@ public class MyGcmListenerService extends GcmListenerService{
 
     @Override
     public void onMessageReceived(String from, Bundle data) {
-
+        PendingIntent translatePendingIntent = PendingIntent.getActivity(this, 0, new Intent(this, Translate.class), 0);
         String message = data.getString("message");
         String title = data.getString("title");
         NotificationManager notificationManager= (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.droid)
                 .setContentTitle(title)
-                .setContentText(message);
+                .setContentText(message)
+                .setContentIntent(translatePendingIntent)
+                .setAutoCancel(true);
         Notification notifyDetails = mBuilder.build();
-        PendingIntent myIntent = PendingIntent.getActivity(this, 0, new Intent(this, Translate.class), 0);
-        notificationManager.notify(1, notifyDetails);
+
+        notificationManager.notify(0, notifyDetails);
     }
 
 }

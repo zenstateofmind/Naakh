@@ -22,6 +22,7 @@ import com.example.nikhiljoshi.naakh.R;
 import com.example.nikhiljoshi.naakh.UI.CallbackInterfaces.OnGettingIncompleteTranslatedText;
 import com.example.nikhiljoshi.naakh.UI.CallbackInterfaces.OnSendingTranslations;
 import com.example.nikhiljoshi.naakh.UI.Profile.Profile;
+import com.example.nikhiljoshi.naakh.UI.welcome.Welcome;
 import com.example.nikhiljoshi.naakh.app.settings.SettingsActivity;
 import com.example.nikhiljoshi.naakh.network.NaakhApi;
 import com.example.nikhiljoshi.naakh.network.POJO.Translate.TranslationInfo;
@@ -30,7 +31,7 @@ import com.example.nikhiljoshi.naakh.network.Tasks.PostUntranslatedTranslateText
 
 import javax.inject.Inject;
 
-public class Translate extends AppCompatActivity implements OnSendingTranslations, OnGettingIncompleteTranslatedText {
+public class Translate extends AppCompatActivity implements OnSendingTranslations {
 
     @Inject NaakhApi api;
     private SharedPreferences preferences;
@@ -40,10 +41,8 @@ public class Translate extends AppCompatActivity implements OnSendingTranslation
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        ((ProdApplication) getApplication()).component().inject(this);
-
         setContentView(R.layout.activity_translate);
+        ((ProdApplication) getApplication()).component().inject(this);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -99,6 +98,7 @@ public class Translate extends AppCompatActivity implements OnSendingTranslation
                         }
                     });
             final AlertDialog alertDialog = builder.create();
+            alertDialog.setCanceledOnTouchOutside(false);
             alertDialog.show();
         } else {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -117,6 +117,7 @@ public class Translate extends AppCompatActivity implements OnSendingTranslation
                         }
                     });
             final AlertDialog alertDialog = builder.create();
+            alertDialog.setCanceledOnTouchOutside(false);
             alertDialog.show();
 
         }
@@ -128,10 +129,8 @@ public class Translate extends AppCompatActivity implements OnSendingTranslation
                 .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-                        final String token = sharedPreferences.getString(getString(R.string.token), "");
-                        final Language language = Language.chooseFluentLanguage(sharedPreferences.getString(getString(R.string.languages), ""));
-                        new GetTranslationJobTask(api, Translate.this,language, TranslationStatus.UNTRANSLATED, token).execute();
+                        Intent intent = new Intent(Translate.this, Translate.class);
+                        startActivity(intent);
                     }
                 })
                 .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
@@ -142,6 +141,7 @@ public class Translate extends AppCompatActivity implements OnSendingTranslation
                     }
                 });
         final AlertDialog alertDialog = builder.create();
+        alertDialog.setCanceledOnTouchOutside(false);
         alertDialog.show();
     }
 
@@ -161,11 +161,4 @@ public class Translate extends AppCompatActivity implements OnSendingTranslation
         }
     }
 
-    @Override
-    public void takeActionWithIncompleteTranslatedTextObject(TranslationInfo translationInfo,
-                                                             TranslationStatus translationStatus) {
-        Intent intent = new Intent(this, Translate.class);
-        intent.putExtra(Profile.TRANSLATION_INFO_POJO, translationInfo);
-        startActivity(intent);
-    }
 }
