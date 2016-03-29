@@ -135,6 +135,7 @@ public class Verification extends AppCompatActivity {
                 });
         final AlertDialog notSureDialog = builder.create();
         notSureDialog.setCanceledOnTouchOutside(false);
+        notSureDialog.setCancelable(false);
         notSureDialog.show();
     }
 
@@ -158,6 +159,7 @@ public class Verification extends AppCompatActivity {
                 });
         final AlertDialog correctDialog = builder.create();
         correctDialog.setCanceledOnTouchOutside(false);
+        correctDialog.setCancelable(false);
         correctDialog.show();
 
     }
@@ -180,6 +182,7 @@ public class Verification extends AppCompatActivity {
         });
         final AlertDialog alertDialog = builder.create();
         alertDialog.setCanceledOnTouchOutside(false);
+        alertDialog.setCancelable(false);
         alertDialog.show();
     }
 
@@ -230,6 +233,7 @@ public class Verification extends AppCompatActivity {
 
         final AlertDialog incorrectDialog = builder.create();
         incorrectDialog.setCanceledOnTouchOutside(false);
+        incorrectDialog.setCancelable(false);
         incorrectDialog.show();
     }
 
@@ -265,6 +269,8 @@ public class Verification extends AppCompatActivity {
                     }
                 });
         final AlertDialog alertDialog = builder.create();
+        alertDialog.setCanceledOnTouchOutside(false);
+        alertDialog.setCancelable(false);
         alertDialog.show();
     }
 

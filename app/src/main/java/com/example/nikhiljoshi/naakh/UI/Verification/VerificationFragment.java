@@ -87,6 +87,7 @@ public class VerificationFragment extends Fragment implements OnGettingIncomplet
                     });
             final AlertDialog alertDialog = builder.create();
             alertDialog.setCanceledOnTouchOutside(false);
+            alertDialog.setCancelable(false);
             alertDialog.show();
         } else {
             final TranslationRequest translationRequest = translationInfo.getTranslationRequest();

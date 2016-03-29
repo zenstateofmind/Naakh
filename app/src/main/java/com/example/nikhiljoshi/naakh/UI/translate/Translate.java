@@ -99,6 +99,7 @@ public class Translate extends AppCompatActivity implements OnSendingTranslation
                     });
             final AlertDialog alertDialog = builder.create();
             alertDialog.setCanceledOnTouchOutside(false);
+            alertDialog.setCancelable(false);
             alertDialog.show();
         } else {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -118,6 +119,7 @@ public class Translate extends AppCompatActivity implements OnSendingTranslation
                     });
             final AlertDialog alertDialog = builder.create();
             alertDialog.setCanceledOnTouchOutside(false);
+            alertDialog.setCancelable(false);
             alertDialog.show();
 
         }
@@ -142,6 +144,7 @@ public class Translate extends AppCompatActivity implements OnSendingTranslation
                 });
         final AlertDialog alertDialog = builder.create();
         alertDialog.setCanceledOnTouchOutside(false);
+        alertDialog.setCancelable(false);
         alertDialog.show();
     }
 

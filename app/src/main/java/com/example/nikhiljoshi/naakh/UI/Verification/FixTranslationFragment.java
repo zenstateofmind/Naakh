@@ -52,7 +52,6 @@ public class FixTranslationFragment extends Fragment {
         ((TextView) rootView.findViewById(R.id.original_text)).setText(translationRequestText);
         ((TextView) rootView.findViewById(R.id.previous_translation_text)).setText(translatedText);
 
-
     }
 
 }

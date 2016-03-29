@@ -76,6 +76,8 @@ public class FixTranslation extends AppCompatActivity implements OnGettingIncomp
                         }
                     });
             final AlertDialog alertDialog = builder.create();
+            alertDialog.setCancelable(false);
+            alertDialog.setCanceledOnTouchOutside(false);
             alertDialog.show();
 
         }
@@ -129,6 +131,8 @@ public class FixTranslation extends AppCompatActivity implements OnGettingIncomp
                     }
                 });
         final AlertDialog alertDialog = builder.create();
+        alertDialog.setCancelable(false);
+        alertDialog.setCanceledOnTouchOutside(false);
         alertDialog.show();
     }
 }

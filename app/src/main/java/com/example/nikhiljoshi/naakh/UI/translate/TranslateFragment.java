@@ -88,6 +88,7 @@ public class TranslateFragment extends Fragment implements OnGettingIncompleteTr
                     });
             final AlertDialog alertDialog = builder.create();
             alertDialog.setCanceledOnTouchOutside(false);
+            alertDialog.setCancelable(false);
             alertDialog.show();
         } else {
 
